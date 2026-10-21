@@ -1,0 +1,23 @@
+[project]
+name = "ah-restore"
+version = "0.1.0"
+description = "Speech restoration with Sidon v0.1"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "audio-harness",
+    # torchaudio lags torch; keep them on the same minor release.
+    "torch>=2.4,<2.12",
+    "torchaudio>=2.4,<2.12",
+    "transformers>=4.44",
+    "huggingface_hub>=0.24",
+]
+
+[tool.uv.sources]
+audio-harness = { path = "../..", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ah_restore"]

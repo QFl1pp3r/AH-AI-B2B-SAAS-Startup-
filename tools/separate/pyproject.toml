@@ -1,0 +1,24 @@
+[project]
+name = "ah-separate"
+version = "0.1.0"
+description = "Vocal/instrumental separation with Mel-Band RoFormer"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "audio-harness",
+    "torch>=2.4",
+    # Not on PyPI any more; pinned to a reviewed commit.
+    "melband-roformer-infer @ git+https://github.com/openmirlab/melband-roformer-infer@55e4217935da91aee0f2f7ac44cbad512a3485ac",
+]
+
+[tool.uv.sources]
+audio-harness = { path = "../..", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ah_separate"]

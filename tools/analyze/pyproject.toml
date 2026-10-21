@@ -1,0 +1,31 @@
+[project]
+name = "ah-analyze"
+version = "0.1.0"
+description = "BPM, beats, key and chords (Beat This! + madmom)"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "audio-harness",
+    # torchaudio lags torch; keep them on the same minor release.
+    "torch>=2.4,<2.12",
+    "torchaudio>=2.4,<2.12",
+    "beat-this==1.1.0",
+    # madmom on PyPI (0.16.1) does not build on Python >= 3.10; models come in as a git submodule.
+    "madmom @ git+https://github.com/CPJKU/madmom@27f032e8947204902c675e5e341a3faf5dc86dae",
+]
+
+[tool.uv]
+# madmom's setup.py imports numpy and Cython at build time.
+extra-build-dependencies = { madmom = ["numpy>=2", "cython>=3"] }
+
+[tool.uv.sources]
+audio-harness = { path = "../..", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ah_analyze"]
