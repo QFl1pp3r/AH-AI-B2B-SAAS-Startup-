@@ -96,7 +96,8 @@ class RestoreTool:
         target = out_dir / "restored.wav"
         audio.write_wav(target, result.astype(np.float32), OUT_SR)
         warnings = ["Sidon outputs mono speech; stereo image and non-speech content are not preserved"]
-        if data.ndim == 2 and data.shape[1] > 1:
+        # Canonical artifacts are always 2-channel; only warn when the channels actually differ.
+        if data.ndim == 2 and data.shape[1] > 1 and not np.allclose(data[:, :1], data[:, 1:], atol=1e-6):
             warnings.append("stereo input was downmixed to mono")
         return ToolResult(
             tool=self.name,

@@ -10,6 +10,7 @@ not for a commercial product.
 
 from __future__ import annotations
 
+import os
 import tempfile
 from pathlib import Path
 from typing import Any, Literal
@@ -22,6 +23,8 @@ from ah import audio
 from ah.contract import ToolOutput, ToolResult, write_json
 
 MADMOM_SR = 44_100
+# "final0" downloads from cloud.cp.jku.at; point this at a local .ckpt or another URL if that host is down.
+BEAT_THIS_CHECKPOINT = os.environ.get("AH_BEAT_THIS_CHECKPOINT", "final0")
 
 
 class Params(BaseModel, extra="forbid"):
@@ -46,7 +49,7 @@ class AnalyzeTool:
         if self._beat_this is None:
             from beat_this.inference import Audio2Beats
 
-            self._beat_this = Audio2Beats(checkpoint_path="final0", device=self.device, dbn=False)
+            self._beat_this = Audio2Beats(checkpoint_path=BEAT_THIS_CHECKPOINT, device=self.device, dbn=False)
         beats, downbeats = self._beat_this(mono, sr)
         return np.asarray(beats, dtype=float), np.asarray(downbeats, dtype=float)
 
@@ -100,11 +103,17 @@ class AnalyzeTool:
             madmom_wav = str(Path(tmp) / "mono.wav")
             sf.write(madmom_wav, audio.resample(mono, sr, MADMOM_SR), MADMOM_SR, subtype="PCM_16")
 
-            if options.beats == "beat_this":
-                beats, downbeats = self._beats_beat_this(mono, sr)
-            else:
+            tracker = options.beats
+            if tracker == "beat_this":
+                try:
+                    beats, downbeats = self._beats_beat_this(mono, sr)
+                except ValueError as exc:  # beat_this raises ValueError when the checkpoint cannot be fetched
+                    warnings.append(f"Beat This! checkpoint unavailable ({exc}); fell back to madmom. "
+                                    "Set AH_BEAT_THIS_CHECKPOINT to a local final0.ckpt to avoid this")
+                    tracker = "madmom"
+            if tracker == "madmom":
                 beats, downbeats = self._beats_madmom(madmom_wav)
-            report: dict[str, Any] = {"beat_tracker": options.beats, **tempo_summary(beats, downbeats)}
+            report: dict[str, Any] = {"beat_tracker": tracker, **tempo_summary(beats, downbeats)}
             if report["bpm"] is None:
                 warnings.append("fewer than 4 beats found: no tempo estimate")
             elif report["tempo_stability"] is not None and report["tempo_stability"] > 0.08:
