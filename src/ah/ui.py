@@ -1,7 +1,8 @@
-"""Local web page: upload, run a tool on a version, compare before/after, roll back.
+"""Local web page: upload a track, tell the agent what to do, confirm its plan, compare before/after.
 
-A small JSON API over the same Runner and ArtifactStore the CLI uses, plus a
-static page in ah/static. No agent here yet. The page is for this machine:
+A small JSON API over the same Runner and ArtifactStore the CLI uses, the agent
+(ah.agent) for plans, and a static page in ah/static. There are no manual tool
+buttons: the CLI is the manual path. The page is for this machine:
 it binds to localhost, rejects foreign Host headers (DNS rebinding) and every
 POST needs the X-AH-UI header, which a cross-site form or a no-preflight fetch
 cannot send.
@@ -21,8 +22,9 @@ import numpy as np
 import soundfile as sf
 
 from ah import audio
-from ah.registry import TOOLS
-from ah.runner import RunFailed, Runner
+from ah.agent import Agent, PlanError, analysis_for, audio_target
+from ah.llm import LLM, LLMError, configured, make_llm
+from ah.runner import Runner
 from ah.store import DEFAULT_PROJECT, ArtifactStore, StoreError
 
 STATIC = Path(__file__).parent / "static"
@@ -39,33 +41,6 @@ def peaks(path: Path, bins: int) -> list[float]:
     return [round(float(mono[a:b].max()), 4) if b > a else 0.0 for a, b in zip(edges[:-1], edges[1:])]
 
 
-def chord_line(chords: list[dict[str, Any]]) -> list[str]:
-    """Chord labels without N and without immediate repeats, as a musician would write them."""
-    line: list[str] = []
-    for chord in chords:
-        label = chord["label"].replace(":maj", "").replace(":min", "m")
-        if chord["label"] != "N" and (not line or line[-1] != label):
-            line.append(label)
-    return line
-
-
-def analysis_for(store: ArtifactStore, artifact_id: str) -> dict[str, Any] | None:
-    """The newest analyze report on this version or, failing that, on the nearest ancestor."""
-    for node in store.lineage(artifact_id):
-        reports = [c for c in store.children(node.id) if c.kind == "json" and c.role == "analysis"]
-        if reports:
-            report = json.loads(store.path(reports[-1].id).read_text())
-            return {"of": node.id, "bpm": report.get("bpm"), "meter": report.get("meter"),
-                    "key": (report.get("key") or {}).get("key"), "chords": chord_line(report.get("chords", []))}
-    return None
-
-
-def audio_target(store: ArtifactStore, artifact_id: str) -> str:
-    """A JSON report (inspect, analyze) can be selected; tools act on the audio it describes."""
-    artifact = store.get(artifact_id)
-    return artifact_id if artifact.kind == "audio" else artifact.parent_id
-
-
 def describe(store: ArtifactStore, artifact_id: str) -> dict[str, Any]:
     artifact = store.get(artifact_id)
     info = artifact.as_dict()
@@ -73,7 +48,7 @@ def describe(store: ArtifactStore, artifact_id: str) -> dict[str, Any]:
     return info
 
 
-def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1"):
+def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1", llm: LLM | None = None):
     from fastapi import Body, FastAPI, File, HTTPException, Request, UploadFile
     from fastapi.responses import FileResponse, JSONResponse, Response
     from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -94,9 +69,20 @@ def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1"):
                 return Response("missing Content-Length or upload too large", status_code=413)
         return await call_next(request)
 
+    agent = Agent(store, runner, llm)
+    cfg = runner.settings.agent
+
     @app.exception_handler(StoreError)
     async def store_error(request, err):
-        return JSONResponse({"error": str(err)}, status_code=404)
+        return JSONResponse({"detail": str(err)}, status_code=404)
+
+    @app.exception_handler(LLMError)
+    async def llm_error(request, err):
+        return JSONResponse({"detail": str(err)}, status_code=502)
+
+    @app.exception_handler(PlanError)
+    async def plan_error(request, err):
+        return JSONResponse({"detail": str(err)}, status_code=422)
 
     @app.get("/")
     def index():
@@ -113,7 +99,7 @@ def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1"):
     def state(selected: str | None = None):
         head = store.head(DEFAULT_PROJECT)
         if head is None:
-            return {"head": None, "selected": None, "tree": [], "tools": tools()}
+            return {"head": None, "selected": None, "tree": []}
         current = selected or head
         root = store.root(current)
         current_audio = audio_target(store, current)
@@ -126,11 +112,7 @@ def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1"):
             "before": describe(store, parent) if parent else None,
             "analysis": analysis_for(store, current_audio),
             "tree": [{"depth": depth, **describe(store, a.id)} for depth, a in store.tree(root.id)],
-            "tools": tools(),
         }
-
-    def tools():
-        return [{"name": name, "summary": spec.summary} for name, spec in TOOLS.items()]
 
     @app.get("/api/artifacts/{artifact_id}")
     def artifact(artifact_id: str):
@@ -171,22 +153,33 @@ def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1"):
                 raise HTTPException(status_code=422, detail=str(err)) from None
         return describe(store, artifact.id)
 
-    @app.post("/api/run/{tool}")
-    def run(tool: str, body: dict = Body(...)):
-        if tool not in TOOLS:
-            raise HTTPException(status_code=404, detail=f"unknown tool {tool}")
-        params = body.get("params") or {}
-        if not isinstance(params, dict):
-            raise HTTPException(status_code=422, detail="params must be a JSON object")
-        target = audio_target(store, body["artifact"])
-        try:
-            outcome = runner.run(tool, {"audio": target}, params,
-                                 head_role="vocals" if tool == "separate" else None)
-        except (RunFailed, ValueError) as err:
-            raise HTTPException(status_code=422, detail=str(err)) from None
-        audio_outs = [a for a in outcome.artifacts if a.kind == "audio"]
-        shown = next((a for a in audio_outs if a.role == "vocals"), audio_outs[0] if audio_outs else outcome.artifacts[0])
-        return {"run": outcome.as_dict(), "selected": shown.id}
+    @app.get("/api/agent")
+    def agent_info():
+        return {"configured": llm is not None, "provider": cfg.provider, "model": cfg.model,
+                "key_env": cfg.api_key_env, "base_url": cfg.base_url}
+
+    @app.get("/api/agent/chat")
+    def agent_chat(artifact: str):
+        return {"plans": agent.chat(store.root(artifact).id), "busy": agent.busy.locked()}
+
+    @app.post("/api/agent/message")
+    def agent_message(body: dict = Body(...)):
+        return agent.message(body["artifact"], str(body.get("text", ""))).as_dict()
+
+    @app.get("/api/agent/plans/{plan_id}")
+    def agent_plan(plan_id: str):
+        plan = agent.plans.get(plan_id)
+        if plan is None:
+            raise HTTPException(status_code=404, detail="no such plan")
+        return plan.as_dict()
+
+    @app.post("/api/agent/plans/{plan_id}/run")
+    def agent_run(plan_id: str):
+        return agent.start(plan_id).as_dict()
+
+    @app.post("/api/agent/plans/{plan_id}/cancel")
+    def agent_cancel(plan_id: str):
+        return agent.cancel(plan_id).as_dict()
 
     @app.post("/api/rollback")
     def rollback():
@@ -204,5 +197,9 @@ def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1"):
 def launch(store: ArtifactStore, runner: Runner, host: str, port: int) -> None:
     import uvicorn
 
+    cfg = runner.settings.agent
+    llm = make_llm(cfg) if configured(cfg) else None
+    if llm is None:
+        print(f"ah ui: agent is off: set {cfg.api_key_env} (or [agent] in ah.toml)", file=sys.stderr)
     print(f"ah ui: http://{'localhost' if host in LOOPBACK else host}:{port}", file=sys.stderr)
-    uvicorn.run(create_app(store, runner, host), host=host, port=port, log_level="warning")
+    uvicorn.run(create_app(store, runner, host, llm), host=host, port=port, log_level="warning")

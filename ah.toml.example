@@ -12,3 +12,9 @@ analyze = "local"     # CPU is fine: a 32 s clip takes ~25 s with madmom here
 url = ""                       # https://<random>.trycloudflare.com from the notebook (or AH_REMOTE_URL)
 token_env = "AH_REMOTE_TOKEN"  # the token itself never goes into this file
 timeout_s = 900
+
+[agent]                        # the LLM that plans tool calls from a request in plain words
+provider = "anthropic"         # anthropic | openai (any OpenAI-compatible endpoint: OpenAI, OpenRouter, DeepSeek, Ollama, vLLM, LM Studio)
+model = "claude-opus-5-5"
+base_url = ""                  # e.g. http://localhost:11434/v1 for Ollama, https://openrouter.ai/api/v1
+api_key_env = "ANTHROPIC_API_KEY"  # name of the env var with the key; the key itself never goes into this file

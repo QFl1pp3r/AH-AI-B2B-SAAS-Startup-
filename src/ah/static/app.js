@@ -1,18 +1,15 @@
 'use strict';
 
 const TOOL_LABELS = {
-  separate: ['ВЫДЕЛИТЬ ГОЛОС', 'выделяю голос'],
-  denoise: ['ПОЧИСТИТЬ', 'чищу запись'],
-  restore: ['ВОССТАНОВИТЬ РЕЧЬ', 'восстанавливаю речь'],
-  analyze: ['АНАЛИЗ', 'слушаю темп и аккорды'],
-  inspect: ['ПРОВЕРИТЬ УРОВНИ', 'меряю уровни'],
+  separate: 'ВЫДЕЛИТЬ ГОЛОС', denoise: 'ПОЧИСТИТЬ', restore: 'ВОССТАНОВИТЬ РЕЧЬ',
+  analyze: 'АНАЛИЗ', inspect: 'ПРОВЕРИТЬ УРОВНИ',
 };
 const ROLE_LABELS = {
   original: 'оригинал', vocals: 'голос', instrumental: 'минус', denoised: 'почищено',
   restored: 'восстановлено', analysis: 'анализ', report: 'уровни',
 };
 const $ = (id) => document.getElementById(id);
-const view = { selected: null, state: null, side: 'after', peaks: {}, busy: false };
+const view = { selected: null, state: null, side: 'after', peaks: {}, busy: false, agent: null, plans: [], poll: null, root: null };
 
 async function api(path, options = {}) {
   const init = { ...options, headers: { ...(options.headers || {}) } };
@@ -84,8 +81,8 @@ function render() {
   drawBoth();
   renderAnalysis(s.analysis);
   renderReport();
-  renderTools(s.tools);
   renderTree(s.tree, s.head);
+  if (view.root !== s.root.id) { view.root = s.root.id; loadChat(); }
 }
 
 function setSource(side, id) {
@@ -104,7 +101,7 @@ function renderAnalysis(analysis) {
   const box = $('analysis');
   box.replaceChildren();
   if (!analysis) {
-    box.append(el('span', 'анализа ещё нет — нажми «анализ»', 'chip ghost'));
+    box.append(el('span', 'анализа ещё нет — попроси агента', 'chip ghost'));
     return;
   }
   if (analysis.bpm) box.append(el('span', `${Math.round(analysis.bpm)} BPM`, 'chip'));
@@ -143,27 +140,13 @@ async function renderReport() {
   box.hidden = false;
 }
 
-function renderTools(tools) {
-  const box = $('tools');
-  if (box.childElementCount === tools.length) return;
-  box.replaceChildren();
-  tools.forEach((tool) => {
-    const [label] = TOOL_LABELS[tool.name] || [tool.name.toUpperCase()];
-    const button = el('button', '', 'tool');
-    button.append(el('span', label), el('span', '→'));
-    button.title = tool.summary;
-    button.addEventListener('click', () => runTool(tool.name));
-    box.append(button);
-  });
-}
-
 function renderTree(tree, head) {
   const list = $('tree');
   list.replaceChildren();
   tree.forEach((node) => {
     const item = el('li');
     item.style.marginLeft = `${node.depth * 18}px`;
-    item.append(el('span', `${node.depth ? '└ ' : ''}${roleName(node)}${node.kind === 'json' ? '' : ''}`));
+    item.append(el('span', `${node.depth ? '└ ' : ''}${roleName(node)}`));
     item.append(el('span', node.id, 'id'));
     if (node.id === head) { item.classList.add('head'); item.append(el('span', ' ← текущая')); }
     if (node.id === view.selected) item.classList.add('selected');
@@ -236,35 +219,6 @@ function updatePlay() {
   $('clock').textContent = `${clock(player.currentTime)} / ${clock(player.duration)}`;
 }
 
-async function runTool(name) {
-  if (view.busy) return;
-  let params;
-  try {
-    params = JSON.parse($('params').value || '{}');
-  } catch {
-    showStatus('Параметры — не JSON. Поправь поле «параметры инструмента».', { error: true });
-    return;
-  }
-  const [, doing] = TOOL_LABELS[name] || [name, name];
-  const started = Date.now();
-  setBusy(true);
-  const timer = setInterval(() => showStatus(`${doing}… ${clock((Date.now() - started) / 1000)}`), 500);
-  showStatus(`${doing}…`);
-  try {
-    const result = await postJSON(`/api/run/${name}`, { artifact: view.selected, params });
-    clearInterval(timer);
-    const warnings = result.run.warnings || [];
-    showStatus(`готово за ${clock((Date.now() - started) / 1000)}`, { warnings });
-    if (!warnings.length) setTimeout(hideStatus, 2500);
-    await load(result.selected);
-  } catch (err) {
-    clearInterval(timer);
-    fail(err);
-  } finally {
-    setBusy(false);
-  }
-}
-
 function setBusy(busy) {
   view.busy = busy;
   document.body.classList.toggle('busy', busy);
@@ -327,4 +281,118 @@ $('make-head').addEventListener('click', async () => {
 });
 window.addEventListener('resize', drawBoth);
 
+// --- agent chat ------------------------------------------------------------
+
+const STEP_STATE = { pending: 'ждёт', running: 'идёт…', done: 'готово', failed: 'ошибка', skipped: 'пропущен' };
+
+function inputName(ref) {
+  if (ref === 'track') return 'трек';
+  const [n, role] = ref.split('.');
+  return `${ROLE_LABELS[role] || role} из шага ${n}`;
+}
+
+async function loadAgent() {
+  view.agent = await api('/api/agent');
+  const off = $('agent-off');
+  $('agent-model').textContent = view.agent.configured ? view.agent.model : '';
+  if (view.agent.configured) { off.hidden = true; return; }
+  off.replaceChildren(
+    el('div', 'Агент выключен: нет ключа провайдера.'),
+    el('div', `Задай переменную ${view.agent.key_env} и перезапусти ah ui, или настрой [agent] в ah.toml (OpenAI-совместимый провайдер, Ollama).`),
+  );
+  off.hidden = false;
+}
+
+async function loadChat() {
+  if (!view.root) return;
+  const chat = await api(`/api/agent/chat?artifact=${encodeURIComponent(view.root)}`);
+  const wasRunning = view.plans.filter((p) => p.status === 'running').map((p) => p.id);
+  view.plans = chat.plans;
+  renderThread();
+  const finished = view.plans.find((p) => wasRunning.includes(p.id) && p.status !== 'running');
+  if (finished) await load(finished.selected || view.selected);
+  const running = view.plans.some((p) => p.status === 'running');
+  setBusy(running);
+  clearTimeout(view.poll);
+  if (running) view.poll = setTimeout(() => loadChat().catch(fail), 1000);
+}
+
+function renderThread(pending) {
+  const thread = $('thread');
+  thread.replaceChildren();
+  if (!view.plans.length && !pending) {
+    thread.append(el('p', 'Напиши, что сделать с треком. Агент предложит план, ты его подтвердишь — и он всё сделает сам.', 'empty-thread'));
+  }
+  view.plans.forEach((plan) => {
+    thread.append(el('div', plan.request, 'bubble user'));
+    if (plan.reply) thread.append(el('div', plan.reply, 'bubble agent'));
+    if (plan.steps.length) thread.append(planCard(plan));
+    if (plan.summary) thread.append(el('div', plan.summary, 'bubble agent'));
+  });
+  if (pending) {
+    thread.append(el('div', pending, 'bubble user'));
+    thread.append(el('div', 'думаю над планом…', 'bubble agent thinking'));
+  }
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function planCard(plan) {
+  const card = el('div', undefined, 'plan');
+  const list = el('ol');
+  plan.steps.forEach((step, i) => {
+    const item = el('li', undefined, step.status);
+    item.append(el('span', String(i + 1), 'num'));
+    const body = el('div');
+    body.append(el('div', `${TOOL_LABELS[step.tool] || step.tool.toUpperCase()} ← ${inputName(step.input)}`, 'step-title'));
+    if (step.why) body.append(el('div', step.why, 'why'));
+    if (step.error) body.append(el('div', step.error, 'err'));
+    item.append(body);
+    const state = step.status === 'done' && step.seconds != null ? `${STEP_STATE.done} · ${step.seconds} c` : STEP_STATE[step.status];
+    item.append(el('span', plan.status === 'proposed' || plan.status === 'cancelled' ? '' : state, 'state'));
+    list.append(item);
+  });
+  card.append(list);
+  if (plan.status === 'proposed') {
+    const actions = el('div', undefined, 'actions');
+    const go = el('button', 'ПОЕХАЛИ →', 'pill dark small');
+    const no = el('button', 'ОТМЕНА', 'pill small');
+    go.addEventListener('click', () => planAction(plan.id, 'run'));
+    no.addEventListener('click', () => planAction(plan.id, 'cancel'));
+    actions.append(go, no);
+    card.append(actions);
+  }
+  if (plan.status === 'cancelled') card.append(el('div', 'план отменён', 'final hand'));
+  return card;
+}
+
+async function planAction(id, action) {
+  try {
+    await api(`/api/agent/plans/${id}/${action}`, { method: 'POST' });
+    await loadChat();
+  } catch (err) { fail(err); }
+}
+
+$('ask').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const text = $('prompt').value.trim();
+  if (!text || view.busy) return;
+  if (!view.agent || !view.agent.configured) { showStatus('Агент выключен: сначала задай ключ провайдера.', { error: true }); return; }
+  setBusy(true);
+  renderThread(text);
+  try {
+    await postJSON('/api/agent/message', { artifact: view.selected, text });
+    $('prompt').value = '';
+    hideStatus();
+  } catch (err) {
+    fail(err);
+  } finally {
+    setBusy(false);
+    await loadChat().catch(fail);
+  }
+});
+$('prompt').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) $('ask').requestSubmit();
+});
+
+loadAgent().catch(fail);
 load().catch(fail);
