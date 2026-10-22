@@ -13,7 +13,7 @@
 | `separate` (Mel-Band RoFormer, веса Kim) | работает на реальных весах | прогон на CPU, см. ниже |
 | `restore` (Sidon v0.1) | работает на реальных весах | прогон на CPU, см. ниже |
 | `analyze` с madmom (BPM, биты, размер, тональность, аккорды) | работает на реальных весах | прогон на CPU, см. ниже |
-| Бенчмарк `analyze` (madmom) на GuitarSet | готов | `benchmarks/README.md`: темп Acc1 0.66 / Acc2 0.83, биты F 0.67, тональность 0.46, аккорды comp majmin 0.85 |
+| Бенчмарк `analyze` (madmom) на GuitarSet | готов | `benchmarks/README.md`: темп Acc1 0.66 [0.54, 0.76] / Acc2 0.83, биты F 0.67 [0.57, 0.76], тональность 0.46 [0.35, 0.57], аккорды comp majmin 0.85 [0.79, 0.90] (95% ДИ) |
 | `analyze` с Beat This! (трекер по умолчанию) | **не проверен** | сервер JKU с чекпоинтом отдавал 503; при сбое analyze сам переходит на madmom |
 | Remote-бэкенд (`ah serve` + Colab + cloudflared) | проверен только локально | pytest против `ah serve`; через настоящий Colab и туннель не гонялся |
 | Gradio UI (`ah ui`) | написан | не проверялся в браузере |

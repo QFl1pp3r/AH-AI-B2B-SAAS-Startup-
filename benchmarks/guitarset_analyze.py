@@ -9,7 +9,9 @@ and unzip them into two folders.
         python benchmarks/guitarset_analyze.py --audio DIR --annotations DIR --out DIR
 
 Predictions are cached per track in --out/pred, so a rerun only scores.
-Writes --out/tracks.csv (one row per excerpt) and --out/summary.json.
+Writes --out/tracks.csv (one row per excerpt) and --out/summary.json with 95%
+bootstrap CIs. --from-tracks rebuilds summary.json from a saved tracks.csv alone,
+without the dataset.
 
 Notes on the references:
 - tempo, beats and key are what the player was told to play (metronome and
@@ -43,6 +45,7 @@ import numpy as np
 NAME = re.compile(r"^(?P<player>\d\d)_(?P<style>[A-Za-z]+)(?P<prog>\d)-(?P<bpm>\d+)-(?P<key>[A-G][b#]?)_(?P<kind>comp|solo)$")
 STYLES = {"BN": "bossa nova", "Funk": "funk", "Jazz": "jazz", "Rock": "rock", "SS": "singer-songwriter"}
 CHORD_METRICS = ("root", "majmin", "mirex")
+BOOTSTRAP = 2000
 
 
 # --- prediction ------------------------------------------------------------
@@ -167,15 +170,67 @@ def mean(rows: list[dict[str, Any]], key: str, weight: str | None = None) -> flo
     return round(float(np.average(values, weights=weights)), 4) if weights.sum() > 0 else None
 
 
+def bootstrap_ci(rows: list[dict[str, Any]], key: str, weight: str | None = None,
+                 n_boot: int = BOOTSTRAP, seed: int = 0) -> list[float] | None:
+    """95% percentile CI of the (weighted) mean under a two-way bootstrap over players and lead sheets.
+
+    Every excerpt shares a player with 59 others and a lead sheet with 11 others, so
+    resampling excerpts would treat correlated rows as independent and give too narrow
+    intervals. Players and sheets are resampled independently (pigeonhole bootstrap);
+    a row's multiplicity is the product of its player's and its sheet's draw counts.
+    With only 6 players the intervals are wide and approximate; they bound how far the
+    numbers would move with other guitarists and other songs.
+    """
+    rows = [r for r in rows if r.get(key) is not None and not np.isnan(r[key])]
+    if not rows:
+        return None
+    values = np.array([r[key] for r in rows], dtype=float)
+    base = np.array([r[weight] if weight else 1.0 for r in rows], dtype=float)
+    players, p_idx = np.unique([r["player"] for r in rows], return_inverse=True)
+    sheets, s_idx = np.unique([sheet(r) for r in rows], return_inverse=True)
+    rng = np.random.default_rng(seed)
+    p_count = rng.multinomial(len(players), np.full(len(players), 1 / len(players)), size=n_boot)
+    s_count = rng.multinomial(len(sheets), np.full(len(sheets), 1 / len(sheets)), size=n_boot)
+    w = p_count[:, p_idx] * s_count[:, s_idx] * base
+    total = w.sum(axis=1)
+    means = (w @ values)[total > 0] / total[total > 0]
+    return [round(float(q), 4) for q in np.percentile(means, [2.5, 97.5])]
+
+
+def sheet(row: dict[str, Any]) -> str:
+    """Lead sheet = style, progression and tempo; all 6 players recorded each one in comp and solo."""
+    return f"{row['style']}-{row['prog']}-{row['bpm']}"
+
+
 def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     out: dict[str, Any] = {"n": len(rows)}
+    ci: dict[str, Any] = {}
     for key in ("tempo_acc1", "tempo_acc2", "beat_f", "beat_cmlt", "beat_amlt", "downbeat_f", "key_exact", "key_weighted"):
         out[key] = mean(rows, key)
+        ci[key] = bootstrap_ci(rows, key)
     for prefix in ("chord_perf", "chord_instr"):
         for metric in CHORD_METRICS:
             # Duration-weighted over the dataset, as in MIREX.
-            out[f"{prefix}_{metric}"] = mean(rows, f"{prefix}_{metric}", f"{prefix}_{metric}_weight")
+            key, weight = f"{prefix}_{metric}", f"{prefix}_{metric}_weight"
+            out[key] = mean(rows, key, weight)
+            ci[key] = bootstrap_ci(rows, key, weight)
+    out["ci95"] = ci
     return out
+
+
+def load_tracks(path: Path) -> list[dict[str, Any]]:
+    """Read tracks.csv back; numeric columns become floats, empty cells None."""
+    def cast(value: str) -> Any:
+        if value == "":
+            return None
+        try:
+            return float(value)
+        except ValueError:
+            return value
+    keep_text = {"track", "player", "style", "prog", "bpm", "key", "kind", "key_ref", "key_est",
+                 "key_relation", "tempo_band", "beat_tracker"}
+    with path.open(newline="") as f:
+        return [{k: (v if k in keep_text else cast(v)) for k, v in r.items()} for r in csv.DictReader(f)]
 
 
 def score(audio_dir: Path, ann_dir: Path, pred_dir: Path, out_dir: Path) -> dict[str, Any]:
@@ -200,7 +255,10 @@ def score(audio_dir: Path, ann_dir: Path, pred_dir: Path, out_dir: Path) -> dict
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
+    return aggregate(rows, out_dir)
 
+
+def aggregate(rows: list[dict[str, Any]], out_dir: Path) -> dict[str, Any]:
     groups: dict[str, dict[str, Any]] = {"all": summarize(rows)}
     for field in ("kind", "style", "tempo_band", "player"):
         buckets = defaultdict(list)
@@ -244,13 +302,21 @@ def tempo_error(row: dict[str, Any]) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--audio", type=Path, required=True, help="folder with *_mic.wav")
-    parser.add_argument("--annotations", type=Path, required=True, help="folder with *.jams")
+    parser.add_argument("--audio", type=Path, help="folder with *_mic.wav")
+    parser.add_argument("--annotations", type=Path, help="folder with *.jams")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--beats", choices=["beat_this", "madmom"], default="madmom")
     parser.add_argument("--workers", type=int, default=os.cpu_count() or 1)
     parser.add_argument("--score-only", action="store_true")
+    parser.add_argument("--from-tracks", action="store_true", help="re-aggregate --out/tracks.csv only")
     args = parser.parse_args()
+
+    if args.from_tracks:
+        summary = aggregate(load_tracks(args.out / "tracks.csv"), args.out)
+        print(json.dumps(summary["groups"]["all"], indent=2))
+        return
+    if args.audio is None or args.annotations is None:
+        parser.error("--audio and --annotations are required unless --from-tracks")
 
     pred_dir = args.out / "pred"
     pred_dir.mkdir(parents=True, exist_ok=True)
