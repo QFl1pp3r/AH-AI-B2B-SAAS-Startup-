@@ -37,6 +37,16 @@ TOOLS: dict[str, ToolSpec] = {
         ToolSpec(
             name="trim", module="ah.builtin", factory="TrimTool", project=None,
             inputs=("audio",), summary="Обрезка по времени и по тишине на краях",
+            outputs=("trimmed",),
+            hint="Cuts a time range and/or leading and trailing silence; sample-exact, short fade only on cut edges. Cheap. "
+                 "Use when the user asks to cut, shorten or remove silence at the ends, or to work on one part of a long take. "
+                 "Times are seconds from the start of the input. It does not remove pauses in the middle.",
+            params={"start_s": {"type": "number", "minimum": 0},
+                    "end_s": {"type": "number", "exclusiveMinimum": 0, "description": "leave out to keep up to the end"},
+                    "silence": {"type": "boolean", "description": "also drop leading and trailing silence inside the range"},
+                    "threshold_db": {"type": "number", "maximum": 0, "description": "silence threshold in dBFS (default -50)"},
+                    "pad_ms": {"type": "number", "minimum": 0, "description": "silence kept around the sound (default 50)"},
+                    "fade_ms": {"type": "number", "minimum": 0, "description": "fade on cut edges (default 5)"}},
         ),
         ToolSpec(
             name="separate", module="ah_separate", factory="SeparateTool", project="separate",

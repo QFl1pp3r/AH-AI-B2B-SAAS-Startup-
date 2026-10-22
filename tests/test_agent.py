@@ -173,6 +173,15 @@ def test_registry_params_match_the_tools(tool, path):
     assert registry.TOOLS[tool].outputs and registry.TOOLS[tool].hint
 
 
+def test_registry_trim_params_and_chaining():
+    from ah.builtin import TrimParams
+    assert set(registry.TOOLS["trim"].params) == set(TrimParams.model_fields)
+    _, steps = validate({"reply": "x", "steps": [
+        {"tool": "trim", "input": "track", "params": {"start_s": 10, "end_s": 30}},
+        {"tool": "analyze", "input": "1.trimmed"}]})
+    assert steps[1].input == "1.trimmed"
+
+
 def test_agent_settings_from_toml_and_env(tmp_path, monkeypatch):
     config = tmp_path / "ah.toml"
     config.write_text('[agent]\nprovider = "openai"\nmodel = "qwen3"\nbase_url = "http://localhost:11434/v1"\n')
