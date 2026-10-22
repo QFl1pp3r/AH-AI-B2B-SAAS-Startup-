@@ -35,6 +35,10 @@ TOOLS: dict[str, ToolSpec] = {
             inputs=("audio",), summary="Восстановление речи: шум, реверберация, полоса (Sidon)", gpu=True,
         ),
         ToolSpec(
+            name="denoise", module="ah_denoise", factory="DenoiseTool", project="denoise",
+            inputs=("audio",), summary="Шумоподавление речи, быстрое (DeepFilterNet3)",
+        ),
+        ToolSpec(
             name="analyze", module="ah_analyze", factory="AnalyzeTool", project="analyze",
             inputs=("audio",), summary="BPM, биты, сильные доли, тональность, аккорды",
         ),

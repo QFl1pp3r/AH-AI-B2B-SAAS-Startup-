@@ -6,7 +6,7 @@ Audio harness for an LLM agent: audio tools behind the `ah` CLI with a versioned
 
 - The owner is a programmer / DevOps / security engineer and writes in Russian. Answer in Russian, be blunt, suggest technologies, but leave design decisions to them.
 - No eval/metrics work unless asked.
-- `tools/denoise` and the denoise-vs-Sidon benchmark belong to a colleague. Don't create or edit them; keep the tool contract in `src/ah/contract.py` stable.
+- Jamal's code: `tools/denoise/src/denoise_service`, `notebooks/`, `scripts/`, `data/splits/` and the denoise-vs-Sidon benchmark. Don't edit them unless the owner asks; keep the tool contract in `src/ah/contract.py` stable. The `ah denoise` adapter (`tools/denoise/src/ah_denoise`) and the pins in `tools/denoise/pyproject.toml` were added at the owner's request on 2026-10-22.
 
 ## Commands
 
@@ -29,6 +29,7 @@ uv run ah <command> ...              # see README for the list
 
 ## Gotchas
 
+- `tools/denoise` needs Python 3.11 (DeepFilterLib 0.5.6 has no cp312 wheels) and torch 2.3.1 / numpy<2, as in the Colab benchmark. Don't unpin them.
 - separate and restore are 4–9x slower than real time on CPU; use Colab T4 (`serve/colab_gpu_server.ipynb`) for real material.
 - Beat This! downloads its checkpoint from cloud.cp.jku.at, which was returning 503. analyze falls back to madmom with a warning; `AH_BEAT_THIS_CHECKPOINT` points at a local file.
 - Kim RoFormer weights and madmom models are CC BY-NC-SA 4.0: non-commercial only.

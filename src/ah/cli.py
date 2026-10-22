@@ -55,6 +55,8 @@ def build_parser() -> argparse.ArgumentParser:
                      help="which stem becomes the project head")
     res = tool_command("restore")
     res.add_argument("--chunk-seconds", type=float)
+    den = tool_command("denoise")
+    den.add_argument("--atten-lim-db", type=float, help="suppress at most this many dB (default: all noise)")
     ana = tool_command("analyze")
     ana.add_argument("--beats", choices=["beat_this", "madmom"])
     ana.add_argument("--no-key", action="store_true")
@@ -90,6 +92,7 @@ def _tool_params(args: argparse.Namespace) -> dict[str, Any]:
     extra = {
         "model": getattr(args, "model", None),
         "chunk_seconds": getattr(args, "chunk_seconds", None),
+        "atten_lim_db": getattr(args, "atten_lim_db", None),
         "beats": getattr(args, "beats", None),
         "key": False if getattr(args, "no_key", False) else None,
         "chords": False if getattr(args, "no_chords", False) else None,

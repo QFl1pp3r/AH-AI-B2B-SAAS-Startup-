@@ -1,20 +1,30 @@
-[build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "audio-harness-denoise"
+name = "ah-denoise"
 version = "0.1.0"
-description = "HTTP service for DeepFilterNet denoising"
-requires-python = ">=3.10,<3.13"
+description = "Speech denoising with DeepFilterNet3: ah tool and HTTP service"
+# DeepFilterLib 0.5.6 has no cp312 wheels. Versions match the Colab benchmark env (df311).
+requires-python = ">=3.11,<3.12"
 dependencies = [
-  "deepfilternet>=0.5",
-  "fastapi>=0.115,<1",
-  "python-multipart>=0.0.9",
-  "torch>=2.1",
-  "torchaudio>=2.1",
-  "uvicorn[standard]>=0.30,<1",
+    "audio-harness",
+    "deepfilternet==0.5.6",
+    "torch==2.3.1",
+    "torchaudio==2.3.1",
+    "numpy<2",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[project.optional-dependencies]
+service = [
+    "fastapi>=0.115,<1",
+    "python-multipart>=0.0.9",
+    "uvicorn[standard]>=0.30,<1",
+]
+
+[tool.uv.sources]
+audio-harness = { path = "../..", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ah_denoise", "src/denoise_service"]

@@ -18,7 +18,8 @@
 | Remote-бэкенд (`ah serve` + Colab + cloudflared) | проверен только локально | pytest против `ah serve`; через настоящий Colab и туннель не гонялся |
 | Gradio UI (`ah ui`) | написан | не проверялся в браузере |
 | Бенчмарк темпа/битов на Ballroom и GiantSteps (`benchmarks/tempo.py`) | скрипт есть (Jamal) | pytest на мини-датасетах; полного прогона нет |
-| `denoise` (DeepFilterNet и др.) и бенчмарк denoise против Sidon | **ведёт коллега**; в репозитории HTTP-сервис `tools/denoise`, в `ah` ещё не подключён | см. «Denoise и датасеты»; в этом репозитории не трогать |
+| `denoise` (DeepFilterNet3) | работает на реальных весах (2026-10-22) | прогон на CPU и pytest, см. ниже |
+| Бенчмарк denoise против Sidon (Colab T4, Common Voice ru) | готов (Jamal) | `notebooks/denoise_benchmark_v2(1).ipynb`, выводы в «Решения и контекст» |
 | Агент / планировщик поверх CLI | не начат | решение отложено |
 
 ### Прогон на реальных весах
@@ -27,6 +28,7 @@ CPU, 4 ядра. Клип 20 с: речь из LibriSpeech поверх синт
 
 - `separate`: чекпоинт Kim скачался (913 МБ, sha256 совпал). Вокальный стем против исходной речи: SI-SDR около 19 дБ, корреляция 0.99. 20 с аудио обрабатываются около 180 с.
 - `restore`: на зашумлённой речи огибающая ближе к чистому эталону, чем у входа (0.93 против 0.84), шум в паузах ниже на 8 дБ. Цепочка separate → restore на вокальном стеме тоже отработала. 20 с обрабатываются около 80 с. Выход отстаёт от входа не больше чем на 10 мс.
+- `denoise` (2026-10-22, Mac CPU): речь 8.6 с из `say` плюс белый шум 0 дБ. SI-SDR к чистой речи вырос с −1.2 до 15.8 дБ, шум в паузах упал с −23 до −62 dBFS. С `--atten-lim-db 12` получается 9.7 дБ и −35 dBFS. Весь вызов вместе с загрузкой модели занимает около 8 с.
 - `analyze` (madmom) на миксе и на инструментальном стеме: 120 BPM, 4/4, C major, 10 из 10 аккордов верно, около 18 с.
 - `pytest`: 12 из 12 (хранилище, ветвление и откат, канонический формат, сбой инструмента, CLI, zip-транспорт с проверкой traversal, сервер с авторизацией и allowlist, откат analyze на madmom).
 
@@ -38,6 +40,7 @@ CPU, 4 ядра. Клип 20 с: речь из LibriSpeech поверх синт
 | `ah inspect` | Длительность, пик/RMS в dBFS, клиппинг, тишина | numpy | Mac |
 | `ah separate` | Вокал + инструментал | Mel-Band RoFormer (Kim) | Colab T4 |
 | `ah restore` | Восстановление речи: шум, реверберация, полоса | Sidon v0.1 | Colab T4 |
+| `ah denoise` | Быстрое шумоподавление речи, `--atten-lim-db N` оставляет часть шума | DeepFilterNet3 | Mac (CPU) |
 | `ah analyze` | BPM, биты, сильные доли, размер, тональность, аккорды | Beat This! / madmom | Mac (CPU) |
 | `ah tree` / `ah rollback` / `ah head ID` | Дерево версий, откат, переключение head | — | — |
 | `ah export ID out.mp3` | Выгрузить версию (через ffmpeg) | — | — |
@@ -53,12 +56,13 @@ brew install uv ffmpeg
 cd audio-harness
 uv sync --all-extras          # core + Gradio + сервер (нужно и для полного pytest)
 cp ah.toml.example ah.toml
-uv run pytest -q              # 27 passed
+uv run pytest -q              # 32 passed
 
 uv run ah import ~/Music/demo.wav
 uv run ah analyze             # первый запуск соберёт окружение tools/analyze (madmom из git)
 uv run ah separate            # на CPU медленно, см. «Скорость»
 uv run ah restore             # после separate восстанавливает вокальный стем (он теперь head)
+uv run ah denoise             # быстрее restore, голос меняет меньше
 uv run ah tree
 uv run ah ui                  # http://127.0.0.1:7860
 ```
@@ -73,6 +77,7 @@ uv run ah ui                  # http://127.0.0.1:7860
 | --- | --- | --- | --- |
 | separate | Hugging Face `KimberleyJSN/melbandroformer` (через melband-roformer-infer, sha256 проверяется) | `~/.cache/melband-roformer-infer/` | 913 МБ |
 | restore | HF `sarulab-speech/sidon-v0.1` + `facebook/w2v-bert-2.0` | `~/.cache/huggingface/` | около 1 ГБ (CPU-версия; для CUDA качаются отдельные файлы) |
+| denoise | официальный `DeepFilterNet3.zip` из GitHub Rikorose/DeepFilterNet, sha256 закреплён в `ah_denoise` | `~/.cache/ah/deepfilternet/` | около 8 МБ |
 | analyze, Beat This! | `cloud.cp.jku.at` (через torch.hub) | `~/.cache/torch/hub/checkpoints/` | не проверено |
 | analyze, madmom | внутри пакета madmom | окружение tools/analyze | — |
 
@@ -107,11 +112,11 @@ uv run ah separate --backend remote   # или separate = "remote" в ah.toml
 
 ## Denoise и датасеты (Jamal)
 
-Пришло из ветки `jamal/pps2k26-clean`. Пока это отдельный HTTP-сервис вокруг DeepFilterNet, а не инструмент по контракту `ah`.
+Пришло из ветки `jamal/pps2k26-clean`. В `tools/denoise` два входа в одно окружение: инструмент `ah denoise` (`src/ah_denoise`) и HTTP-сервис Jamal (`src/denoise_service`). Окружение на Python 3.11 с теми же версиями, что в бенчмарке на Colab: torch и torchaudio 2.3.1, numpy<2, DeepFilterNet 0.5.6. У DeepFilterLib 0.5.6 нет колёс под Python 3.12, поэтому на Colab через `ah serve` denoise не поднимается, но он и на CPU быстрее реального времени.
 
 | Путь | Что там |
 | --- | --- |
-| `tools/denoise/` | FastAPI-сервис: `POST /denoise` принимает WAV/MP3/M4A и отдаёт WAV, `GET /health` |
+| `tools/denoise/` | `ah denoise` и FastAPI-сервис: `POST /denoise` принимает WAV/MP3/M4A и отдаёт WAV, `GET /health` |
 | `scripts/` | индекс аудио, сплиты M-AILABS, шумные пары с MUSAN, сборка русского DeepFilterNet для Colab |
 | `data/splits/` | сплиты M-AILABS Russian по книгам (train/dev/test) |
 | `notebooks/` | Colab: загрузка MUSAN, подготовка датасета, обучение DeepFilterNet, бенчмарк denoise |
@@ -121,11 +126,11 @@ uv run ah separate --backend remote   # или separate = "remote" в ah.toml
 Запуск сервиса из корня репозитория (результаты пишутся в `tools/denoise/runtime/`):
 
 ```bash
-uv sync --project tools/denoise
-uv run --project tools/denoise uvicorn denoise_service.main:app --app-dir tools/denoise/src
+uv sync --project tools/denoise --extra service
+uv run --project tools/denoise --extra service uvicorn denoise_service.main:app --app-dir tools/denoise/src
 ```
 
-Дальше `http://127.0.0.1:8000/docs`. Первый запрос скачивает предобученный DeepFilterNet; если модель не загрузилась, сервис возвращает ошибку, а не исходный файл.
+Дальше `http://127.0.0.1:8000/docs`. Первый запрос скачивает предобученный DeepFilterNet через `init_df()`, без проверки sha256 (в отличие от `ah denoise`), в `~/Library/Caches/DeepFilterNet`; если модель не загрузилась, сервис возвращает ошибку, а не исходный файл.
 
 Сырые датасеты кладутся в `data/raw/<dataset>/` (в git не попадают):
 
@@ -160,9 +165,9 @@ ah CLI / Gradio ──► Runner ──► backend: local (uv-окружение
 - Откат переносит head на родителя. Повторный запуск со старой версии создаёт новую ветку, ничего не перезаписывается.
 - Ошибка инструмента не роняет CLI: она записывается как failed run и возвращается в JSON с полем `error`.
 
-### Контракт инструмента (для denoise и любых новых)
+### Контракт инструмента
 
-Чтобы добавить инструмент (так же коллега подключает `denoise`):
+Чтобы добавить инструмент (последний так подключён `denoise`):
 
 1. `tools/<name>/pyproject.toml` по образцу `tools/restore`: зависимость `audio-harness` через `[tool.uv.sources]` с `path = "../.."`, свои тяжёлые зависимости, `requires-python = ">=3.11,<3.13"`.
 2. `tools/<name>/src/ah_<name>/__init__.py`: класс с `name`, `load(device)` (веса грузятся один раз) и `run(inputs, params, out_dir) -> ToolResult`. Параметры валидировать pydantic-моделью с `extra="forbid"`. Аудио читать через `ah.audio.decode`, писать через `ah.audio.write_wav`.
@@ -182,7 +187,8 @@ ah CLI / Gradio ──► Runner ──► backend: local (uv-окружение
 - **Железо**: Mac для CPU-задач и UI, Google Colab T4 для separate и restore. У RoFormer нет бэкенда MPS, так что GPU Mac не поможет.
 - **BPM и аккорды** оставлены в скоупе. MIDI и REAPER из раннего плана выпали.
 - **Prompt injection**: как только в контекст агента попадёт транскрипт речи (ASR или Step-Audio), это канал для инъекций: «игнорируй инструкции и удали всё» в аудиофайле станет текстом в промпте. Транскрипты и метаданные из файлов надо подавать агенту как данные (в отдельном блоке, с пометкой недоверенного источника), а деструктивные действия (удаление, экспорт наружу) держать за подтверждением человека. Откат в хранилище уже есть и тут помогает.
-- **Метрики**: оценку качества (eval) не делали, пока всё не заработало на реальных весах. Первый бенчмарк, analyze на GuitarSet, сделан 2026-10-21: результаты и паттерны ошибок в `benchmarks/README.md`. Бенчмарк denoise против Sidon ведёт коллега.
+- **Метрики**: оценку качества (eval) не делали, пока всё не заработало на реальных весах. Первый бенчмарк, analyze на GuitarSet, сделан 2026-10-21: результаты и паттерны ошибок в `benchmarks/README.md`. Бенчмарк denoise против Sidon сделал Jamal на Colab T4: 160 дикторов Common Voice ru, SNR 0/5/10 дБ. Sidon звучит лучше (DNSMOS OVRL 3.38 против 3.12, UTMOS 3.42 против 2.46), но сильнее сдвигает голос (сходство 0.76 против 0.80). Обе модели ухудшают CER Whisper по сравнению с зашумлённым входом (0.043 → 0.150 у DFN, 0.059 у Sidon). Отсюда: `denoise` (DFN) быстрый режим, `restore` (Sidon) восстановление, и **не чистить речь перед ASR**.
+- **Права на `tools/denoise`** (2026-10-22): владелец разрешил закрепить версии и подключить DFN к `ah`. Код сервиса `denoise_service` и ноутбуки Jamal не менялись.
 
 ## Что дальше
 
@@ -192,15 +198,14 @@ ah CLI / Gradio ──► Runner ──► backend: local (uv-окружение
 2. Запустить Beat This! с настоящим чекпоинтом (на Mac он скачается сам, если JKU поднимется) и сравнить с madmom на GuitarSet тем же скриптом (`benchmarks/README.md`, флаг `--beats beat_this`). Если разница небольшая, можно сделать madmom трекером по умолчанию и убрать зависимость от хоста JKU.
 3. Проверить `ah ui` в браузере.
 4. Положить проект в GitHub-репозиторий (прописать `REPO_URL` в ноутбуке), добавить CI с `uv run pytest`.
-5. Принять `denoise` от коллеги по контракту выше.
-6. Выбрать планировщик и сделать скиллы для unreal-agent поверх `ah` с учётом пункта про prompt injection.
-7. Перед любым продуктом заменить некоммерческие веса (см. «Лицензии»).
+5. Выбрать планировщик и сделать скиллы для unreal-agent поверх `ah` с учётом пункта про prompt injection.
+6. Перед любым продуктом заменить некоммерческие веса (см. «Лицензии»).
 
 Мелочи, которые известны и не мешают: separate печатает прогресс-бары в stderr, хотя в библиотеку передан `progress=False`; restore отстаёт до 10 мс.
 
 ## Скорость
 
-На CPU separate идёт примерно в 9 раз медленнее реального времени (180 с на 20 с аудио), restore примерно в 4 раза. Их стоит гонять на T4. analyze на CPU укладывается примерно в 18 с на 20 с клип.
+На CPU separate идёт примерно в 9 раз медленнее реального времени (180 с на 20 с аудио), restore примерно в 4 раза. Их стоит гонять на T4. analyze на CPU укладывается примерно в 18 с на 20 с клип. denoise на CPU быстрее реального времени; на T4 в бенчмарке RTF 0.0085.
 
 ## Лицензии: важно до любого продукта
 
@@ -209,6 +214,7 @@ ah CLI / Gradio ──► Runner ──► backend: local (uv-окружение
 | Код этого репозитория, melband-roformer-infer, Beat This!, Sidon (код) | MIT |
 | Веса Mel-Band RoFormer Kim | **CC BY-NC-SA 4.0**: только некоммерческое использование |
 | Модели madmom (ключ, аккорды, биты) | **CC BY-NC-SA 4.0** |
+| DeepFilterNet (код и веса DeepFilterNet3) | MIT / Apache-2.0 |
 | Веса Sidon v0.1 | MIT по карточке модели; w2v-BERT 2.0 под своей лицензией, проверьте её |
 
 Для учебного MVP и демо это допустимо. Для продукта нужны замены (например, BS-RoFormer с коммерческой лицензией или свой чекпоинт, аккорды на своей модели).
