@@ -33,3 +33,4 @@ packages = ["src/ah"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["benchmarks"]  # benchmark scripts import their shared code as `common`

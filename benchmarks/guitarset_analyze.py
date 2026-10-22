@@ -42,10 +42,11 @@ os.environ.setdefault("MKL_NUM_THREADS", "1")
 
 import numpy as np
 
+from common import stats
+
 NAME = re.compile(r"^(?P<player>\d\d)_(?P<style>[A-Za-z]+)(?P<prog>\d)-(?P<bpm>\d+)-(?P<key>[A-G][b#]?)_(?P<kind>comp|solo)$")
 STYLES = {"BN": "bossa nova", "Funk": "funk", "Jazz": "jazz", "Rock": "rock", "SS": "singer-songwriter"}
 CHORD_METRICS = ("root", "majmin", "mirex")
-BOOTSTRAP = 2000
 
 
 # --- prediction ------------------------------------------------------------
@@ -170,8 +171,7 @@ def mean(rows: list[dict[str, Any]], key: str, weight: str | None = None) -> flo
     return round(float(np.average(values, weights=weights)), 4) if weights.sum() > 0 else None
 
 
-def bootstrap_ci(rows: list[dict[str, Any]], key: str, weight: str | None = None,
-                 n_boot: int = BOOTSTRAP, seed: int = 0) -> list[float] | None:
+def bootstrap_ci(rows: list[dict[str, Any]], key: str, weight: str | None = None) -> list[float] | None:
     """95% percentile CI of the (weighted) mean under a two-way bootstrap over players and lead sheets.
 
     Every excerpt shares a player with 59 others and a lead sheet with 11 others, so
@@ -184,17 +184,8 @@ def bootstrap_ci(rows: list[dict[str, Any]], key: str, weight: str | None = None
     rows = [r for r in rows if r.get(key) is not None and not np.isnan(r[key])]
     if not rows:
         return None
-    values = np.array([r[key] for r in rows], dtype=float)
-    base = np.array([r[weight] if weight else 1.0 for r in rows], dtype=float)
-    players, p_idx = np.unique([r["player"] for r in rows], return_inverse=True)
-    sheets, s_idx = np.unique([sheet(r) for r in rows], return_inverse=True)
-    rng = np.random.default_rng(seed)
-    p_count = rng.multinomial(len(players), np.full(len(players), 1 / len(players)), size=n_boot)
-    s_count = rng.multinomial(len(sheets), np.full(len(sheets), 1 / len(sheets)), size=n_boot)
-    w = p_count[:, p_idx] * s_count[:, s_idx] * base
-    total = w.sum(axis=1)
-    means = (w @ values)[total > 0] / total[total > 0]
-    return [round(float(q), 4) for q in np.percentile(means, [2.5, 97.5])]
+    return stats.bootstrap_ci([r[key] for r in rows], groups=[[r["player"] for r in rows], [sheet(r) for r in rows]],
+                              weights=[r[weight] if weight else 1.0 for r in rows])
 
 
 def sheet(row: dict[str, Any]) -> str:
