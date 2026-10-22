@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.py[cod]
+data/raw/
+data/indexes/
+data/derived/
+data/*.tgz
+tools/denoise/runtime/
+keys.json

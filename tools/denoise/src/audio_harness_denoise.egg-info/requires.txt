@@ -1,0 +1,4 @@
+deepfilternet>=0.5
+fastapi<1,>=0.115
+python-multipart>=0.0.9
+uvicorn[standard]<1,>=0.30
