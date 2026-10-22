@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from typing import Any, Protocol
+from urllib.parse import urlparse
 
 from ah.config import AgentSettings
 
@@ -128,5 +129,7 @@ def make_llm(cfg: AgentSettings) -> LLM:
 
 
 def configured(cfg: AgentSettings) -> bool:
-    """Anthropic needs a key; a custom OpenAI-compatible base_url may be a local server without one."""
-    return bool(cfg.api_key) or (cfg.provider == "openai" and bool(cfg.base_url))
+    """A key is required, except for an OpenAI-compatible server on this machine (Ollama, LM Studio)."""
+    if cfg.api_key:
+        return True
+    return cfg.provider == "openai" and (urlparse(cfg.base_url).hostname or "") in ("localhost", "127.0.0.1", "::1")

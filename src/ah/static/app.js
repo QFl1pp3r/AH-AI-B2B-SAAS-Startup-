@@ -9,7 +9,7 @@ const ROLE_LABELS = {
   restored: 'восстановлено', analysis: 'анализ', report: 'уровни',
 };
 const $ = (id) => document.getElementById(id);
-const view = { selected: null, state: null, side: 'after', peaks: {}, busy: false, agent: null, plans: [], poll: null, root: null };
+const view = { selected: null, state: null, side: 'after', peaks: {}, busy: false, agent: null, plans: [], poll: null, root: null, chatError: null };
 
 async function api(path, options = {}) {
   const init = { ...options, headers: { ...(options.headers || {}) } };
@@ -332,6 +332,9 @@ function renderThread(pending) {
   if (pending) {
     thread.append(el('div', pending, 'bubble user'));
     thread.append(el('div', 'думаю над планом…', 'bubble agent thinking'));
+  } else if (view.chatError) {
+    thread.append(el('div', view.chatError.request, 'bubble user'));
+    thread.append(el('div', `Не получилось: ${view.chatError.message}`, 'bubble agent error'));
   }
   thread.scrollTop = thread.scrollHeight;
 }
@@ -368,8 +371,11 @@ function planCard(plan) {
 async function planAction(id, action) {
   try {
     await api(`/api/agent/plans/${id}/${action}`, { method: 'POST' });
-    await loadChat();
-  } catch (err) { fail(err); }
+    view.chatError = null;
+  } catch (err) {
+    view.chatError = { request: action === 'run' ? 'поехали' : 'отмена', message: err.message };
+  }
+  await loadChat().catch(fail);
 }
 
 $('ask').addEventListener('submit', async (e) => {
@@ -378,13 +384,14 @@ $('ask').addEventListener('submit', async (e) => {
   if (!text || view.busy) return;
   if (!view.agent || !view.agent.configured) { showStatus('Агент выключен: сначала задай ключ провайдера.', { error: true }); return; }
   setBusy(true);
+  view.chatError = null;
   renderThread(text);
   try {
     await postJSON('/api/agent/message', { artifact: view.selected, text });
     $('prompt').value = '';
     hideStatus();
   } catch (err) {
-    fail(err);
+    view.chatError = { request: text, message: err.message };
   } finally {
     setBusy(false);
     await loadChat().catch(fail);

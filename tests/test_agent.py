@@ -166,6 +166,9 @@ def test_agent_settings_from_toml_and_env(tmp_path, monkeypatch):
     cfg = load_settings().agent
     assert (cfg.provider, cfg.model, cfg.base_url) == ("openai", "llama4", "http://localhost:11434/v1")
     assert configured(cfg)  # a local OpenAI-compatible server needs no key
+    monkeypatch.setenv("AH_AGENT_BASE_URL", "https://api.deepseek.com")
+    monkeypatch.setenv("AH_AGENT_API_KEY_ENV", "DEEPSEEK_TEST_KEY_UNSET")
+    assert not configured(load_settings().agent)  # a remote provider without a key is off, not a 401 later
     monkeypatch.setenv("AH_AGENT_PROVIDER", "gemini")
     with pytest.raises(ValueError, match="agent.provider"):
         load_settings()

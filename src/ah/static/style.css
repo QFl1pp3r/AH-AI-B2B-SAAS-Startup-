@@ -73,6 +73,7 @@ button:disabled, .busy .ask button, .busy .pill.small { opacity: .45; pointer-ev
 .bubble.user { align-self: flex-end; background: var(--ink); color: var(--paper); border-bottom-right-radius: 4px; }
 .bubble.agent { align-self: flex-start; background: #fff; border-bottom-left-radius: 4px; box-shadow: 3px 3px 0 var(--ink); }
 .bubble.thinking { border-style: dashed; box-shadow: none; }
+.bubble.error { border-style: dashed; box-shadow: none; background: var(--paper); text-decoration: none; }
 .plan { border: 2.5px solid var(--ink); border-radius: 14px; background: var(--paper); padding: 10px 12px; }
 .plan ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .plan li { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: start; }
