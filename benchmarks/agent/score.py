@@ -33,10 +33,15 @@ from common.manifest import read
 
 HERE = Path(__file__).parent
 PARAM_TOLERANCE = 0.1
-UNSUPPORTED_WORDS = ("нельзя", "не умею", "не могу", "пока не", "не поддерж", "нет инструмент", "недоступ", "не получится",
-                     "невозможно", "нечем", "нет такого", "у меня нет", "не входит", "can't", "cannot", "can not", "not possible", "not supported", "no tool", "not yet",
-                     "unable", "isn't possible", "don't support", "doesn't support", "not available",
-                     "there's no", "there is no", "isn't available", "not part of")
+# "Not possible yet" in ru or en; replies in other languages fail here and in reply_lang_ok alike.
+UNSUPPORTED = re.compile("|".join([
+    r"нельзя", r"не умею", r"не могу", r"пока не", r"не поддерж", r"недоступ", r"не получится", r"невозможно", r"нечем",
+    r"нет такого", r"у меня нет", r"не входит", r"(инструмент|такого)[^.!]{0,40}нет", r"нет[^.!]{0,40}(инструмент|такого)",
+    r"can't", r"cannot", r"can not", r"not possible", r"not supported", r"isn't supported", r"isn't possible",
+    r"isn't something", r"not something", r"not yet", r"unable", r"don't support", r"doesn't support", r"not available",
+    r"isn't available", r"there's no", r"there is no", r"don't have", r"doesn't exist", r"\bno\b[^.!]{0,40}\btool",
+    r"not part of",
+]))
 EN_WORDS = {"the", "and", "to", "of", "is", "it", "you", "i", "i'll", "this", "that", "with", "for", "can", "will", "your",
             "on", "as", "from", "so", "but", "not", "there's", "here", "then", "be", "get", "it's", "we", "no", "need", "run", "already"}
 # USD per 1M tokens at peak, DeepSeek pricing page as of 2026-10-22. Off-peak is half price.
@@ -110,8 +115,11 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         accept = gold.get("accept")
         row["tools"] = ">".join(tools) or "-"
         row["seq_ok"] = float(len(tools) <= gold.get("max_steps", 8) if accept is None else tools in accept)
+        # inputs: by step number; tool_inputs: by tool, for gold plans whose steps may come in more than one order.
+        by_tool = {tool: [want] if isinstance(want, str) else want for tool, want in gold.get("tool_inputs", {}).items()}
         row["inputs_ok"] = float(all(steps[int(n) - 1]["input"] == want for n, want in gold.get("inputs", {}).items()
-                                     if int(n) <= len(steps)))
+                                     if int(n) <= len(steps))
+                                 and all(s["input"] in by_tool[s["tool"]] for s in steps if s["tool"] in by_tool))
         row["params_ok"] = float(all(int(n) <= len(steps) and all(param_ok(steps[int(n) - 1]["params"].get(k), v)
                                                                    for k, v in want.items())
                                      for n, want in gold.get("params", {}).items()))
@@ -119,7 +127,7 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         row["forbidden"] = ",".join(forbidden)
         row["no_forbidden"] = float(not forbidden)
         row["precision"], row["recall"] = f1_against(tools, accept) if accept is not None else (None, None)
-        row["unsupported_ok"] = float(any(w in reply for w in UNSUPPORTED_WORDS)) if gold.get("must_say_unsupported") else None
+        row["unsupported_ok"] = float(bool(UNSUPPORTED.search(reply))) if gold.get("must_say_unsupported") else None
         row["reply_ok"] = float(any(s.lower() in reply for s in gold["reply_any"])) if gold.get("reply_any") else None
         # Not part of "correct" (the plan's definition), reported next to it: the user has to read the reply.
         row["reply_lang_ok"] = float(reply_lang_ok(run["reply"] or "", task["lang"])) if run["reply"] else None

@@ -1,18 +1,18 @@
 {
   "meta": {
-    "git_commit": "e6f7afe27e48c0e4f638bc0763ea438b97763623",
+    "git_commit": "7bc9546e408053bc71f1ac1cb60d34eeb9d85a87",
     "git_dirty": true,
-    "date": "2026-10-22T21:13:09+00:00",
+    "date": "2026-10-22T21:22:44+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
       "planner": "openai-compatible:deepseek-flash@https://api.deepseek.com"
     },
     "dataset": "agent tasks plan.jsonl",
-    "manifest_sha256": "d5c5729686d889496cc7b802d53a8782750d13e548e297b61e64f8f7b59cdad5",
+    "manifest_sha256": "c98a643458f7229bf7b075767752ce12f172a6f932817b8ba6ab1e2588416d04",
     "coverage": {
-      "tasks": 20,
-      "attempts": 100,
+      "tasks": 100,
+      "attempts": 500,
       "llm_errors": 0
     },
     "planner": {
@@ -24,28 +24,28 @@
       "reasoning_effort": "provider default",
       "k": 5,
       "tasks": "/Users/alekseyfedorov/dev/AH-bench/benchmarks/agent/tasks/plan.jsonl",
-      "tasks_sha256": "d5c5729686d889496cc7b802d53a8782750d13e548e297b61e64f8f7b59cdad5"
+      "tasks_sha256": "c98a643458f7229bf7b075767752ce12f172a6f932817b8ba6ab1e2588416d04"
     }
   },
   "groups": {
     "all": {
-      "tasks": 20,
-      "attempts": 100,
+      "tasks": 100,
+      "attempts": 500,
       "correct": {
-        "mean": 0.96,
+        "mean": 0.98,
         "ci95": [
-          0.91,
-          1.0
+          0.964,
+          0.994
         ],
-        "n": 100
+        "n": 500
       },
       "valid_first_try": {
-        "mean": 1.0,
+        "mean": 0.998,
         "ci95": [
-          1.0,
+          0.994,
           1.0
         ],
-        "n": 100
+        "n": 500
       },
       "valid": {
         "mean": 1.0,
@@ -53,15 +53,15 @@
           1.0,
           1.0
         ],
-        "n": 100
+        "n": 500
       },
       "seq_ok": {
-        "mean": 0.98,
+        "mean": 0.99,
         "ci95": [
-          0.95,
+          0.976,
           1.0
         ],
-        "n": 100
+        "n": 500
       },
       "inputs_ok": {
         "mean": 1.0,
@@ -69,47 +69,47 @@
           1.0,
           1.0
         ],
-        "n": 100
+        "n": 500
       },
       "params_ok": {
-        "mean": 1.0,
+        "mean": 0.998,
         "ci95": [
-          1.0,
+          0.994,
           1.0
         ],
-        "n": 100
+        "n": 500
       },
       "no_forbidden": {
-        "mean": 1.0,
+        "mean": 0.998,
         "ci95": [
-          1.0,
+          0.994,
           1.0
         ],
-        "n": 100
+        "n": 500
       },
       "precision": {
-        "mean": 0.9833,
+        "mean": 0.9933,
         "ci95": [
-          0.9611,
+          0.9867,
           1.0
         ],
-        "n": 90
+        "n": 450
       },
       "recall": {
-        "mean": 0.9889,
+        "mean": 0.9978,
         "ci95": [
-          0.9667,
+          0.9933,
           1.0
         ],
-        "n": 90
+        "n": 450
       },
       "unsupported_ok": {
-        "mean": 0.8,
+        "mean": 0.94,
         "ci95": [
-          0.6,
+          0.86,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "reply_ok": {
         "mean": 1.0,
@@ -117,143 +117,143 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "reply_lang_ok": {
-        "mean": 0.86,
+        "mean": 0.856,
         "ci95": [
-          0.76,
-          0.94
+          0.806,
+          0.9
+        ],
+        "n": 500
+      },
+      "pass_k": {
+        "mean": 0.93,
+        "ci95": [
+          0.87,
+          0.98
         ],
         "n": 100
       },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000192,
+      "cost_usd_total": 0.0962,
+      "prompt_tokens_per_attempt": 1752.5,
+      "completion_tokens_per_attempt": 265.3,
+      "reasoning_tokens_per_attempt": 111.8
+    },
+    "category=ambiguous": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.94,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid_first_try": {
+        "mean": 0.98,
+        "ci95": [
+          0.94,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "no_forbidden": {
+        "mean": 0.98,
+        "ci95": [
+          0.94,
+          1.0
+        ],
+        "n": 50
+      },
+      "precision": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "recall": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_lang_ok": {
+        "mean": 0.94,
+        "ci95": [
+          0.86,
+          1.0
+        ],
+        "n": 50
+      },
       "pass_k": {
-        "mean": 0.85,
+        "mean": 0.9,
         "ci95": [
           0.7,
           1.0
         ],
-        "n": 20
+        "n": 10
       },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000205,
-      "cost_usd_total": 0.0205,
-      "prompt_tokens_per_attempt": 1746.3,
-      "completion_tokens_per_attempt": 274.9,
-      "reasoning_tokens_per_attempt": 120.4
-    },
-    "category=ambiguous": {
-      "tasks": 2,
-      "attempts": 10,
-      "correct": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid_first_try": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "seq_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "inputs_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "params_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "no_forbidden": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "precision": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "recall": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "unsupported_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_lang_ok": {
-        "mean": 0.9,
-        "ci95": [
-          0.8,
-          1.0
-        ],
-        "n": 10
-      },
-      "pass_k": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 2
-      },
-      "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000345,
-      "cost_usd_total": 0.0035,
-      "prompt_tokens_per_attempt": 1727.0,
-      "completion_tokens_per_attempt": 519.7,
-      "reasoning_tokens_per_attempt": 318.8
+      "cost_usd_per_attempt": 0.000298,
+      "cost_usd_total": 0.0149,
+      "prompt_tokens_per_attempt": 1764.4,
+      "completion_tokens_per_attempt": 440.6,
+      "reasoning_tokens_per_attempt": 241.2
     },
     "category=analyze": {
-      "tasks": 2,
-      "attempts": 10,
+      "tasks": 10,
+      "attempts": 50,
       "correct": {
         "mean": 1.0,
         "ci95": [
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid_first_try": {
         "mean": 1.0,
@@ -261,7 +261,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid": {
         "mean": 1.0,
@@ -269,7 +269,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "seq_ok": {
         "mean": 1.0,
@@ -277,7 +277,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "inputs_ok": {
         "mean": 1.0,
@@ -285,7 +285,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "params_ok": {
         "mean": 1.0,
@@ -293,7 +293,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "no_forbidden": {
         "mean": 1.0,
@@ -301,7 +301,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "precision": {
         "mean": 1.0,
@@ -309,7 +309,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "recall": {
         "mean": 1.0,
@@ -317,7 +317,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "unsupported_ok": {
         "mean": null,
@@ -328,125 +328,14 @@
         "mean": null,
         "ci95": null,
         "n": 0
-      },
-      "reply_lang_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "pass_k": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 2
-      },
-      "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000162,
-      "cost_usd_total": 0.0016,
-      "prompt_tokens_per_attempt": 1727.5,
-      "completion_tokens_per_attempt": 195.7,
-      "reasoning_tokens_per_attempt": 64.1
-    },
-    "category=answer": {
-      "tasks": 2,
-      "attempts": 10,
-      "correct": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid_first_try": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "seq_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "inputs_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "params_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "no_forbidden": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "precision": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "recall": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "unsupported_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
       },
       "reply_lang_ok": {
         "mean": 0.8,
         "ci95": [
-          0.6,
-          1.0
+          0.6195,
+          0.96
         ],
-        "n": 10
+        "n": 50
       },
       "pass_k": {
         "mean": 1.0,
@@ -454,25 +343,136 @@
           1.0,
           1.0
         ],
-        "n": 2
+        "n": 10
       },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.00013,
-      "cost_usd_total": 0.0013,
-      "prompt_tokens_per_attempt": 1839.0,
-      "completion_tokens_per_attempt": 114.0,
-      "reasoning_tokens_per_attempt": 18.2
+      "cost_usd_per_attempt": 0.000154,
+      "cost_usd_total": 0.0077,
+      "prompt_tokens_per_attempt": 1744.9,
+      "completion_tokens_per_attempt": 199.4,
+      "reasoning_tokens_per_attempt": 70.8
+    },
+    "category=answer": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "reply_lang_ok": {
+        "mean": 0.8,
+        "ci95": [
+          0.58,
+          0.98
+        ],
+        "n": 50
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 10
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000109,
+      "cost_usd_total": 0.0055,
+      "prompt_tokens_per_attempt": 1838.1,
+      "completion_tokens_per_attempt": 129.9,
+      "reasoning_tokens_per_attempt": 25.2
     },
     "category=minimal": {
-      "tasks": 2,
-      "attempts": 10,
+      "tasks": 10,
+      "attempts": 50,
       "correct": {
         "mean": 1.0,
         "ci95": [
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid_first_try": {
         "mean": 1.0,
@@ -480,7 +480,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid": {
         "mean": 1.0,
@@ -488,7 +488,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "seq_ok": {
         "mean": 1.0,
@@ -496,7 +496,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "inputs_ok": {
         "mean": 1.0,
@@ -504,7 +504,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "params_ok": {
         "mean": 1.0,
@@ -512,7 +512,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "no_forbidden": {
         "mean": 1.0,
@@ -520,7 +520,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "precision": {
         "mean": 1.0,
@@ -528,7 +528,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "recall": {
         "mean": 1.0,
@@ -536,7 +536,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "unsupported_ok": {
         "mean": null,
@@ -549,12 +549,12 @@
         "n": 0
       },
       "reply_lang_ok": {
-        "mean": 0.9,
+        "mean": 0.84,
         "ci95": [
-          0.8,
-          1.0
+          0.68,
+          0.96
         ],
-        "n": 10
+        "n": 50
       },
       "pass_k": {
         "mean": 1.0,
@@ -562,25 +562,25 @@
           1.0,
           1.0
         ],
-        "n": 2
+        "n": 10
       },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000207,
-      "cost_usd_total": 0.0021,
-      "prompt_tokens_per_attempt": 1731.0,
-      "completion_tokens_per_attempt": 287.9,
-      "reasoning_tokens_per_attempt": 156.4
+      "cost_usd_per_attempt": 0.000159,
+      "cost_usd_total": 0.008,
+      "prompt_tokens_per_attempt": 1727.2,
+      "completion_tokens_per_attempt": 209.8,
+      "reasoning_tokens_per_attempt": 93.1
     },
     "category=multi": {
-      "tasks": 2,
-      "attempts": 10,
+      "tasks": 10,
+      "attempts": 50,
       "correct": {
         "mean": 1.0,
         "ci95": [
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid_first_try": {
         "mean": 1.0,
@@ -588,7 +588,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid": {
         "mean": 1.0,
@@ -596,7 +596,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "seq_ok": {
         "mean": 1.0,
@@ -604,7 +604,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "inputs_ok": {
         "mean": 1.0,
@@ -612,7 +612,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "params_ok": {
         "mean": 1.0,
@@ -620,7 +620,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "no_forbidden": {
         "mean": 1.0,
@@ -628,7 +628,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "precision": {
         "mean": 1.0,
@@ -636,7 +636,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "recall": {
         "mean": 1.0,
@@ -644,7 +644,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "unsupported_ok": {
         "mean": null,
@@ -657,12 +657,12 @@
         "n": 0
       },
       "reply_lang_ok": {
-        "mean": 0.9,
+        "mean": 0.92,
         "ci95": [
-          0.8,
+          0.78,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "pass_k": {
         "mean": 1.0,
@@ -670,25 +670,25 @@
           1.0,
           1.0
         ],
-        "n": 2
+        "n": 10
       },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000262,
-      "cost_usd_total": 0.0026,
-      "prompt_tokens_per_attempt": 1738.5,
-      "completion_tokens_per_attempt": 378.7,
-      "reasoning_tokens_per_attempt": 158.3
+      "cost_usd_per_attempt": 0.000239,
+      "cost_usd_total": 0.0119,
+      "prompt_tokens_per_attempt": 1736.0,
+      "completion_tokens_per_attempt": 339.9,
+      "reasoning_tokens_per_attempt": 140.3
     },
     "category=speech_clean": {
-      "tasks": 2,
-      "attempts": 10,
+      "tasks": 10,
+      "attempts": 50,
       "correct": {
-        "mean": 0.9,
+        "mean": 0.92,
         "ci95": [
           0.8,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid_first_try": {
         "mean": 1.0,
@@ -696,7 +696,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "valid": {
         "mean": 1.0,
@@ -704,15 +704,15 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "seq_ok": {
-        "mean": 0.9,
+        "mean": 0.92,
         "ci95": [
           0.8,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "inputs_ok": {
         "mean": 1.0,
@@ -720,7 +720,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "params_ok": {
         "mean": 1.0,
@@ -728,7 +728,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "no_forbidden": {
         "mean": 1.0,
@@ -736,15 +736,15 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "precision": {
-        "mean": 0.95,
+        "mean": 0.96,
         "ci95": [
           0.9,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "recall": {
         "mean": 1.0,
@@ -752,7 +752,7 @@
           1.0,
           1.0
         ],
-        "n": 10
+        "n": 50
       },
       "unsupported_ok": {
         "mean": null,
@@ -765,468 +765,141 @@
         "n": 0
       },
       "reply_lang_ok": {
-        "mean": 0.9,
+        "mean": 0.94,
         "ci95": [
-          0.8,
+          0.88,
+          1.0
+        ],
+        "n": 50
+      },
+      "pass_k": {
+        "mean": 0.8,
+        "ci95": [
+          0.5,
           1.0
         ],
         "n": 10
       },
-      "pass_k": {
-        "mean": 0.5,
-        "ci95": [
-          0.0,
-          1.0
-        ],
-        "n": 2
-      },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000259,
-      "cost_usd_total": 0.0026,
-      "prompt_tokens_per_attempt": 1739.0,
-      "completion_tokens_per_attempt": 367.2,
-      "reasoning_tokens_per_attempt": 186.4
+      "cost_usd_per_attempt": 0.000277,
+      "cost_usd_total": 0.0138,
+      "prompt_tokens_per_attempt": 1733.1,
+      "completion_tokens_per_attempt": 404.1,
+      "reasoning_tokens_per_attempt": 225.3
     },
     "category=trim": {
-      "tasks": 2,
-      "attempts": 10,
-      "correct": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid_first_try": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "seq_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "inputs_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "params_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "no_forbidden": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "precision": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "recall": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "unsupported_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_lang_ok": {
-        "mean": 0.6,
-        "ci95": [
-          0.2,
-          1.0
-        ],
-        "n": 10
-      },
-      "pass_k": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 2
-      },
-      "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.00014,
-      "cost_usd_total": 0.0014,
-      "prompt_tokens_per_attempt": 1727.0,
-      "completion_tokens_per_attempt": 162.5,
-      "reasoning_tokens_per_attempt": 31.3
-    },
-    "category=unsupported": {
-      "tasks": 2,
-      "attempts": 10,
-      "correct": {
-        "mean": 0.7,
-        "ci95": [
-          0.6,
-          0.8
-        ],
-        "n": 10
-      },
-      "valid_first_try": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "seq_ok": {
-        "mean": 0.9,
-        "ci95": [
-          0.8,
-          1.0
-        ],
-        "n": 10
-      },
-      "inputs_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "params_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "no_forbidden": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "precision": {
-        "mean": 0.9,
-        "ci95": [
-          0.8,
-          1.0
-        ],
-        "n": 10
-      },
-      "recall": {
-        "mean": 0.9,
-        "ci95": [
-          0.8,
-          1.0
-        ],
-        "n": 10
-      },
-      "unsupported_ok": {
-        "mean": 0.8,
-        "ci95": [
-          0.6,
-          1.0
-        ],
-        "n": 10
-      },
-      "reply_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_lang_ok": {
-        "mean": 0.8,
-        "ci95": [
-          0.6,
-          1.0
-        ],
-        "n": 10
-      },
-      "pass_k": {
-        "mean": 0.0,
-        "ci95": [
-          0.0,
-          0.0
-        ],
-        "n": 2
-      },
-      "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000183,
-      "cost_usd_total": 0.0018,
-      "prompt_tokens_per_attempt": 1728.5,
-      "completion_tokens_per_attempt": 248.7,
-      "reasoning_tokens_per_attempt": 100.4
-    },
-    "category=vocal_clean": {
-      "tasks": 2,
-      "attempts": 10,
-      "correct": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid_first_try": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "seq_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "inputs_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "params_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "no_forbidden": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "precision": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "recall": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "unsupported_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_lang_ok": {
-        "mean": 0.8,
-        "ci95": [
-          0.6,
-          1.0
-        ],
-        "n": 10
-      },
-      "pass_k": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 2
-      },
-      "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000224,
-      "cost_usd_total": 0.0022,
-      "prompt_tokens_per_attempt": 1779.5,
-      "completion_tokens_per_attempt": 302.4,
-      "reasoning_tokens_per_attempt": 125.7
-    },
-    "category=vocals": {
-      "tasks": 2,
-      "attempts": 10,
-      "correct": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid_first_try": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "valid": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "seq_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "inputs_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "params_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "no_forbidden": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "precision": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "recall": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "unsupported_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_ok": {
-        "mean": null,
-        "ci95": null,
-        "n": 0
-      },
-      "reply_lang_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 10
-      },
-      "pass_k": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 2
-      },
-      "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000136,
-      "cost_usd_total": 0.0014,
-      "prompt_tokens_per_attempt": 1726.5,
-      "completion_tokens_per_attempt": 172.1,
-      "reasoning_tokens_per_attempt": 44.4
-    },
-    "lang=en": {
       "tasks": 10,
       "attempts": 50,
       "correct": {
-        "mean": 0.94,
+        "mean": 0.98,
+        "ci95": [
+          0.94,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "params_ok": {
+        "mean": 0.98,
+        "ci95": [
+          0.94,
+          1.0
+        ],
+        "n": 50
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_lang_ok": {
+        "mean": 0.74,
+        "ci95": [
+          0.56,
+          0.9
+        ],
+        "n": 50
+      },
+      "pass_k": {
+        "mean": 0.9,
+        "ci95": [
+          0.7,
+          1.0
+        ],
+        "n": 10
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000139,
+      "cost_usd_total": 0.007,
+      "prompt_tokens_per_attempt": 1728.3,
+      "completion_tokens_per_attempt": 176.2,
+      "reasoning_tokens_per_attempt": 40.2
+    },
+    "category=unsupported": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.92,
         "ci95": [
           0.84,
           1.0
@@ -1282,67 +955,64 @@
         "n": 50
       },
       "precision": {
-        "mean": 0.9889,
+        "mean": 0.98,
         "ci95": [
-          0.9667,
+          0.94,
           1.0
         ],
-        "n": 45
+        "n": 50
       },
       "recall": {
-        "mean": 1.0,
+        "mean": 0.98,
         "ci95": [
-          1.0,
+          0.94,
           1.0
         ],
-        "n": 45
+        "n": 50
       },
       "unsupported_ok": {
-        "mean": 0.6,
+        "mean": 0.94,
         "ci95": [
-          0.6,
-          0.6
-        ],
-        "n": 5
-      },
-      "reply_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
+          0.86,
           1.0
         ],
-        "n": 5
+        "n": 50
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
       },
       "reply_lang_ok": {
-        "mean": 0.72,
+        "mean": 0.92,
         "ci95": [
-          0.58,
-          0.84
+          0.84,
+          1.0
         ],
         "n": 50
       },
       "pass_k": {
-        "mean": 0.8,
+        "mean": 0.7,
         "ci95": [
-          0.5,
+          0.4,
           1.0
         ],
         "n": 10
       },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000203,
-      "cost_usd_total": 0.0101,
-      "prompt_tokens_per_attempt": 1750.7,
-      "completion_tokens_per_attempt": 271.4,
-      "reasoning_tokens_per_attempt": 122.6
+      "cost_usd_per_attempt": 0.00018,
+      "cost_usd_total": 0.009,
+      "prompt_tokens_per_attempt": 1728.2,
+      "completion_tokens_per_attempt": 244.1,
+      "reasoning_tokens_per_attempt": 89.0
     },
-    "lang=ru": {
+    "category=vocal_clean": {
       "tasks": 10,
       "attempts": 50,
       "correct": {
-        "mean": 0.98,
+        "mean": 1.0,
         "ci95": [
-          0.94,
+          1.0,
           1.0
         ],
         "n": 50
@@ -1364,9 +1034,9 @@
         "n": 50
       },
       "seq_ok": {
-        "mean": 0.98,
+        "mean": 1.0,
         "ci95": [
-          0.94,
+          1.0,
           1.0
         ],
         "n": 50
@@ -1396,38 +1066,6 @@
         "n": 50
       },
       "precision": {
-        "mean": 0.9778,
-        "ci95": [
-          0.9333,
-          1.0
-        ],
-        "n": 45
-      },
-      "recall": {
-        "mean": 0.9778,
-        "ci95": [
-          0.9333,
-          1.0
-        ],
-        "n": 45
-      },
-      "unsupported_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 5
-      },
-      "reply_ok": {
-        "mean": 1.0,
-        "ci95": [
-          1.0,
-          1.0
-        ],
-        "n": 5
-      },
-      "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
           1.0,
@@ -1435,65 +1073,467 @@
         ],
         "n": 50
       },
-      "pass_k": {
-        "mean": 0.9,
+      "recall": {
+        "mean": 1.0,
         "ci95": [
-          0.7,
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_lang_ok": {
+        "mean": 0.92,
+        "ci95": [
+          0.84,
+          0.98
+        ],
+        "n": 50
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
           1.0
         ],
         "n": 10
       },
       "invalid_after_retry": 0.0,
-      "cost_usd_per_attempt": 0.000207,
-      "cost_usd_total": 0.0104,
-      "prompt_tokens_per_attempt": 1742.0,
-      "completion_tokens_per_attempt": 278.4,
-      "reasoning_tokens_per_attempt": 118.2
+      "cost_usd_per_attempt": 0.000229,
+      "cost_usd_total": 0.0114,
+      "prompt_tokens_per_attempt": 1776.3,
+      "completion_tokens_per_attempt": 329.2,
+      "reasoning_tokens_per_attempt": 150.4
+    },
+    "category=vocals": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 50
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0
+      },
+      "reply_lang_ok": {
+        "mean": 0.74,
+        "ci95": [
+          0.52,
+          0.94
+        ],
+        "n": 50
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 10
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.00014,
+      "cost_usd_total": 0.007,
+      "prompt_tokens_per_attempt": 1748.6,
+      "completion_tokens_per_attempt": 179.4,
+      "reasoning_tokens_per_attempt": 42.3
+    },
+    "lang=en": {
+      "tasks": 50,
+      "attempts": 250,
+      "correct": {
+        "mean": 0.972,
+        "ci95": [
+          0.944,
+          0.992
+        ],
+        "n": 250
+      },
+      "valid_first_try": {
+        "mean": 0.996,
+        "ci95": [
+          0.988,
+          1.0
+        ],
+        "n": 250
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "seq_ok": {
+        "mean": 0.988,
+        "ci95": [
+          0.968,
+          1.0
+        ],
+        "n": 250
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "params_ok": {
+        "mean": 0.996,
+        "ci95": [
+          0.988,
+          1.0
+        ],
+        "n": 250
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "precision": {
+        "mean": 0.9911,
+        "ci95": [
+          0.9778,
+          1.0
+        ],
+        "n": 225
+      },
+      "recall": {
+        "mean": 0.9956,
+        "ci95": [
+          0.9867,
+          1.0
+        ],
+        "n": 225
+      },
+      "unsupported_ok": {
+        "mean": 0.88,
+        "ci95": [
+          0.72,
+          1.0
+        ],
+        "n": 25
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 25
+      },
+      "reply_lang_ok": {
+        "mean": 0.712,
+        "ci95": [
+          0.64,
+          0.784
+        ],
+        "n": 250
+      },
+      "pass_k": {
+        "mean": 0.9,
+        "ci95": [
+          0.8,
+          0.98
+        ],
+        "n": 50
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000193,
+      "cost_usd_total": 0.0482,
+      "prompt_tokens_per_attempt": 1756.0,
+      "completion_tokens_per_attempt": 266.5,
+      "reasoning_tokens_per_attempt": 120.2
+    },
+    "lang=ru": {
+      "tasks": 50,
+      "attempts": 250,
+      "correct": {
+        "mean": 0.988,
+        "ci95": [
+          0.968,
+          1.0
+        ],
+        "n": 250
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "seq_ok": {
+        "mean": 0.992,
+        "ci95": [
+          0.976,
+          1.0
+        ],
+        "n": 250
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "no_forbidden": {
+        "mean": 0.996,
+        "ci95": [
+          0.988,
+          1.0
+        ],
+        "n": 250
+      },
+      "precision": {
+        "mean": 0.9956,
+        "ci95": [
+          0.9867,
+          1.0
+        ],
+        "n": 225
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 225
+      },
+      "unsupported_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 25
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 25
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "n": 250
+      },
+      "pass_k": {
+        "mean": 0.96,
+        "ci95": [
+          0.9,
+          1.0
+        ],
+        "n": 50
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000192,
+      "cost_usd_total": 0.048,
+      "prompt_tokens_per_attempt": 1749.0,
+      "completion_tokens_per_attempt": 264.0,
+      "reasoning_tokens_per_attempt": 103.3
     }
   },
   "latency_per_request_s": {
-    "p50": 2.067,
-    "p95": 3.983
+    "p50": 2.035,
+    "p95": 3.783
   },
   "wrong_examples": {
+    "ambiguous": [
+      {
+        "task": "ambiguous-06",
+        "attempt": 2,
+        "tools": "trim>separate",
+        "failed": "no_forbidden",
+        "forbidden": "separate",
+        "error": "",
+        "reply": "Это голосовое, так что план такой: сначала уберу тишину по краям, потом прогоню через реставрацию речи — она убирает шум и реверберацию и возвращает верх. На выходе будет моно-речь с сохранённым пиковым уровнем; исходник остаётся версией, так что откатиться можно в любой момент."
+      }
+    ],
     "speech_clean": [
       {
-        "task": "speech-02",
+        "task": "speech-04",
+        "attempt": 2,
+        "tools": "trim>restore",
+        "failed": "seq_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Это голосовая заметка, так что «студийность» тут — это чистка речи: уберу тишину по краям и прогоню через реставрацию — шум, гул помещения и «телефонную» узость полосы. Настоящего сведения/мастеринга у меня нет, так что магию студийного микрофона не обещаю, но голос станет заметно чище."
+      },
+      {
+        "task": "speech-04",
         "attempt": 3,
         "tools": "trim>restore",
         "failed": "seq_ok",
         "forbidden": "",
         "error": "",
-        "reply": "Since it's a single voice take, no separation needed. I'll cut the leading/trailing silence first, then run the generative restoration, which cleans up noise and room reverb and brings back the high end — that's the closest we get to a studio sound. Note it's a speech model, so it will color the voi"
+        "reply": "Полноценного «студийного» сведения и мастеринга у нас пока нет — ни эквалайзера, ни компрессора, ни реверба. Что могу: почистить дубль от тишины по краям и прогнать голос через восстановление — уберёт шум и комнатный гул, вернёт верх и сделает запись плотнее и чище, ближе к студийной. Если нужен име"
+      },
+      {
+        "task": "speech-10",
+        "attempt": 0,
+        "tools": "trim>restore",
+        "failed": "seq_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Since it's an interview (speech only), I'd skip separation and go straight to cleanup: first trim the dead air at the head and tail, then run the generative restoration to pull out hiss/room reverb and bring back some top end. That's the big step toward a professional sound. One caveat: we don't do "
+      }
+    ],
+    "trim": [
+      {
+        "task": "trim-08",
+        "attempt": 4,
+        "tools": "trim",
+        "failed": "params_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "One trim pass: it cuts the silence at both ends, which drops roughly 17 seconds of your 95-second memo. Everything else stays untouched, and the original version is kept so you can roll back."
       }
     ],
     "unsupported": [
       {
-        "task": "unsupported-01",
-        "attempt": 4,
-        "tools": "analyze",
+        "task": "unsupported-02",
+        "attempt": 1,
+        "tools": "separate",
+        "failed": "unsupported_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Separo la voce dall'instrumental (Kim, default). L'esportazione del progetto verso REAPER però non è ancora possibile: ti consegno i due stem separati, poi li importi tu in REAPER."
+      },
+      {
+        "task": "unsupported-02",
+        "attempt": 2,
+        "tools": "separate",
+        "failed": "unsupported_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Faccio la separazione: ti restituisco voce e strumentale come versioni separate (CPU, circa 9x la durata del brano). L'export del progetto su REAPER non è purtroppo supportato: dallo store potrai scaricare i due file e importarli tu nella DAW."
+      },
+      {
+        "task": "unsupported-07",
+        "attempt": 3,
+        "tools": "inspect",
         "failed": "seq_ok",
         "forbidden": "",
         "error": "",
-        "reply": "MIDI-партии баса у меня нет — бас в MIDI не разбираю, транскрипция не входит в набор инструментов. Что могу: вытащить темп, тональность и аккорды из микса, чтобы бас можно было быстро набрать руками."
-      },
-      {
-        "task": "unsupported-02",
-        "attempt": 0,
-        "tools": "separate",
-        "failed": "unsupported_ok",
-        "forbidden": "",
-        "error": "",
-        "reply": "Separo la voce dall'instrumental (modello Kim, un po' lento su CPU). L'export del progetto per REAPER non è ancora supportato: ti preparo le due tracce separate, poi le importi tu."
-      },
-      {
-        "task": "unsupported-02",
-        "attempt": 4,
-        "tools": "separate",
-        "failed": "unsupported_ok",
-        "forbidden": "",
-        "error": "",
-        "reply": "Separo la traccia in voce e strumentale. L'export del progetto in REAPER però non è possibile: nessuno dei tool disponibili lo fa — ti consegno i due file separati e li importi tu."
+        "reply": "Mastering isn't something these tools can do — there's no limiter, EQ or loudness normalisation here, so I can't produce a Spotify-ready master. What I can do is measure the mix (peak, RMS, clipping, silence) so you know how much headroom you're working with before you take it into a mastering chain"
       }
     ]
   }

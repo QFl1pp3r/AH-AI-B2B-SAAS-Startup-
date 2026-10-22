@@ -34,7 +34,16 @@ def test_gold_plans_are_plans_the_agent_would_accept(task):
     assert (AGENT / task["track_data"]).is_file()
     assert set(gold.get("forbid", [])) <= set(TOOLS)
     for tools in gold["accept"] or []:
-        steps = [{"tool": tool, "input": gold.get("inputs", {}).get(str(n), "track"), "why": "x",
+        def wired(tool):
+            """The first allowed input of this tool that names an output an earlier step of this plan really has."""
+            options = gold.get("tool_inputs", {}).get(tool, "track")
+            for ref in [options] if isinstance(options, str) else options:
+                n, _, role = ref.partition(".")
+                if ref == "track" or (n.isdigit() and int(n) <= len(tools) and role in TOOLS[tools[int(n) - 1]].outputs):
+                    return ref
+            return options[0]
+
+        steps = [{"tool": tool, "input": gold.get("inputs", {}).get(str(n), wired(tool)), "why": "x",
                   "params": gold.get("params", {}).get(str(n), {})} for n, tool in enumerate(tools, 1)]
         validate({"reply": "ok", "steps": steps})
         assert not set(tools) & set(gold.get("forbid", []))
@@ -86,6 +95,14 @@ def test_check_scores_sequence_inputs_and_params():
     assert retried["valid_first_try"] == 0.0 and retried["valid"] == 1.0 and retried["correct"] == 1.0
     failed = score.check(run(None, ok=False, calls=2), gold)
     assert failed["valid"] == 0.0 and failed["correct"] == 0.0 and failed["failed"] == "valid"
+
+
+def test_tool_inputs_accept_any_order():
+    gold = task(accept=[["separate", "denoise", "analyze"], ["separate", "analyze", "denoise"]],
+                tool_inputs={"denoise": "1.vocals", "analyze": ["1.instrumental", "1.vocals"]})
+    order = [step("separate"), step("analyze", "1.instrumental"), step("denoise", "1.vocals")]
+    assert score.check(run(order), gold)["correct"] == 1.0
+    assert score.check(run([step("separate"), step("analyze", "1.instrumental"), step("denoise", "track")]), gold)["inputs_ok"] == 0.0
 
 
 def test_trim_params_within_tolerance():
