@@ -65,12 +65,14 @@ def launch(store: ArtifactStore, runner: Runner, host: str, port: int) -> None:
             raise gr.Error("Сначала загрузите файл или выберите версию")
         try:
             params = json.loads(params_text or "{}")
-            outcome = runner.run(tool, {"audio": selected}, params, backend=backend or None)
+            outcome = runner.run(tool, {"audio": selected}, params, backend=backend or None,
+                                 head_role="vocals" if tool == "separate" else None)
         except (RunFailed, StoreError, ValueError) as err:
             raise gr.Error(str(err)) from err
         for warning in outcome.warnings:
             gr.Warning(warning)
-        audio_out = next((a for a in outcome.artifacts if a.kind == "audio"), outcome.artifacts[0])
+        audio_out = next((a for a in outcome.artifacts if a.role == "vocals"), None) if tool == "separate" else None
+        audio_out = audio_out or next((a for a in outcome.artifacts if a.kind == "audio"), outcome.artifacts[0])
         return refresh(audio_out.id)
 
     def on_rollback():

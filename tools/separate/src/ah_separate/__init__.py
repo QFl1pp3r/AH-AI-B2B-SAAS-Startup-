@@ -56,10 +56,24 @@ class SeparateTool:
             audio.write_wav(folder / "mix.wav", data, MODEL_SR)
             manifest = session.infer(folder, store_dir=out_dir, output_format="wav_float32")
 
+        entries = {entry["output_id"]: entry for entry in manifest}
+        expected = {"vocals", "instrumental"}
+        if len(entries) != len(manifest) or set(entries) != expected:
+            raise ValueError(f"separator must return one vocals and one instrumental stem; got {[entry['output_id'] for entry in manifest]}")
+
+        duration = data.shape[0] / MODEL_SR
+        for role, entry in entries.items():
+            stem = Path(entry["output_path"])
+            if not stem.is_file():
+                raise ValueError(f"{role} stem is missing: {stem}")
+            info = audio.info(stem)
+            if info.frames == 0 or abs(info.duration - duration) > 0.1:
+                raise ValueError(f"{role} stem duration {info.duration:.3f}s does not match input {duration:.3f}s")
+
         outputs = [
-            ToolOutput(role=entry["output_id"], path=entry["output_path"], kind="audio",
+            ToolOutput(role=role, path=entries[role]["output_path"], kind="audio",
                        meta={"model": options.model})
-            for entry in manifest
+            for role in ("vocals", "instrumental")
         ]
         warnings = []
         if data.shape[0] / MODEL_SR > 600:

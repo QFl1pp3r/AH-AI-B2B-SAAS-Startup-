@@ -17,7 +17,8 @@
 | `analyze` с Beat This! (трекер по умолчанию) | **не проверен** | сервер JKU с чекпоинтом отдавал 503; при сбое analyze сам переходит на madmom |
 | Remote-бэкенд (`ah serve` + Colab + cloudflared) | проверен только локально | pytest против `ah serve`; через настоящий Colab и туннель не гонялся |
 | Gradio UI (`ah ui`) | написан | не проверялся в браузере |
-| `denoise` (DeepFilterNet и др.) и бенчмарк denoise против Sidon | **ведёт коллега** | в этом репозитории не трогать, см. «Контракт инструмента» |
+| Бенчмарк темпа/битов на Ballroom и GiantSteps (`benchmarks/tempo.py`) | скрипт есть (Jamal) | pytest на мини-датасетах; полного прогона нет |
+| `denoise` (DeepFilterNet и др.) и бенчмарк denoise против Sidon | **ведёт коллега**; в репозитории HTTP-сервис `tools/denoise`, в `ah` ещё не подключён | см. «Denoise и датасеты»; в этом репозитории не трогать |
 | Агент / планировщик поверх CLI | не начат | решение отложено |
 
 ### Прогон на реальных весах
@@ -52,7 +53,7 @@ brew install uv ffmpeg
 cd audio-harness
 uv sync --all-extras          # core + Gradio + сервер (нужно и для полного pytest)
 cp ah.toml.example ah.toml
-uv run pytest -q              # 20 passed
+uv run pytest -q              # 27 passed
 
 uv run ah import ~/Music/demo.wav
 uv run ah analyze             # первый запуск соберёт окружение tools/analyze (madmom из git)
@@ -103,6 +104,38 @@ uv run ah separate --backend remote   # или separate = "remote" в ah.toml
 Без туннеля можно запускать `ah` прямо в Colab; последняя ячейка ноутбука показывает как.
 
 Сервер требует bearer-токен от 24 символов и сравнивает его за постоянное время. Он отдаёт только инструменты из `AH_SERVER_TOOLS`, ограничивает загрузку 300 МБ и выполняет одну задачу за раз. Пути клиент не передаёт, а ответ в zip проверяется на path traversal. Quick tunnel даёт публичный URL, так что токен обязателен; для чего-то постоянного лучше named tunnel с Cloudflare Access.
+
+## Denoise и датасеты (Jamal)
+
+Пришло из ветки `jamal/pps2k26-clean`. Пока это отдельный HTTP-сервис вокруг DeepFilterNet, а не инструмент по контракту `ah`.
+
+| Путь | Что там |
+| --- | --- |
+| `tools/denoise/` | FastAPI-сервис: `POST /denoise` принимает WAV/MP3/M4A и отдаёт WAV, `GET /health` |
+| `scripts/` | индекс аудио, сплиты M-AILABS, шумные пары с MUSAN, сборка русского DeepFilterNet для Colab |
+| `data/splits/` | сплиты M-AILABS Russian по книгам (train/dev/test) |
+| `notebooks/` | Colab: загрузка MUSAN, подготовка датасета, обучение DeepFilterNet, бенчмарк denoise |
+| `docs/denoise-methodology.md` | методика оценки denoise |
+| `Audio Harness — итоговый план MVP.pdf` | план MVP |
+
+Запуск сервиса из корня репозитория (результаты пишутся в `tools/denoise/runtime/`):
+
+```bash
+uv sync --project tools/denoise
+uv run --project tools/denoise uvicorn denoise_service.main:app --app-dir tools/denoise/src
+```
+
+Дальше `http://127.0.0.1:8000/docs`. Первый запрос скачивает предобученный DeepFilterNet; если модель не загрузилась, сервис возвращает ошибку, а не исходный файл.
+
+Сырые датасеты кладутся в `data/raw/<dataset>/` (в git не попадают):
+
+```bash
+uv run python scripts/index_audio.py data/raw/m_ailabs_ru --dataset m_ailabs_ru
+uv run python scripts/split_m_ailabs.py
+uv run python scripts/make_noisy_pairs.py --noise-dir data/raw/musan/musan/noise
+```
+
+Источники, которые предлагает Jamal: M-AILABS Russian (чистая начитка), отфильтрованный Common Voice Russian, GTSinger Russian (студийный вокал, некоммерческая лицензия).
 
 ## Как устроено
 

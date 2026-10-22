@@ -11,6 +11,7 @@ dependencies = [
     "soxr>=0.3.7",
     "pydantic>=2.6",
     "httpx>=0.27",
+    "imageio-ffmpeg>=0.6.0",
 ]
 
 [project.optional-dependencies]

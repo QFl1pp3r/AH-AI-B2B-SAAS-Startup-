@@ -148,8 +148,8 @@ class ArtifactStore:
             target.parent.mkdir(parents=True, exist_ok=True)
             partial = target.with_name(f".{target.name}.{os.getpid()}.part")
             shutil.copyfile(source, partial)
-            partial.chmod(0o444)
             os.replace(partial, target)
+            target.chmod(0o444)
         return sha, ext
 
     # --- artifacts -------------------------------------------------------

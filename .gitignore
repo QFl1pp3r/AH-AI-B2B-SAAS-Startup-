@@ -2,5 +2,13 @@
 ah.toml
 .venv/
 __pycache__/
+*.py[cod]
 *.egg-info/
 .pytest_cache/
+/tmp/
+data/raw/
+data/indexes/
+data/derived/
+data/*.tgz
+tools/denoise/runtime/
+keys.json

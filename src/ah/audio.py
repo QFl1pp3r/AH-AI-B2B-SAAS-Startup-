@@ -16,6 +16,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 import soxr
+import imageio_ffmpeg
 
 CANONICAL_SR = 44_100
 CANONICAL_CHANNELS = 2
@@ -31,6 +32,17 @@ MAX_BYTES = 500 * 1024 * 1024
 
 class AudioError(ValueError):
     pass
+
+
+def ffmpeg_exe() -> str:
+    """Use a system FFmpeg when present, otherwise the binary in the venv."""
+    system_exe = shutil.which("ffmpeg")
+    if system_exe:
+        return system_exe
+    try:
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except RuntimeError as err:
+        raise AudioError("ffmpeg is required to read or export this format") from err
 
 
 @dataclass(frozen=True)
@@ -66,9 +78,7 @@ def decode(path: str | Path) -> tuple[np.ndarray, int]:
 
 
 def _decode_ffmpeg(path: Path) -> tuple[np.ndarray, int]:
-    ffmpeg = shutil.which("ffmpeg")
-    if ffmpeg is None:
-        raise AudioError(f"ffmpeg is required to read {path.suffix} files")
+    ffmpeg = ffmpeg_exe()
     command = [
         ffmpeg, "-nostdin", "-hide_banner", "-loglevel", "error",
         "-protocol_whitelist", "file,pipe",

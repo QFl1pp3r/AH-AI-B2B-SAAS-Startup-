@@ -98,6 +98,11 @@ def _tool_params(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Some model libraries print emoji while loading weights. On Windows, the
+    # active console encoding may be cp1251 and must not abort a model run.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="backslashreplace")
     args = build_parser().parse_args(argv)
     settings = load_settings()
 
@@ -165,9 +170,7 @@ def _export(store: ArtifactStore, artifact_id: str, out: Path) -> None:
     if out.suffix.lower() == source.suffix.lower():
         shutil.copyfile(source, out)
         return
-    ffmpeg = shutil.which("ffmpeg")
-    if ffmpeg is None:
-        raise ValueError(f"ffmpeg is needed to export as {out.suffix}")
+    ffmpeg = audio.ffmpeg_exe()
     subprocess.run([ffmpeg, "-nostdin", "-loglevel", "error", "-y", "-i", str(source), str(out)], check=True)
 
 
