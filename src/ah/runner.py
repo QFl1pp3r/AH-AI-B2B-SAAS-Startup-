@@ -88,6 +88,8 @@ class Runner:
         missing = set(spec.inputs) - set(inputs)
         if missing:
             raise ValueError(f"{tool} needs inputs: {', '.join(sorted(missing))}")
+        if "audio" in inputs and (kind := self.store.get(inputs["audio"]).kind) != "audio":
+            raise ValueError(f"{tool} needs an audio artifact; {inputs['audio']} is {kind}")
         backend = backend or self.settings.backend_for(tool)
         if spec.project is None and backend == "local":
             backend = "inprocess"

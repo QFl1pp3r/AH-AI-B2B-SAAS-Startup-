@@ -64,8 +64,11 @@ def launch(store: ArtifactStore, runner: Runner, host: str, port: int) -> None:
         if not selected:
             raise gr.Error("Сначала загрузите файл или выберите версию")
         try:
+            artifact = store.get(selected)
+            # A JSON report (inspect, analyze) is selected after those tools run; act on the audio it describes.
+            target = selected if artifact.kind == "audio" else artifact.parent_id
             params = json.loads(params_text or "{}")
-            outcome = runner.run(tool, {"audio": selected}, params, backend=backend or None,
+            outcome = runner.run(tool, {"audio": target}, params, backend=backend or None,
                                  head_role="vocals" if tool == "separate" else None)
         except (RunFailed, StoreError, ValueError) as err:
             raise gr.Error(str(err)) from err
