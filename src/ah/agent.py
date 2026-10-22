@@ -317,8 +317,9 @@ class Agent:
                 elif outcome.artifacts and last_audio is None:
                     plan.selected = outcome.artifacts[0].id
                 plan.selected = last_audio or plan.selected
-            plan.status = "failed" if any(s.status == "failed" for s in plan.steps) else "done"
+            # The page stops polling once the plan leaves "running", so the summary has to be there first.
             plan.summary = self._summarize(plan)
+            plan.status = "failed" if any(s.status == "failed" for s in plan.steps) else "done"
         except Exception as err:  # a crash here must still release the lock and reach the page
             plan.status = "failed"
             plan.summary = f"Внутренняя ошибка: {err}"

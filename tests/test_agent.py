@@ -77,6 +77,21 @@ def test_plan_runs_steps_in_order_and_chains_outputs(store_runner):
         agent.start(proposed.id)  # a plan runs once
 
 
+def test_plan_stays_running_until_the_summary_is_ready(store_runner):
+    store, runner, original = store_runner
+    seen = []
+
+    class Watching(ScriptedLLM):
+        def complete(self, system, messages, tools):
+            if not tools:  # the summary call
+                seen.append(proposed.status)
+            return super().complete(system, messages, tools)
+
+    agent = Agent(store, runner, Watching(plan("x", {"tool": "halfgain", "input": "track", "why": "1"}), Reply(text="ok")))
+    proposed = agent.message(original.id, "тише")
+    assert wait(agent.start(proposed.id)).summary == "ok" and seen == ["running"]
+
+
 def test_file_name_reaches_the_model_only_inside_track_data(store_runner):
     store, runner, original = store_runner
     llm = ScriptedLLM(plan("Темпа пока нет, нужен анализ."))
