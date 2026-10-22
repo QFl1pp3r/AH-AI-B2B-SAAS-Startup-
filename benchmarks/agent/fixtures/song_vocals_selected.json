@@ -1,0 +1,37 @@
+{
+ "file_name": "cover_song_raw",
+ "selected_version": {
+  "id": "a2e2ae5cd59",
+  "role": "vocals",
+  "made_by": "separate",
+  "duration_s": 201.0,
+  "peak_dbfs": -3.9,
+  "rms_dbfs": -20.7,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.28
+ },
+ "versions": [
+  {
+   "id": "a7c1818a8da",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  },
+  {
+   "id": "a2e2ae5cd59",
+   "role": "vocals",
+   "kind": "audio",
+   "made_by": "separate",
+   "depth": 1
+  },
+  {
+   "id": "aa12d36f0e9",
+   "role": "instrumental",
+   "kind": "audio",
+   "made_by": "separate",
+   "depth": 1
+  }
+ ],
+ "analysis": null
+}

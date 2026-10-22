@@ -1,0 +1,23 @@
+{
+ "file_name": "voice_memo_2026-10-12",
+ "selected_version": {
+  "id": "a2c30a4a7f5",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 95.3,
+  "peak_dbfs": -6.2,
+  "rms_dbfs": -31.5,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.18
+ },
+ "versions": [
+  {
+   "id": "a2c30a4a7f5",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  }
+ ],
+ "analysis": null
+}

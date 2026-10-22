@@ -12,3 +12,4 @@ data/derived/
 data/*.tgz
 tools/denoise/runtime/
 keys.json
+benchmarks/results/*/raw/

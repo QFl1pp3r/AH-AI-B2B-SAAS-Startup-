@@ -1,0 +1,146 @@
+"""The agent benchmark without an LLM: gold plans pass the agent's own validate, fixtures match the store, scoring rules."""
+
+import importlib.util
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pytest
+
+from ah.agent import validate
+from ah.registry import TOOLS
+
+ROOT = Path(__file__).parents[1]
+AGENT = ROOT / "benchmarks/agent"
+
+
+def _load(name):
+    spec = importlib.util.spec_from_file_location(f"agent_bench_{name}", AGENT / f"{name}.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+score = _load("score")
+fixtures = _load("fixtures")
+TASKS = [json.loads(line) for line in (AGENT / "tasks/plan.jsonl").read_text().splitlines()]
+
+
+@pytest.mark.parametrize("task", TASKS, ids=[t["id"] for t in TASKS])
+def test_gold_plans_are_plans_the_agent_would_accept(task):
+    gold = task["gold"]
+    assert (AGENT / task["track_data"]).is_file()
+    assert set(gold.get("forbid", [])) <= set(TOOLS)
+    for tools in gold["accept"] or []:
+        steps = [{"tool": tool, "input": gold.get("inputs", {}).get(str(n), "track"), "why": "x",
+                  "params": gold.get("params", {}).get(str(n), {})} for n, tool in enumerate(tools, 1)]
+        validate({"reply": "ok", "steps": steps})
+        assert not set(tools) & set(gold.get("forbid", []))
+
+
+def test_task_ids_unique_and_both_languages():
+    assert len({t["id"] for t in TASKS}) == len(TASKS)
+    assert {t["lang"] for t in TASKS} == {"ru", "en"}
+
+
+def test_committed_fixtures_are_what_the_store_gives_today(tmp_path):
+    def strip(data):
+        return json.loads(json.dumps(data).replace(data["selected_version"]["id"], "SEL")) | {"versions": [
+            {k: v for k, v in version.items() if k != "id"} for version in data["versions"]]}
+    built = fixtures.build(tmp_path / "home")
+    for name, data in built.items():
+        committed = json.loads((AGENT / f"fixtures/{name}.json").read_text())
+        assert {k: v for k, v in strip(data).items() if k != "analysis"} == \
+               {k: v for k, v in strip(committed).items() if k != "analysis"}
+        assert (data["analysis"] is None) == (committed["analysis"] is None)
+
+
+def run(steps, reply="ok", ok=True, calls=1, attempt=0):
+    usage = {"prompt_tokens": 1000, "completion_tokens": 100, "prompt_cache_hit_tokens": 800, "prompt_cache_miss_tokens": 200}
+    at = datetime(2026, 10, 21, 7, tzinfo=timezone.utc).timestamp()  # Wednesday 07:00 UTC, peak
+    return {"task": "t", "attempt": attempt, "ok": ok, "error": None if ok else "Модель дважды вернула негодный план",
+            "reply": reply if ok else None, "steps": steps if ok else None,
+            "llm_calls": [{"at": at, "usage": usage, "latency_s": 1.5}] * calls}
+
+
+def task(**gold):
+    return {"id": "t", "category": "c", "lang": "en", "gold": gold, "_model": "deepseek-flash"}
+
+
+def step(tool, source="track", **params):
+    return {"tool": tool, "input": source, "params": params}
+
+
+def test_check_scores_sequence_inputs_and_params():
+    gold = task(accept=[["separate", "denoise"], ["separate", "restore"]], inputs={"2": "1.vocals"},
+                params={"1": {}}, forbid=["analyze"])
+    good = score.check(run([step("separate"), step("denoise", "1.vocals")], "I'll split it and clean the vocals"), gold)
+    assert good["correct"] == 1.0 and good["precision"] == good["recall"] == 1.0
+    wired_wrong = score.check(run([step("separate"), step("denoise", "track")]), gold)
+    assert wired_wrong["inputs_ok"] == 0.0 and wired_wrong["correct"] == 0.0 and wired_wrong["failed"] == "inputs_ok"
+    extra = score.check(run([step("separate"), step("denoise", "1.vocals"), step("analyze", "1.instrumental")]), gold)
+    assert extra["forbidden"] == "analyze" and extra["precision"] == pytest.approx(2 / 3) and extra["recall"] == 1.0
+    retried = score.check(run([step("separate"), step("restore", "1.vocals")], calls=2), gold)
+    assert retried["valid_first_try"] == 0.0 and retried["valid"] == 1.0 and retried["correct"] == 1.0
+    failed = score.check(run(None, ok=False, calls=2), gold)
+    assert failed["valid"] == 0.0 and failed["correct"] == 0.0 and failed["failed"] == "valid"
+
+
+def test_trim_params_within_tolerance():
+    gold = task(accept=[["trim"]], params={"1": {"start_s": 60, "end_s": 150}})
+    assert score.check(run([step("trim", start_s=60.05, end_s=150)]), gold)["params_ok"] == 1.0
+    assert score.check(run([step("trim", start_s=60, end_s=90)]), gold)["params_ok"] == 0.0
+    assert score.check(run([step("trim", start_s=60)]), gold)["params_ok"] == 0.0
+    assert score.check(run([step("trim", silence=True)]), task(accept=[["trim"]], params={"1": {"silence": True}}))["params_ok"] == 1.0
+
+
+def test_unsupported_answer_and_ambiguous_rules():
+    unsupported = task(accept=[[]], must_say_unsupported=True)
+    assert score.check(run([], "MIDI баса пока нельзя сделать"), unsupported)["correct"] == 1.0
+    assert score.check(run([], "Sure, done!"), unsupported)["unsupported_ok"] == 0.0
+    answer = task(accept=[[]], reply_any=["124"])
+    assert score.check(run([], "It is 124 BPM"), answer)["correct"] == 1.0
+    assert score.check(run([step("analyze")], "Analysing"), answer)["failed"] == "seq_ok,reply_ok"
+    vague = task(accept=None, max_steps=2)
+    assert score.check(run([step("inspect"), step("denoise")]), vague)["correct"] == 1.0
+    assert score.check(run([step("trim"), step("separate"), step("denoise", "2.vocals")]), vague)["seq_ok"] == 0.0
+
+
+@pytest.mark.parametrize("reply, lang, ok", [
+    ("Разделю трек на вокал и инструментал.", "ru", True),
+    ("I'll split the mix into vocals and instrumental.", "en", True),
+    ("124 BPM in 4/4, already in the analysis, no need to run anything.", "en", True),
+    ("Taglio i primi 30 secondi e tengo il resto.", "en", False),
+    ("Il tempo è 124 BPM, in 4/4 (l'analisi precedente dà anche A minore).", "en", False),
+    ("Ich trenne den Track in Gesang und Instrumental.", "en", False),
+    ("Splitting the track", "ru", False),
+])
+def test_reply_language(reply, lang, ok):
+    assert score.reply_lang_ok(reply, lang) is ok
+
+
+def test_cost_peak_and_off_peak():
+    call = run([])["llm_calls"][0]
+    peak = (800 * 0.006 + 200 * 0.30 + 100 * 1.20) / 1e6
+    assert score.call_cost(call, "deepseek-flash") == pytest.approx(peak)
+    night = call | {"at": datetime(2026, 10, 21, 12, tzinfo=timezone.utc).timestamp()}
+    weekend = call | {"at": datetime(2026, 10, 24, 7, tzinfo=timezone.utc).timestamp()}
+    assert score.call_cost(night, "deepseek-flash") == pytest.approx(peak / 2)
+    assert score.call_cost(weekend, "deepseek-flash") == pytest.approx(peak / 2)
+    assert score.call_cost(call, "some-other-model") is None
+
+
+def test_summary_pass_k_and_from_runs(tmp_path):
+    gold = task(accept=[["separate"]])
+    rows = [score.check(run([step("separate")], attempt=k), gold) for k in range(4)]
+    rows.append(score.check(run([step("analyze")], attempt=4), gold))
+    other = [r | {"task": "u"} for r in (score.check(run([step("separate")], attempt=k), gold) for k in range(5))]
+    summary = score.aggregate(rows + other, {"x": 1}, tmp_path)
+    assert summary["groups"]["all"]["correct"]["mean"] == 0.9
+    assert summary["groups"]["all"]["pass_k"]["mean"] == 0.5
+    assert summary["wrong_examples"]["c"][0]["tools"] == "analyze"
+    score.results.write_tracks(tmp_path / "runs.csv", rows + other)
+    rebuilt = score.aggregate(score.results.read_tracks(tmp_path / "runs.csv", text=score.TEXT), {"x": 1}, tmp_path / "b")
+    assert rebuilt["groups"] == summary["groups"]

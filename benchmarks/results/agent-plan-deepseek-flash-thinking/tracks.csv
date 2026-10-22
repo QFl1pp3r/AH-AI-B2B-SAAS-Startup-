@@ -1,0 +1,21 @@
+task,category,lang,attempts,correct_rate,pass_k,plans
+answer-01,answer,ru,5,1.0,1.0,-
+answer-02,answer,en,5,1.0,1.0,-
+analyze-01,analyze,ru,5,1.0,1.0,analyze
+analyze-02,analyze,en,5,1.0,1.0,analyze
+vocals-01,vocals,ru,5,1.0,1.0,separate
+vocals-02,vocals,en,5,1.0,1.0,separate
+speech-01,speech_clean,ru,5,1.0,1.0,denoise
+speech-02,speech_clean,en,5,0.8,0.0,restore | trim>restore
+vocalclean-01,vocal_clean,ru,5,1.0,1.0,separate>denoise
+vocalclean-02,vocal_clean,en,5,1.0,1.0,denoise
+trim-01,trim,ru,5,1.0,1.0,trim
+trim-02,trim,en,5,1.0,1.0,trim
+unsupported-01,unsupported,ru,5,0.8,0.0,- | analyze
+unsupported-02,unsupported,en,5,0.6,0.0,separate
+minimal-01,minimal,ru,5,1.0,1.0,-
+minimal-02,minimal,en,5,1.0,1.0,-
+ambiguous-01,ambiguous,ru,5,1.0,1.0,-
+ambiguous-02,ambiguous,en,5,1.0,1.0,restore | trim>denoise
+multi-01,multi,ru,5,1.0,1.0,trim>separate>denoise
+multi-02,multi,en,5,1.0,1.0,trim>separate>analyze

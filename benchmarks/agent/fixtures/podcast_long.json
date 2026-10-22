@@ -1,0 +1,23 @@
+{
+ "file_name": "interview_raw",
+ "selected_version": {
+  "id": "abc1f3322d3",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 2712.0,
+  "peak_dbfs": -2.0,
+  "rms_dbfs": -24.0,
+  "clipped_ratio": 0.0004,
+  "silence_ratio": 0.12
+ },
+ "versions": [
+  {
+   "id": "abc1f3322d3",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  }
+ ],
+ "analysis": null
+}

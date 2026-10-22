@@ -1,0 +1,23 @@
+{
+ "file_name": "lights_out_final_mix",
+ "selected_version": {
+  "id": "a5bdeb8ce2a",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 212.4,
+  "peak_dbfs": -0.3,
+  "rms_dbfs": -11.8,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "a5bdeb8ce2a",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  }
+ ],
+ "analysis": null
+}
