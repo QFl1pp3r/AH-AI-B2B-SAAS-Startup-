@@ -320,7 +320,7 @@ async function loadChat() {
 function renderThread(pending) {
   const thread = $('thread');
   thread.replaceChildren();
-  if (!view.plans.length && !pending) {
+  if (!view.plans.length && !pending && !view.chatError) {
     thread.append(el('p', 'Напиши, что сделать с треком. Агент предложит план, ты его подтвердишь — и он всё сделает сам.', 'empty-thread'));
   }
   view.plans.forEach((plan) => {
