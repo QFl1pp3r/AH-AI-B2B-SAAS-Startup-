@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Audio harness for an LLM agent: audio tools behind the `ah` CLI with a versioned artifact store. Read `README.md` first: it has the status table, what was verified on real weights, the decisions taken and the ordered "Что дальше" list.
+Audio harness for an LLM agent: audio tools behind the `ah` CLI with a versioned artifact store. Read `README.md` first: it has the status table, what was verified on real weights, the decisions taken and the ordered "До MVP" task list (from the MVP plan PDF). Work it one task at a time and ask the owner before starting the next one.
 
 ## Working with the owner
 

@@ -45,3 +45,31 @@ def test_load_reference_reads_both_chord_annotations(tmp_path):
     assert ref["bpm"] == 90.0 and ref["key"] == "Eb major"
     assert list(ref["downbeats"]) == [0.0, 1.33]
     assert ref["instructed"][1] == ["D#:maj"] and ref["performed"][1] == ["D#:maj7/1"]
+
+
+def _rows(values_by_player):
+    return [{"player": p, "style": "rock", "prog": str(i % 3), "bpm": str(100 + i // 3), "kind": "comp", "x": v}
+            for p, values in values_by_player.items() for i, v in enumerate(values)]
+
+
+def test_bootstrap_ci_brackets_the_mean_and_is_reproducible():
+    rows = _rows({f"0{p}": [float((p + i) % 2) for i in range(6)] for p in range(6)})
+    ci = _module.bootstrap_ci(rows, "x")
+    assert ci[0] <= _module.mean(rows, "x") <= ci[1]
+    assert ci == _module.bootstrap_ci(rows, "x")
+
+
+def test_bootstrap_ci_widens_when_players_differ():
+    # Same overall mean 0.5. In the checkerboard every player and every sheet averages 0.5;
+    # in the clustered set each player is all-0 or all-1, so rows are not independent.
+    mixed = _rows({f"0{p}": [float((p + i) % 2) for i in range(6)] for p in range(6)})
+    clustered = _rows({f"0{p}": [float(p % 2)] * 6 for p in range(6)})
+    (lo_c, hi_c), (lo_m, hi_m) = (_module.bootstrap_ci(rows, "x") for rows in (clustered, mixed))
+    assert hi_c - lo_c > 1.5 * (hi_m - lo_m)
+
+
+def test_load_tracks_roundtrip(tmp_path):
+    path = tmp_path / "tracks.csv"
+    path.write_text("track,player,bpm,bpm_est,beat_f\n00_Rock1-130-A_comp,00,130,,0.5\n")
+    row = _module.load_tracks(path)[0]
+    assert (row["player"], row["bpm"], row["bpm_est"], row["beat_f"]) == ("00", "130", None, 0.5)

@@ -25,6 +25,23 @@ class RemoteSettings:
         return os.environ.get(self.token_env, "")
 
 
+PROVIDERS: tuple[str, ...] = ("anthropic", "openai")
+
+
+@dataclass
+class AgentSettings:
+    """The planning LLM. "openai" means any OpenAI-compatible endpoint (OpenAI, OpenRouter, DeepSeek, Ollama, vLLM...)."""
+
+    provider: str = "anthropic"
+    model: str = "claude-opus-5-5"
+    base_url: str = ""
+    api_key_env: str = "ANTHROPIC_API_KEY"
+
+    @property
+    def api_key(self) -> str:
+        return os.environ.get(self.api_key_env, "")
+
+
 @dataclass
 class Settings:
     home: Path = field(default_factory=lambda: Path(".ah"))
@@ -32,6 +49,7 @@ class Settings:
     device: str = "auto"
     backends: dict[str, str] = field(default_factory=dict)
     remote: RemoteSettings = field(default_factory=RemoteSettings)
+    agent: AgentSettings = field(default_factory=AgentSettings)
 
     def backend_for(self, tool: str) -> str:
         return self.backends.get(tool, "local")
@@ -65,6 +83,13 @@ def load_settings() -> Settings:
             token_env=remote.get("token_env", "AH_REMOTE_TOKEN"),
             timeout_s=float(remote.get("timeout_s", 900)),
         )
+        agent = raw.get("agent", {})
+        settings.agent = AgentSettings(**{k: str(v) for k, v in agent.items() if k in AgentSettings.__dataclass_fields__})
+    for key in ("provider", "model", "base_url", "api_key_env"):
+        if os.environ.get(f"AH_AGENT_{key.upper()}"):
+            setattr(settings.agent, key, os.environ[f"AH_AGENT_{key.upper()}"])
+    if settings.agent.provider not in PROVIDERS:
+        raise ValueError(f"ah.toml: agent.provider must be one of {PROVIDERS}, got {settings.agent.provider!r}")
     if os.environ.get("AH_HOME"):
         settings.home = Path(os.environ["AH_HOME"])
     if os.environ.get("AH_REMOTE_URL"):

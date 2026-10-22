@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio Harness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Neucha&display=swap">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="frame">
+    <header>
+      <h1>AUDIO HARNESS</h1>
+      <p class="tagline">МАСТЕРСКАЯ ДЛЯ ТВОЕГО ЗВУКА</p>
+      <nav>
+        <a class="pill dark" href="#work">МАСТЕРСКАЯ</a>
+        <a class="pill" href="#versions">ВЕРСИИ</a>
+        <a class="pill" id="export" href="#" hidden>ЭКСПОРТ ↓</a>
+        <label class="pill">ЗАГРУЗИТЬ<input type="file" id="file" accept="audio/*,video/mp4,video/webm,.m4a" hidden></label>
+      </nav>
+    </header>
+
+    <div id="status" class="status" hidden></div>
+
+    <section id="empty" class="dropzone" hidden>
+      <p class="big">ЗАКИНЬ ЗАПИСЬ СЮДА</p>
+      <p>wav, mp3, m4a, flac, ogg · до 15 минут</p>
+      <p>потом напиши, что с ней сделать, — агент составит план</p>
+    </section>
+
+    <section id="work" class="grid" hidden>
+      <div class="card">
+        <div class="row between">
+          <span id="title" class="title"></span>
+          <span id="meta" class="hand"></span>
+        </div>
+
+        <div id="before-block">
+          <div class="hand label">до · <span id="before-label"></span></div>
+          <canvas id="wave-before" class="wave" height="88"></canvas>
+        </div>
+        <div class="hand label">после · <span id="after-label"></span></div>
+        <canvas id="wave-after" class="wave" height="88"></canvas>
+
+        <div class="row player">
+          <button id="play" class="round" aria-label="Слушать">▶</button>
+          <span class="switch">
+            <button id="ab-after" class="tiny on">ПОСЛЕ</button><button id="ab-before" class="tiny">ДО</button>
+          </span>
+          <span id="clock" class="hand">0:00</span>
+        </div>
+
+        <div id="analysis" class="chips"></div>
+        <div id="report" class="report" hidden></div>
+        <audio id="audio-after" preload="auto"></audio>
+        <audio id="audio-before" preload="auto"></audio>
+
+        <div id="versions" class="versions">
+          <div class="hand label">версии</div>
+          <ol id="tree"></ol>
+          <div class="row gap">
+            <button id="rollback" class="pill small">ОТКАТИТЬ НА ШАГ</button>
+            <button id="make-head" class="pill small">СДЕЛАТЬ ТЕКУЩЕЙ</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card chat">
+        <div class="row between">
+          <span class="title">АГЕНТ</span>
+          <span id="agent-model" class="hand muted"></span>
+        </div>
+        <div id="agent-off" class="note" hidden></div>
+        <div id="thread" class="thread"></div>
+        <form id="ask" class="ask">
+          <textarea id="prompt" rows="3" maxlength="2000" placeholder="что сделать с треком? например: «убери шум с голоса и скажи темп»"></textarea>
+          <button class="pill dark" type="submit">ПЛАН →</button>
+        </form>
+      </aside>
+    </section>
+
+    <footer class="hand">каждый шаг — новая версия, ничего не перезаписывается</footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

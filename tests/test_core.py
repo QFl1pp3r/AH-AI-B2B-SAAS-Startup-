@@ -96,6 +96,9 @@ def test_inspect_builtin(runner, tmp_path):
     assert content["peak_dbfs"] == pytest.approx(-6.02, abs=0.05)
     assert runner.store.head() == original.id  # json outputs never move the head
 
+    with pytest.raises(ValueError, match="needs an audio artifact"):
+        runner.run("inspect", {"audio": report.id})
+
 
 def test_blobs_are_deduplicated_and_read_only(runner, tmp_path):
     a = runner.ingest(tone(tmp_path / "in.wav"))
