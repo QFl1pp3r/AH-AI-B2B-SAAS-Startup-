@@ -26,6 +26,7 @@ class RemoteSettings:
 
 
 PROVIDERS: tuple[str, ...] = ("anthropic", "openai")
+THINKING: tuple[str, ...] = ("", "enabled", "disabled")
 
 
 @dataclass
@@ -36,6 +37,9 @@ class AgentSettings:
     model: str = "claude-opus-5-5"
     base_url: str = ""
     api_key_env: str = "ANTHROPIC_API_KEY"
+    # OpenAI-compatible only (DeepSeek); empty leaves the provider default. Anthropic ignores both.
+    thinking: str = ""
+    reasoning_effort: str = ""
 
     @property
     def api_key(self) -> str:
@@ -85,11 +89,13 @@ def load_settings() -> Settings:
         )
         agent = raw.get("agent", {})
         settings.agent = AgentSettings(**{k: str(v) for k, v in agent.items() if k in AgentSettings.__dataclass_fields__})
-    for key in ("provider", "model", "base_url", "api_key_env"):
+    for key in ("provider", "model", "base_url", "api_key_env", "thinking", "reasoning_effort"):
         if os.environ.get(f"AH_AGENT_{key.upper()}"):
             setattr(settings.agent, key, os.environ[f"AH_AGENT_{key.upper()}"])
     if settings.agent.provider not in PROVIDERS:
         raise ValueError(f"ah.toml: agent.provider must be one of {PROVIDERS}, got {settings.agent.provider!r}")
+    if settings.agent.thinking not in THINKING:
+        raise ValueError(f"ah.toml: agent.thinking must be one of {THINKING}, got {settings.agent.thinking!r}")
     if os.environ.get("AH_HOME"):
         settings.home = Path(os.environ["AH_HOME"])
     if os.environ.get("AH_REMOTE_URL"):

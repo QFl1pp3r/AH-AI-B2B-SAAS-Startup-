@@ -9,6 +9,7 @@ Messages are plain {"role": "user"|"assistant", "content": str}; tools are
 from __future__ import annotations
 
 import json
+import time
 from dataclasses import dataclass, field
 from typing import Any, Protocol
 from urllib.parse import urlparse
@@ -33,8 +34,23 @@ class ToolCall:
 
 @dataclass
 class Reply:
+    """usage holds token counts as the provider names them, plus prompt_tokens/completion_tokens for both."""
+
     text: str
     calls: list[ToolCall] = field(default_factory=list)
+    usage: dict[str, int] = field(default_factory=dict)
+    latency_s: float | None = None
+
+
+def flat_usage(usage: Any) -> dict[str, int]:
+    """Integer counts from a usage object; nested details (cached, reasoning tokens) are lifted to the top."""
+    flat: dict[str, int] = {}
+    for key, value in (usage.model_dump() if usage is not None else {}).items():
+        if isinstance(value, dict):
+            flat.update({k: v for k, v in value.items() if type(v) is int})
+        elif type(value) is int:
+            flat[key] = value
+    return flat
 
 
 class LLM(Protocol):
@@ -60,6 +76,7 @@ class AnthropicLLM:
         if tools:
             kwargs["tools"] = [{"name": t["name"], "description": t["description"], "input_schema": t["schema"]} for t in tools]
         a = self._anthropic
+        started = time.perf_counter()
         try:
             if self.fallback:
                 response = self.client.beta.messages.create(**kwargs, betas=[ANTHROPIC_FALLBACK_BETA], fallbacks="default")
@@ -77,9 +94,15 @@ class AnthropicLLM:
             raise LLMError("Модель отказалась выполнять этот запрос")
         if response.stop_reason == "max_tokens":
             raise LLMError("Ответ модели не поместился в лимит токенов")
+        usage = flat_usage(response.usage)
+        # Anthropic's input_tokens excludes cache reads and writes; prompt_tokens is the whole prompt as elsewhere.
+        usage["prompt_tokens"] = sum(usage.get(k, 0) for k in ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens"))
+        usage["completion_tokens"] = usage.get("output_tokens", 0)
         return Reply(
             text="".join(b.text for b in response.content if b.type == "text").strip(),
             calls=[ToolCall(b.name, dict(b.input)) for b in response.content if b.type == "tool_use"],
+            usage=usage,
+            latency_s=round(time.perf_counter() - started, 3),
         )
 
 
@@ -93,13 +116,22 @@ class OpenAICompatibleLLM:
         self.model = cfg.model
         self.name = f"openai-compatible:{cfg.model}@{cfg.base_url or 'api.openai.com'}"
         self.key_env = cfg.api_key_env
+        # DeepSeek's knobs; sent only when set, so other OpenAI-compatible servers never see them.
+        self.extra_body: dict[str, Any] = {}
+        if cfg.thinking:
+            self.extra_body["thinking"] = {"type": cfg.thinking}
+        if cfg.reasoning_effort:
+            self.extra_body["reasoning_effort"] = cfg.reasoning_effort
 
     def complete(self, system, messages, tools):
         kwargs: dict[str, Any] = {"model": self.model, "messages": [{"role": "system", "content": system}, *messages]}
+        if self.extra_body:
+            kwargs["extra_body"] = self.extra_body
         if tools:
             kwargs["tools"] = [{"type": "function", "function": {
                 "name": t["name"], "description": t["description"], "parameters": t["schema"]}} for t in tools]
         o = self._openai
+        started = time.perf_counter()
         try:
             response = self.client.chat.completions.create(**kwargs)
         except o.AuthenticationError:
@@ -117,7 +149,8 @@ class OpenAICompatibleLLM:
                 calls.append(ToolCall(call.function.name, json.loads(call.function.arguments or "{}")))
             except json.JSONDecodeError:
                 raise LLMError("Модель вернула вызов инструмента с битым JSON") from None
-        return Reply(text=(message.content or "").strip(), calls=calls)
+        return Reply(text=(message.content or "").strip(), calls=calls, usage=flat_usage(response.usage),
+                     latency_s=round(time.perf_counter() - started, 3))
 
 
 def make_llm(cfg: AgentSettings) -> LLM:
