@@ -49,6 +49,11 @@ def build_parser() -> argparse.ArgumentParser:
         return sub
 
     tool_command("inspect")
+    trim = tool_command("trim")
+    trim.add_argument("--start", type=float, dest="start_s", help="seconds from the beginning")
+    trim.add_argument("--end", type=float, dest="end_s", help="seconds from the beginning (default: to the end)")
+    trim.add_argument("--silence", action="store_true", help="also drop leading and trailing silence")
+    trim.add_argument("--threshold-db", type=float, help="silence threshold in dBFS (default -50)")
     sep = tool_command("separate")
     sep.add_argument("--model", help="registry slug, default melband-roformer-kim-vocals")
     sep.add_argument("--head", choices=["vocals", "instrumental"], default="vocals",
@@ -91,6 +96,10 @@ def _tool_params(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("--params must be a JSON object")
     extra = {
         "model": getattr(args, "model", None),
+        "start_s": getattr(args, "start_s", None),
+        "end_s": getattr(args, "end_s", None),
+        "silence": True if getattr(args, "silence", False) else None,
+        "threshold_db": getattr(args, "threshold_db", None),
         "chunk_seconds": getattr(args, "chunk_seconds", None),
         "atten_lim_db": getattr(args, "atten_lim_db", None),
         "beats": getattr(args, "beats", None),

@@ -27,6 +27,10 @@ TOOLS: dict[str, ToolSpec] = {
             inputs=("audio",), summary="Длительность, уровни, клиппинг, тишина",
         ),
         ToolSpec(
+            name="trim", module="ah.builtin", factory="TrimTool", project=None,
+            inputs=("audio",), summary="Обрезка по времени и по тишине на краях",
+        ),
+        ToolSpec(
             name="separate", module="ah_separate", factory="SeparateTool", project="separate",
             inputs=("audio",), summary="Вокал и инструментал (Mel-Band RoFormer)", gpu=True,
         ),

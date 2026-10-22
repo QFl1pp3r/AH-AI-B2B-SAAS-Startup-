@@ -9,7 +9,7 @@
 | Часть | Состояние | Чем подтверждено |
 | --- | --- | --- |
 | Хранилище артефактов (SQLite + sha256-блобы), head, ветвление, откат | готово | pytest |
-| `ah import / inspect / tree / head / rollback / export / ls / show` | готово | pytest, ручной прогон |
+| `ah import / inspect / trim / tree / head / rollback / export / ls / show` | готово | pytest, ручной прогон |
 | `separate` (Mel-Band RoFormer, веса Kim) | работает на реальных весах | прогон на CPU, см. ниже |
 | `restore` (Sidon v0.1) | работает на реальных весах | прогон на CPU, см. ниже |
 | `analyze` с madmom (BPM, биты, размер, тональность, аккорды) | работает на реальных весах | прогон на CPU, см. ниже |
@@ -38,6 +38,7 @@ CPU, 4 ядра. Клип 20 с: речь из LibriSpeech поверх синт
 | --- | --- | --- | --- |
 | `ah import FILE` | Любой аудиофайл → WAV 44.1 кГц, стерео, float32 | ffmpeg / soundfile | Mac |
 | `ah inspect` | Длительность, пик/RMS в dBFS, клиппинг, тишина | numpy | Mac |
+| `ah trim` | Обрезка `--start/--end` (секунды), `--silence` срезает тишину на краях (`--threshold-db`, по умолчанию −50). `offset_s` в meta сдвигает таймкоды обратно к исходнику | numpy | Mac |
 | `ah separate` | Вокал + инструментал | Mel-Band RoFormer (Kim) | Colab T4 |
 | `ah restore` | Восстановление речи: шум, реверберация, полоса | Sidon v0.1 | Colab T4 |
 | `ah denoise` | Быстрое шумоподавление речи, `--atten-lim-db N` оставляет часть шума | DeepFilterNet3 | Mac (CPU) |
