@@ -35,6 +35,10 @@ TOOLS: dict[str, ToolSpec] = {
             hint="Measures duration, peak and RMS in dBFS, clipping and silence. Cheap; use when the user asks about loudness or clipping.",
         ),
         ToolSpec(
+            name="trim", module="ah.builtin", factory="TrimTool", project=None,
+            inputs=("audio",), summary="Обрезка по времени и по тишине на краях",
+        ),
+        ToolSpec(
             name="separate", module="ah_separate", factory="SeparateTool", project="separate",
             inputs=("audio",), summary="Вокал и инструментал (Mel-Band RoFormer)", gpu=True,
             outputs=("vocals", "instrumental"),
