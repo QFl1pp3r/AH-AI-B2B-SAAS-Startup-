@@ -76,7 +76,7 @@ def build_parser() -> argparse.ArgumentParser:
     exp.add_argument("out")
     commands.add_parser("tools", help="list tools and backends")
 
-    ui = commands.add_parser("ui", help="start the Gradio page")
+    ui = commands.add_parser("ui", help="start the local web page")
     ui.add_argument("--host", default="127.0.0.1")
     ui.add_argument("--port", type=int, default=7860)
     srv = commands.add_parser("serve", help="start the GPU server (for Colab)")

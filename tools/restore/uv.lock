@@ -75,15 +75,17 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", marker = "extra == 'server'", specifier = ">=0.110" },
-    { name = "gradio", marker = "extra == 'ui'", specifier = ">=4.44" },
+    { name = "fastapi", marker = "extra == 'ui'", specifier = ">=0.110" },
     { name = "httpx", specifier = ">=0.27" },
     { name = "imageio-ffmpeg", specifier = ">=0.6.0" },
     { name = "numpy", specifier = ">=1.26" },
     { name = "pydantic", specifier = ">=2.6" },
     { name = "python-multipart", marker = "extra == 'server'", specifier = ">=0.0.9" },
+    { name = "python-multipart", marker = "extra == 'ui'", specifier = ">=0.0.9" },
     { name = "soundfile", specifier = ">=0.12" },
     { name = "soxr", specifier = ">=0.3.7" },
     { name = "uvicorn", marker = "extra == 'server'", specifier = ">=0.29" },
+    { name = "uvicorn", marker = "extra == 'ui'", specifier = ">=0.29" },
 ]
 provides-extras = ["ui", "server"]
 

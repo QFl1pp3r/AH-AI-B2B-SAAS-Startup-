@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-ui = ["gradio>=4.44"]
+ui = ["fastapi>=0.110", "uvicorn>=0.29", "python-multipart>=0.0.9"]
 server = ["fastapi>=0.110", "uvicorn>=0.29", "python-multipart>=0.0.9"]
 
 [project.scripts]
