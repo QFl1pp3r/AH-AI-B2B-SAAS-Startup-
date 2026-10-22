@@ -18,3 +18,6 @@ provider = "anthropic"         # anthropic | openai (any OpenAI-compatible endpo
 model = "claude-opus-5-5"
 base_url = ""                  # e.g. http://localhost:11434/v1 for Ollama, https://openrouter.ai/api/v1
 api_key_env = "ANTHROPIC_API_KEY"  # name of the env var with the key; the key itself never goes into this file
+# DeepSeek (OpenAI-compatible, tool calls work with its default thinking mode):
+#   provider = "openai", model = "deepseek-flash" (or "deepseek-v4-pro"),
+#   base_url = "https://api.deepseek.com", api_key_env = "DEEPSEEK_API_KEY"
