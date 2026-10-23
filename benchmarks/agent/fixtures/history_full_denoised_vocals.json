@@ -1,0 +1,58 @@
+{
+ "file_name": "band_rehearsal_0603",
+ "selected_version": {
+  "id": "a6f96d8f30a",
+  "role": "denoised",
+  "made_by": "denoise",
+  "duration_s": 120.0,
+  "peak_dbfs": -4.5,
+  "rms_dbfs": -22.8,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.33
+ },
+ "versions": [
+  {
+   "id": "ae460dd6810",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  },
+  {
+   "id": "a5e7de749f1",
+   "role": "trimmed",
+   "kind": "audio",
+   "made_by": "trim",
+   "depth": 1
+  },
+  {
+   "id": "a2ab063f866",
+   "role": "vocals",
+   "kind": "audio",
+   "made_by": "separate",
+   "depth": 2
+  },
+  {
+   "id": "a6f96d8f30a",
+   "role": "denoised",
+   "kind": "audio",
+   "made_by": "denoise",
+   "depth": 3
+  },
+  {
+   "id": "a9b4cf0c615",
+   "role": "instrumental",
+   "kind": "audio",
+   "made_by": "separate",
+   "depth": 2
+  },
+  {
+   "id": "a49540903ba",
+   "role": "analysis",
+   "kind": "json",
+   "made_by": "analyze",
+   "depth": 3
+  }
+ ],
+ "analysis": null
+}

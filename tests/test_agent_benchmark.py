@@ -292,3 +292,69 @@ def test_execute_success_counts_only_plans_with_steps():
             {"task": "c", "has_steps": False, "exec_ok": None, "e2e_ok": 1.0}]  # a right answer with no tools
     out = ex.summarize(rows)
     assert out["exec_success"]["mean"] == 0.5 and out["e2e_success"]["mean"] == round(2 / 3, 4)
+
+
+def test_cards_never_name_a_tool_and_point_at_real_fixtures():
+    collect = _load("collect")
+    cards = collect.load_cards()
+    assert len({c["card"] for c in cards}) == len(cards)
+    for card in cards:
+        assert not collect.leaks(card), card["card"]
+        assert (AGENT / "fixtures" / f"{card['fixture']}.json").is_file()
+    assert collect.leaks({"ru": "Отдели вокал", "en": ""}) == ["вокал", "отдел"]
+
+
+def test_questionnaire_is_a_stable_per_person_subset():
+    collect = _load("collect")
+    one, again, other = (collect.questionnaire(p, "ru") for p in ("P01", "P01", "P02"))
+    assert one == again and one != other
+    assert one.count("\n## c") == collect.CARDS_PER_PERSON and "submit_plan" not in one and "separate" not in one
+
+
+def test_import_pseudonymises_dedupes_and_detects_language(tmp_path):
+    collect = _load("collect")
+    rows = "participant,card,request\nalice@mail.ru,c05,Убери шум\nalice@mail.ru,c05,  убери   шум \nbob,c02,what chords is this\nbob,c99,x\ncarol,c01,\n"
+    (tmp_path / "r.csv").write_text(rows)
+    tasks = collect.import_responses(tmp_path / "r.csv")
+    assert [(t["participant"], t["card"], t["lang"]) for t in tasks] == [("P01", "c05", "ru"), ("P02", "c02", "en")]
+    assert all("@" not in json.dumps(t) for t in tasks) and tasks[0]["fixture"] == "voice_memo"
+
+
+def test_gold_sheet_syntax():
+    collect = _load("collect")
+    gold = collect.parse_gold({"id": "x", "accept": "separate>denoise | separate>restore", "inputs": "2=1.vocals",
+                               "params": "1:end_s=60", "needs": "key", "unsupported": "yes", "forbid": "trim"})
+    assert gold == {"accept": [["separate", "denoise"], ["separate", "restore"]], "inputs": {"2": "1.vocals"},
+                    "params": {"1": {"end_s": 60.0}}, "needs": ["key"], "must_say_unsupported": True, "forbid": ["trim"]}
+    assert collect.parse_gold({"id": "y", "accept": "*", "max_steps": "2"}) == {"accept": None, "max_steps": 2}
+    assert collect.parse_gold({"id": "z", "accept": "- | inspect", "params": "1:silence=true"})["accept"] == [[], ["inspect"]]
+    collect.check_gold(collect.parse_gold({"id": "t", "accept": "trim", "params": "1:start_s=10"}))
+    with pytest.raises(Exception):
+        collect.check_gold(collect.parse_gold({"id": "t", "accept": "trim"}))  # a trim that cuts nothing
+
+
+def test_merge_keeps_agreed_rows_and_reports_kappa(tmp_path, monkeypatch):
+    import csv as csv_module
+
+    collect = _load("collect")
+    monkeypatch.setattr(collect, "DRAFTS", tmp_path)
+    drafts = [{"id": f"h2-00{n}", "card": "c05", "fixture": "voice_memo", "request": r, "lang": "ru", "participant": "P01"}
+              for n, r in ((1, "убери шум"), (2, "почисти"), (3, "темп?"))]
+    (tmp_path / "tasks.draft.jsonl").write_text("".join(json.dumps(d, ensure_ascii=False) + "\n" for d in drafts))
+
+    def sheet(name, accepts):
+        with (tmp_path / name).open("w", newline="") as f:
+            w = csv_module.DictWriter(f, fieldnames=collect.LABEL_FIELDS)
+            w.writeheader()
+            w.writerows({"id": d["id"], "accept": a} for d, a in zip(drafts, accepts))
+        return tmp_path / name
+
+    a = sheet("a.csv", ["denoise | restore", "denoise", "analyze"])
+    b = sheet("b.csv", ["restore | denoise", "restore", "analyze"])
+    out = collect.merge(a, b, None)
+    assert [t["id"] for t in out["tasks"]] == ["h2-001", "h2-003"]  # same gold whatever the order of alternatives
+    assert out["stats"]["full_agreement"] == round(2 / 3, 4) and out["stats"]["open_disagreements"] == 1
+    assert out["tasks"][0]["track_data"] == "fixtures/voice_memo.json"
+    resolved = sheet("r.csv", ["denoise | restore", "denoise | restore", "analyze"])
+    assert len(collect.merge(a, b, resolved)["tasks"]) == 3
+    assert collect.kappa(["x", "y"], ["x", "y"]) == 1.0

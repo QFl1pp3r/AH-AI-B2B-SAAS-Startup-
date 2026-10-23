@@ -91,6 +91,30 @@ def build(home: Path) -> dict[str, dict[str, Any]]:
     fixtures["song_named_memo"] = b.original("voice_memo_0412.m4a", levels(187.5, -0.6, -12.4))
     fixtures["speech_named_song"] = b.original("final_mix_v3.wav", levels(1305.0, -3.1, -27.2, silence=0.09))
 
+    # Second held-out set (requests from people outside the project): more states of the track, so a
+    # request lands on a history of versions, a selected stem or a file that needs no separating at all.
+    fixtures["live_long_clipped"] = b.original("gig_full_set_live.wav", levels(402.0, 0.0, -9.6, clipped=0.0031))
+    fixtures["phone_call_mono"] = b.original("call_recording_0915.amr", levels(312.0, -9.8, -33.0, silence=0.22) | {"channels": 1})
+    fixtures["instrumental_only"] = b.original("guitar_loop_no_vocals.wav", levels(48.0, -2.4, -14.9))
+    fixtures["acapella_only"] = b.original("acapella_take2.wav", levels(96.0, -3.0, -19.8, silence=0.15))
+    loud = b.original("master_v2_LOUD.wav", levels(198.0, 0.0, -6.1, clipped=0.012))
+    fixtures["loud_master"] = loud
+
+    trimmed_song = b.original("summer_demo.wav", levels(240.0, -0.9, -12.7))
+    cut = b.run("trim", trimmed_song, {"trimmed": levels(62.0, -1.0, -12.9)}, {"start_s": 30, "end_s": 92})
+    fixtures["song_trimmed_selected"] = cut["trimmed"]
+
+    interview = b.original("zoom_interview.m4a", levels(1830.0, -4.4, -28.1, silence=0.14))
+    restored = b.run("restore", interview, {"restored": levels(1830.0, -1.0, -20.3, silence=0.16) | {"channels": 1}})
+    fixtures["speech_restored_selected"] = restored["restored"]
+
+    full = b.original("band_rehearsal_0603.wav", levels(286.0, -0.5, -12.2, silence=0.04))
+    part = b.run("trim", full, {"trimmed": levels(120.0, -0.6, -12.4)}, {"start_s": 60, "end_s": 180})["trimmed"]
+    split = b.run("separate", part, {"vocals": levels(120.0, -4.2, -22.0, silence=0.3), "instrumental": levels(120.0, -0.9, -13.5)})
+    b.run("analyze", split["instrumental"], {"analysis": ANALYSIS | {"bpm": 97.0, "key": {"key": "E minor", "confidence": 0.64}}})
+    cleaned = b.run("denoise", split["vocals"], {"denoised": levels(120.0, -4.5, -22.8, silence=0.33)})
+    fixtures["history_full_denoised_vocals"] = cleaned["denoised"]
+
     return {name: track_data(b.store, artifact) for name, artifact in fixtures.items()}
 
 

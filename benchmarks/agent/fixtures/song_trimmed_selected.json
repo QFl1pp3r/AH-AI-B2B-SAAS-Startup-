@@ -1,0 +1,30 @@
+{
+ "file_name": "summer_demo",
+ "selected_version": {
+  "id": "a3a8dc39878",
+  "role": "trimmed",
+  "made_by": "trim",
+  "duration_s": 62.0,
+  "peak_dbfs": -1.0,
+  "rms_dbfs": -12.9,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "a3b72ff6b6e",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  },
+  {
+   "id": "a3a8dc39878",
+   "role": "trimmed",
+   "kind": "audio",
+   "made_by": "trim",
+   "depth": 1
+  }
+ ],
+ "analysis": null
+}

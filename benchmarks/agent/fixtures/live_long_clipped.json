@@ -1,0 +1,23 @@
+{
+ "file_name": "gig_full_set_live",
+ "selected_version": {
+  "id": "ae441d77c70",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 402.0,
+  "peak_dbfs": 0.0,
+  "rms_dbfs": -9.6,
+  "clipped_ratio": 0.0031,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "ae441d77c70",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  }
+ ],
+ "analysis": null
+}

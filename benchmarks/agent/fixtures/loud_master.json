@@ -1,0 +1,23 @@
+{
+ "file_name": "master_v2_LOUD",
+ "selected_version": {
+  "id": "a5d69455d2c",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 198.0,
+  "peak_dbfs": 0.0,
+  "rms_dbfs": -6.1,
+  "clipped_ratio": 0.012,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "a5d69455d2c",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  }
+ ],
+ "analysis": null
+}

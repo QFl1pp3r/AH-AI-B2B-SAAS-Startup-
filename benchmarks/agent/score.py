@@ -191,9 +191,9 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         row["precision"], row["recall"] = f1_against(tools, accept) if accept is not None else (None, None)
         row["unsupported_ok"] = float(bool(UNSUPPORTED.search(reply))) if gold.get("must_say_unsupported") else None
         row["reply_ok"] = float(any(s.lower() in reply for s in gold["reply_any"])) if gold.get("reply_any") else None
-        # translit and mixed ru/en requests have no single right reply language, so they are not scored on it.
+        # Scored only where the scorer can tell the language: translit, mixed ru/en, uk and the rest are not.
         row["reply_lang_ok"] = (float(reply_lang_ok(run["reply"] or "", task["lang"]))
-                                if run["reply"] and task["lang"] not in ("translit", "mixed") else None)
+                                if run["reply"] and task["lang"] in ("ru", "en", *OTHER_WORDS) else None)
         row["reply"] = run["reply"][:300]
         failed = [k for k in ("seq_ok", "inputs_ok", "params_ok", "no_forbidden", "unsupported_ok", "reply_ok") if row[k] == 0.0]
     else:

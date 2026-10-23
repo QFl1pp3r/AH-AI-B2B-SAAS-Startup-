@@ -1,0 +1,23 @@
+{
+ "file_name": "guitar_loop_no_vocals",
+ "selected_version": {
+  "id": "a35ae1ae26e",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 48.0,
+  "peak_dbfs": -2.4,
+  "rms_dbfs": -14.9,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "a35ae1ae26e",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  }
+ ],
+ "analysis": null
+}
