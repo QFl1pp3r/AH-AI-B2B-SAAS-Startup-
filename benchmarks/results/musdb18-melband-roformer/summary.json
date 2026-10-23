@@ -1,0 +1,31 @@
+{
+  "dataset": "MUSDB18 test (.stem.mp4)",
+  "split": "test",
+  "backend": "local",
+  "model": "melband-roformer-kim-vocals",
+  "metric": "whole-track stereo SDR and zero-mean SI-SDR (not museval)",
+  "tracks": 50,
+  "succeeded": 50,
+  "failed": 0,
+  "success_rate": 1.0,
+  "vocals_sdr_db": {
+    "mean": 12.047,
+    "median": 12.1791
+  },
+  "vocals_si_sdr_db": {
+    "mean": 11.6114,
+    "median": 11.9361
+  },
+  "instrumental_sdr_db": {
+    "mean": 18.1037,
+    "median": 18.3408
+  },
+  "instrumental_si_sdr_db": {
+    "mean": 18.0172,
+    "median": 18.2766
+  },
+  "rtf": {
+    "mean": 0.1644,
+    "median": 0.1624
+  }
+}

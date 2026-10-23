@@ -6,12 +6,13 @@
 
 | Датасет | Источник | Версия / ревизия | sha256 архива | Для чего | Лицензия | NC |
 | --- | --- | --- | --- | --- | --- | --- |
+| MUSDB18 test | Zenodo 1117372 | 50 test tracks, compressed `.stem.mp4` | | completed local separate run | research dataset, tracks have different licenses | **да** |
 | MUSDB18-HQ test | Zenodo 3338373 (по запросу) | | | задачи 2, 3, 4, 7 | исследовательская, треки под разными лицензиями | **да** |
 | MUSDB-ALT | HF `jazasyed/musdb-alt` | | | задача 3 | CC BY-NC-SA 4.0 | **да** |
 | Jam-ALT | HF `jamendolyrics/jam-alt` | | | задача 3 | **проверить** | вероятно |
 | Common Voice 17 ru | HF `fixie-ai/common_voice_17_0` | `34f78a43893414e7b6e271ba94c1d5e05f18b239` (как в denoise v2) | | задача 3 | CC0 | нет |
 | DNS Challenge blind set | GitHub microsoft/DNS-Challenge | | | задача 3 (по желанию) | **проверить** (CC BY 4.0?) | вероятно нет |
-| GTZAN + GTZAN-Rhythm + gtzan_key | mirdata / авторские репозитории | | | задачи 2, 5, 8 | аудио не ясно, только исследование | **да** |
+| GTZAN + GTZAN-Rhythm + gtzan_key | mirdata / авторские репозитории | GTZAN-Rhythm v2, 1,000 tracks; 999 scored in completed local run | | задачи 2, 5, 8 | аудио не ясно, только исследование | **да** |
 | Ballroom | MTG UPF + CPJKU/BallroomAnnotations | | | задача 5 (через `tempo.py`) | исследовательская | **да** |
 | GiantSteps tempo / key | GitHub GiantSteps, аудио превью Beatport | | | задача 5 | аннотации CC BY-SA (**проверить**), аудио под копирайтом | **да** |
 | FSL10K | Zenodo (Freesound Loops) | | | задача 5 | CC по файлам, часть NC | частично |

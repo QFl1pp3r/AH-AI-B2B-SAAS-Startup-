@@ -1,0 +1,6 @@
+{
+  "dataset": "MUSDB18 test (.stem.mp4)",
+  "backend": "local",
+  "model": "melband-roformer-kim-vocals",
+  "scorer_version": 2
+}

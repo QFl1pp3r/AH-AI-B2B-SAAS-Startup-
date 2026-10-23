@@ -153,10 +153,11 @@ uv run --project tools/analyze --with mir_eval==0.8.2 \
 
 Скрипт `benchmarks/tempo.py`, тесты в `tests/test_tempo_benchmark.py`. Результатов прогона в репозитории пока нет. Ниже оригинальная инструкция автора; команды запускать из корня репозитория.
 
-This benchmark evaluates `ah analyze` separately on Ballroom and GiantSteps.
+This benchmark evaluates `ah analyze` separately on Ballroom, GiantSteps, and
+GTZAN-Rhythm v2.
 It prepares JSONL manifests for later GPU training, but does not train a model.
-Neither dataset supplies chord reference labels, so this benchmark measures tempo
-and, for Ballroom, beat/downbeat timing only.
+These datasets do not supply chord reference labels. Ballroom and GTZAN-Rhythm
+measure tempo and beat/downbeat timing; GiantSteps measures tempo only.
 
 ### Data
 
@@ -169,6 +170,9 @@ and, for Ballroom, beat/downbeat timing only.
   Audio is available as Beatport previews through the dataset's `audio_dl.sh`
   (~1 GB). Keep the MP3 files in its `audio/` directory, or point `--audio` to
   another directory. Three `0.0` v2 labels are excluded.
+- GTZAN-Rhythm v2: use its `jams/` and `stats.csv` annotations with the matching
+  GTZAN genre WAV files. The adapter uses `tempo mean` from `stats.csv` and
+  `beat` and `downbeat` event annotations from JAMS.
 
 Source audio may have separate terms from the annotation repositories. Keep
 downloaded audio outside Git. `tmp/` is ignored by this project.
@@ -190,6 +194,11 @@ python benchmarks/tempo.py prepare giantsteps `
   --annotations tmp/bench-datasets/giantsteps-tempo-dataset `
   --audio tmp/bench-datasets/giantsteps-tempo-dataset/audio `
   --output tmp/bench-giantsteps.jsonl
+
+python benchmarks/tempo.py prepare gtzan `
+  --annotations tmp/GTZAN-Rhythm_v2_ismir2015_lbd `
+  --audio tmp/Data/genres_original `
+  --output tmp/bench-gtzan.jsonl
 ```
 
 The command reports how many audio files it found. Manifest records with
@@ -215,6 +224,10 @@ tools/analyze/.venv/Scripts/python.exe benchmarks/tempo.py run `
 tools/analyze/.venv/Scripts/python.exe benchmarks/tempo.py run `
   --manifest tmp/bench-giantsteps.jsonl --output tmp/bench-giantsteps-results `
   --beats beat_this --device cuda --split test --limit 10
+
+tools/analyze/.venv/Scripts/python.exe benchmarks/tempo.py run `
+  --manifest tmp/bench-gtzan.jsonl --output tmp/bench-gtzan-results `
+  --beats madmom --device cpu --expect-total 1000 --expect-scored 999
 ```
 
 Remove `--limit` for complete runs. `--device cuda` selects an NVIDIA GPU for
@@ -224,7 +237,67 @@ Beat This! inference if PyTorch can see it. It does not enable training. The
 Each output directory contains `results.jsonl` and `summary.json`. Acc1 is
 within 4% of the annotated BPM. Acc2 also accepts half or double tempo.
 Ballroom beat and downbeat F1 use a 70 ms matching window within the annotated
-interval. Failed/missing audio files count toward coverage, never accuracy.
+interval; GTZAN-Rhythm scores the full track with the same window. Empty
+downbeat references have a null score. Failed/missing audio files count toward
+coverage, never accuracy.
 Keep separate output directories for each dataset and tracker.
 Long runs save each track immediately. Reuse the same command with `--resume`
 after an interruption; it skips completed tracks and retries failed ones.
+
+### GTZAN-Rhythm v2: completed local run (2026-10-23)
+
+The completed `madmom` CPU run is in
+[`results/gtzan-rhythm-madmom/`](results/gtzan-rhythm-madmom/). The manifest
+contained 1,000 tracks. All audio paths were present; one WAV
+(`jazz.00054.wav`) has an invalid RIFF header and failed, leaving 999 scored
+tracks. Six of those lack downbeat labels, so the downbeat denominator is 993.
+Failures and missing labels are excluded from metric means and disclosed in
+`summary.json`.
+
+| Metric | Score | Equal-genre macro, 95% CI |
+| --- | ---: | ---: |
+| Tempo Acc1 (within 4%) | 0.763 | 0.763 [0.727, 0.790] |
+| Tempo Acc2 (half/double accepted) | 0.925 | 0.925 [0.898, 0.943] |
+| Beat F1, 70 ms | 0.857 | 0.856 [0.836, 0.873] |
+| Downbeat F1, 70 ms | 0.639 | 0.639 [0.607, 0.671] |
+
+The macro intervals use 2,000 seeded bootstrap draws, resampling artist
+clusters within each of ten genres; unknown artists are individual track
+clusters. The per-track results, run configuration and manifest SHA-256 are
+saved beside the summary. The reference tempo comes from `stats.csv` and beat
+events from GTZAN-Rhythm JAMS. The results use the revised maximum-cardinality
+event matching and whole-track GTZAN scoring in `tempo.py`; older Ballroom
+scores computed with the previous scorer should not be compared directly.
+
+GTZAN audio and the madmom weights have noncommercial restrictions. This is
+an evaluation of the current `analyze` implementation on that dataset, not a
+claim of commercial model performance.
+
+## Separate on MUSDB18: completed local run (2026-10-23)
+
+[`results/musdb18-melband-roformer/`](results/musdb18-melband-roformer/) holds
+the full 50-song MUSDB18 test run through `ah.runner.Runner` and the local
+`separate` backend. The model was `melband-roformer-kim-vocals`, using the
+reviewed `melband-roformer-infer` commit pinned in `tools/separate/pyproject.toml`.
+The run used an NVIDIA RTX 5060 Laptop GPU. All 50 songs succeeded.
+
+| Whole-track metric | Mean | Median | 95% CI of mean |
+| --- | ---: | ---: | ---: |
+| Vocals SDR, dB | 12.05 | 12.18 | 10.99–13.05 |
+| Vocals zero-mean SI-SDR, dB | 11.61 | 11.94 | 10.40–12.75 |
+| Instrumental SDR, dB | 18.10 | 18.34 | 17.13–19.09 |
+| Instrumental zero-mean SI-SDR, dB | 18.02 | 18.28 | 17.04–19.04 |
+| Real-time factor | 0.164 | 0.162 | 0.159–0.170 |
+
+The confidence intervals use 20,000 song-level percentile bootstrap draws
+with seed 20261023. The report and `tracks.csv` give spread and per-song
+results. `benchmarks/separate.py` contains the scorer and runner; scorer version
+2 corrects the MUSDB18 compressed stem order. Earlier scorer-version-1 results
+are invalid and are not included here. The metrics are whole-track stereo SDR
+and SI-SDR, not `museval` windowed SDR, so these values are not directly
+comparable with MUSDB/SiSEC leaderboard numbers. Source audio and generated
+stems are not committed.
+
+```bash
+uv run python benchmarks/separate.py --dataset /path/to/musdb18 --out tmp/separate-full --backend local
+```
