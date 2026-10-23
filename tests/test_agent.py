@@ -147,6 +147,8 @@ def test_selected_after_plan_is_the_last_audio_not_a_report(store_runner):
     ({"reply": "x", "steps": [{"tool": "rm", "input": "track"}]}, "unknown tool"),
     ({"reply": "x", "steps": [{"tool": "denoise", "input": "track", "params": {"strength": 1}}]}, "no params"),
     ({"reply": "x", "steps": [{"tool": "analyze", "input": "track"}, {"tool": "denoise", "input": "1.analysis"}]}, "no audio output"),
+    ({"reply": "x", "steps": [{"tool": "trim", "input": "track"}]}, "cuts nothing"),
+    ({"reply": "x", "steps": [{"tool": "trim", "input": "track", "params": {"start_s": 0, "silence": False}}]}, "cuts nothing"),
 ])
 def test_validate_rejects(raw, message):
     with pytest.raises(PlanError, match=message):
@@ -216,3 +218,8 @@ def test_reply_language_reaches_the_planner_outside_the_request(store_runner):
     Agent(store, runner, llm).message(original.id, "What's the tempo?")
     content = llm.sent[0]["messages"][-1]["content"]
     assert "</track_data>\n<reply_language>English</reply_language>\n\nWhat's the tempo?" in content
+
+
+@pytest.mark.parametrize("params", [{"start_s": 10}, {"end_s": 30}, {"silence": True}, {"start_s": 0, "end_s": 5, "fade_ms": 10}])
+def test_validate_accepts_a_trim_that_cuts(params):
+    validate({"reply": "x", "steps": [{"tool": "trim", "input": "track", "params": params}]})

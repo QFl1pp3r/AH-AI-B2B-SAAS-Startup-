@@ -137,6 +137,7 @@ def test_unsupported_answer_and_ambiguous_rules():
     ("Peak level is -0.3 dBFS, right up near full scale, but nothing clipped.", "en", True),
     ("Cortaré el silencio del principio y del final.", "en", False),
     ("One trim, cutting everything before 0:12.", "en", True),
+    ("Tempo: 124 BPM, 4/4. Key: A minor (chords Am–F–C–G).", "en", True),
     ("Igen, 4/4-ben van. A korábbi elemzés szerint 124 BPM.", "en", False),
     ("Drums naar MIDI kan ik nog niet: geen van de tools doet transcriptie.", "en", False),
     ("Drums to MIDI non è ancora possibile: non ho un工具 di trascrizione.", "en", False),
@@ -180,3 +181,12 @@ def test_compare_pairs_tasks(tmp_path):
     out = compare.compare(tmp_path / "before", tmp_path / "after")
     assert out["tasks"] == 6
     assert out["groups"]["all"]["correct"]["diff"] == 0.5 and out["groups"]["all"]["correct"]["significant"]
+
+
+def test_resume_redoes_only_attempts_the_provider_refused():
+    run_module = _load("run")
+    refused = {"llm_calls": [{"at": 0, "error": "Провайдер вернул 402: Insufficient Balance"}]}
+    broken_json = {"llm_calls": [{"at": 0, "error": "Модель вернула вызов инструмента с битым JSON"}]}
+    twice_invalid = {"llm_calls": [{"at": 0, "usage": {}}, {"at": 1, "usage": {}}]}
+    assert run_module.provider_failed(refused)
+    assert not run_module.provider_failed(broken_json) and not run_module.provider_failed(twice_invalid)

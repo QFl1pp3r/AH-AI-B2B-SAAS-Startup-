@@ -14,10 +14,10 @@
     "significant": false
    },
    "reply_lang_ok": {
-    "diff": 0.082,
+    "diff": 0.08,
     "ci95": [
-     0.05,
-     0.12
+     0.0499,
+     0.116
     ],
     "n": 100,
     "significant": true
@@ -108,10 +108,10 @@
     "significant": false
    },
    "reply_lang_ok": {
-    "diff": 0.16,
+    "diff": 0.156,
     "ci95": [
      0.1,
-     0.224
+     0.216
     ],
     "n": 50,
     "significant": true
@@ -243,10 +243,10 @@
     "significant": false
    },
    "reply_lang_ok": {
-    "diff": 0.34,
+    "diff": 0.32,
     "ci95": [
      0.14,
-     0.56
+     0.52
     ],
     "n": 10,
     "significant": true

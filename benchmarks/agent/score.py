@@ -92,7 +92,7 @@ def reply_lang_ok(reply: str, lang: str) -> bool:
     words = re.findall(r"[^\W\d_']+(?:'[a-z]+)?", reply.lower())
     english, foreign = sum(w in EN_WORDS for w in words), sum(w in FOREIGN_WORDS for w in words)
     # A short plain-ASCII reply may have no function words at all ("One trim, cutting everything before 0:12.").
-    return bool(words) and (english > foreign or (english == foreign == 0 and reply.isascii()))
+    return bool(words) and (english > foreign or (english == foreign == 0 and all(c.isascii() for c in letters)))
 
 
 def param_ok(got: Any, want: Any) -> bool:
@@ -222,8 +222,9 @@ def main() -> None:
     config = json.loads((args.out / "raw" / "config.json").read_text())
     tasks_path = Path(config["tasks"])
     tasks = {t["id"]: t | {"_model": config["model"]} for t in read(tasks_path, required=("id", "gold"))}
-    runs = [json.loads(line) for line in (args.out / "raw" / "runs.jsonl").read_text().splitlines()]
-    runs.sort(key=lambda r: (list(tasks).index(r["task"]), r["attempt"]))
+    # After run.py --resume an attempt can appear twice; the later line replaces the earlier one.
+    latest = {(r["task"], r["attempt"]): r for r in map(json.loads, (args.out / "raw" / "runs.jsonl").read_text().splitlines())}
+    runs = sorted(latest.values(), key=lambda r: (list(tasks).index(r["task"]), r["attempt"]))
     rows = [check(r, tasks[r["task"]]) for r in runs]
     results.write_tracks(args.out / "runs.csv", rows)
     by_task = defaultdict(list)

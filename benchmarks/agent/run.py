@@ -60,6 +60,12 @@ class Recorder:
         return reply
 
 
+def provider_failed(run: dict) -> bool:
+    """The API call itself failed. A broken tool-call JSON also surfaces as a call error, but that one is the model's."""
+    errors = [c["error"] for c in run["llm_calls"] if "error" in c]
+    return bool(errors) and "JSON" not in errors[-1]
+
+
 def load_tasks(path: Path) -> list[dict]:
     tasks = manifest.read(path, required=("id", "category", "lang", "request", "track_data", "gold"))
     for task in tasks:
@@ -107,7 +113,8 @@ def main() -> None:
     raw.parent.mkdir(parents=True, exist_ok=True)
     done = set()
     if args.resume and raw.exists():
-        done = {(r["task"], r["attempt"]) for r in map(json.loads, raw.read_text().splitlines())}
+        # An attempt the provider refused (429, 402, no connection) is redone; one the model got wrong is kept.
+        done = {(r["task"], r["attempt"]) for r in map(json.loads, raw.read_text().splitlines()) if not provider_failed(r)}
     elif raw.exists():
         raw.unlink()
     (args.out / "raw" / "config.json").write_text(json.dumps({

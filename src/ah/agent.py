@@ -209,6 +209,9 @@ def validate(raw: dict[str, Any]) -> tuple[str, list[Step]]:
         unknown = set(params) - set(TOOLS[tool].params)
         if unknown:
             raise PlanError(f"step {n}: {tool} has no params {sorted(unknown)}; it takes {sorted(TOOLS[tool].params) or 'none'}")
+        # The planner sometimes promised a cut and sent trim with no params: a step that changes nothing.
+        if tool == "trim" and not (params.get("start_s") or params.get("end_s") or params.get("silence") is True):
+            raise PlanError(f"step {n}: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true")
         source = str(item.get("input") or "track")
         if source != "track":
             match = INPUT_REF.match(source)
