@@ -48,6 +48,15 @@ def describe(store: ArtifactStore, artifact_id: str) -> dict[str, Any]:
     return info
 
 
+def lyrics_for(store: ArtifactStore, artifact_id: str) -> str | None:
+    """Id of the newest transcript of this version or its nearest ancestor. The page fetches the text itself."""
+    for node in store.lineage(artifact_id):
+        found = [c for c in store.children(node.id) if c.kind == "json" and c.role == "lyrics"]
+        if found:
+            return found[-1].id
+    return None
+
+
 def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1", llm: LLM | None = None):
     from fastapi import Body, FastAPI, File, HTTPException, Request, UploadFile
     from fastapi.responses import FileResponse, JSONResponse, Response
@@ -111,6 +120,7 @@ def create_app(store: ArtifactStore, runner: Runner, host: str = "127.0.0.1", ll
             "audio": describe(store, current_audio),
             "before": describe(store, parent) if parent else None,
             "analysis": analysis_for(store, current_audio),
+            "lyrics": lyrics_for(store, current_audio),
             "tree": [{"depth": depth, **describe(store, a.id)} for depth, a in store.tree(root.id)],
         }
 

@@ -2,14 +2,14 @@
 
 const TOOL_LABELS = {
   separate: 'ВЫДЕЛИТЬ ГОЛОС', denoise: 'ПОЧИСТИТЬ', restore: 'ВОССТАНОВИТЬ РЕЧЬ',
-  analyze: 'АНАЛИЗ', inspect: 'ПРОВЕРИТЬ УРОВНИ',
+  analyze: 'АНАЛИЗ', inspect: 'ПРОВЕРИТЬ УРОВНИ', transcribe: 'РАСПОЗНАТЬ ТЕКСТ',
 };
 const ROLE_LABELS = {
   original: 'оригинал', vocals: 'голос', instrumental: 'минус', denoised: 'почищено',
-  restored: 'восстановлено', analysis: 'анализ', report: 'уровни',
+  restored: 'восстановлено', analysis: 'анализ', report: 'уровни', lyrics: 'текст',
 };
 const $ = (id) => document.getElementById(id);
-const view = { selected: null, state: null, side: 'after', peaks: {}, busy: false, agent: null, plans: [], poll: null, root: null, chatError: null };
+const view = { selected: null, state: null, side: 'after', peaks: {}, busy: false, agent: null, plans: [], poll: null, root: null, chatError: null, lyrics: null };
 
 async function api(path, options = {}) {
   const init = { ...options, headers: { ...(options.headers || {}) } };
@@ -81,6 +81,7 @@ function render() {
   drawBoth();
   renderAnalysis(s.analysis);
   renderReport();
+  renderLyrics(s.lyrics).catch(fail);
   renderTree(s.tree, s.head);
   if (view.root !== s.root.id) { view.root = s.root.id; loadChat(); }
 }
@@ -123,7 +124,7 @@ async function renderReport() {
   const box = $('report');
   const selected = view.state.tree.find((a) => a.id === view.selected);
   // Analysis already shows as chips; only level reports and unknown JSON get a panel.
-  if (!selected || selected.kind !== 'json' || selected.role === 'analysis') { box.hidden = true; return; }
+  if (!selected || selected.kind !== 'json' || ['analysis', 'lyrics'].includes(selected.role)) { box.hidden = true; return; }
   const info = await api(`/api/artifacts/${selected.id}`);
   box.replaceChildren();
   const known = Object.keys(LEVEL_LABELS).filter((key) => key in info.content);
@@ -138,6 +139,44 @@ async function renderReport() {
     box.className = 'report raw';
   }
   box.hidden = false;
+}
+
+// The transcript lives only here: it never goes into the agent's context or the chat.
+async function renderLyrics(id) {
+  const box = $('lyrics');
+  if (!id) { box.hidden = true; view.lyrics = null; return; }
+  if (!view.lyrics || view.lyrics.id !== id) {
+    const info = await api(`/api/artifacts/${id}`);
+    view.lyrics = { id, segments: info.content.segments, language: info.content.language };
+  }
+  const list = $('lyrics-lines');
+  list.replaceChildren();
+  view.lyrics.segments.forEach((seg) => {
+    const item = el('li');
+    item.append(el('span', clock(seg.start), 'at'), el('span', seg.text));
+    item.addEventListener('click', () => {
+      const player = $(`audio-${view.side}`);
+      player.currentTime = seg.start;
+      highlightLyrics();
+    });
+    list.append(item);
+  });
+  if (!view.lyrics.segments.length) list.append(el('li', 'текст не распознан', 'muted'));
+  $('lyrics-meta').textContent = `${view.lyrics.language || '?'} · строк: ${view.lyrics.segments.length}`;
+  box.hidden = false;
+  highlightLyrics();
+}
+
+function highlightLyrics() {
+  if (!view.lyrics || $('lyrics').hidden) return;
+  const t = $(`audio-${view.side}`).currentTime;
+  const list = $('lyrics-lines');
+  view.lyrics.segments.forEach((seg, i) => {
+    const item = list.children[i];
+    const now = seg.start <= t && t < seg.end;
+    if (now && !item.classList.contains('now')) list.scrollTop = item.offsetTop - list.clientHeight / 3;
+    item.classList.toggle('now', now);
+  });
 }
 
 function renderTree(tree, head) {
@@ -265,7 +304,7 @@ $('ab-before').addEventListener('click', () => setSide('before'));
 ['after', 'before'].forEach((side) => {
   const player = $(`audio-${side}`);
   ['timeupdate', 'play', 'pause', 'loadedmetadata', 'ended'].forEach((type) => player.addEventListener(type, () => {
-    if (view.side === side) { updatePlay(); drawWave(side); }
+    if (view.side === side) { updatePlay(); drawWave(side); highlightLyrics(); }
   }));
   $(`wave-${side}`).addEventListener('click', (e) => {
     if (view.side !== side) setSide(side);

@@ -21,6 +21,7 @@
 | `denoise` (DeepFilterNet3) | работает на реальных весах (2026-10-22) | прогон на CPU и pytest, см. ниже |
 | Бенчмарк denoise против Sidon (Colab T4, Common Voice ru) | готов (Jamal) | `notebooks/denoise_benchmark_v2(1).ipynb`, выводы в «Решения и контекст» |
 | Агент в `ah ui`: запрос словами → план → подтверждение → инструменты → итог | планировщик проверен на deepseek-flash (2026-10-22) | `benchmarks/agent/smoke_llm.py`: план, второй запрос с историей, повтор после негодного плана; 400 из-за `reasoning_content` нет ни с thinking, ни без. Отчёты в `benchmarks/results/smoke-llm-thinking-*`. Бенч планировщика (100 задач × 5, `benchmarks/README.md`): после правки промпта 2026-10-23 верный план 0.998 у deepseek-flash с thinking, 0.974 без, 1.0 у v4-pro; ответ на языке запроса 1.0 (до правки на английские запросы 17–84%). Выполнение плана и итог на настоящей модели не гонялись |
+| `transcribe` (faster-whisper large-v3-turbo): текст песни или речи с таймкодами, панель «текст» в `ah ui` | код и UI готовы (2026-10-23), **на весах не гонялся** | pytest с фейковым Whisper: фильтр галлюцинаций, `lyrics.json`, текст не попадает к LLM ни в итоге, ни в следующем плане. В браузере на заготовленном транскрипте: панель, клик по строке перематывает, подсветка строки при проигрывании, обе темы. Сигнатуры faster-whisper 1.2.1 сверены в окружении инструмента |
 
 ### Прогон на реальных весах
 
@@ -43,6 +44,7 @@ CPU, 4 ядра. Клип 20 с: речь из LibriSpeech поверх синт
 | `ah restore` | Восстановление речи: шум, реверберация, полоса | Sidon v0.1 | Colab T4 |
 | `ah denoise` | Быстрое шумоподавление речи, `--atten-lim-db N` оставляет часть шума | DeepFilterNet3 | Mac (CPU) |
 | `ah analyze` | BPM, биты, сильные доли, размер, тональность, аккорды | Beat This! / madmom | Mac (CPU) |
+| `ah transcribe` | Текст песни или речи с таймкодами строк и слов в `lyrics.json`; `--params '{"language": "ru"}'` | Whisper large-v3-turbo (faster-whisper) | Mac (CPU, int8) или Colab T4 |
 | `ah tree` / `ah rollback` / `ah head ID` | Дерево версий, откат, переключение head | — | — |
 | `ah export ID out.mp3` | Выгрузить версию (через ffmpeg) | — | — |
 | `ah ui` | Локальная страница: загрузи трек и напиши, что сделать; агент предлагает план, ты подтверждаешь, он гоняет инструменты. Сравнение до/после, анализ, версии, откат, выгрузка | LLM из `[agent]` | Mac |
@@ -57,7 +59,7 @@ brew install uv ffmpeg
 cd audio-harness
 uv sync --all-extras          # core + страница + сервер (нужно и для полного pytest)
 cp ah.toml.example ah.toml
-uv run pytest -q              # 324 passed, 1 skipped
+uv run pytest -q              # 332 passed, 1 skipped
 
 uv run ah import ~/Music/demo.wav
 uv run ah analyze             # первый запуск соберёт окружение tools/analyze (madmom из git)
@@ -108,6 +110,7 @@ uv run ah ui                          # http://localhost:7860
 | denoise | официальный `DeepFilterNet3.zip` из GitHub Rikorose/DeepFilterNet, sha256 закреплён в `ah_denoise` | `~/.cache/ah/deepfilternet/` | около 8 МБ |
 | analyze, Beat This! | `cloud.cp.jku.at` (через torch.hub) | `~/.cache/torch/hub/checkpoints/` | не проверено |
 | analyze, madmom | внутри пакета madmom | окружение tools/analyze | — |
+| transcribe | HF `dropbox-dash/faster-whisper-large-v3-turbo` (туда теперь редиректит `mobiuslabsgmbh/…`, который сам faster-whisper подставляет для `large-v3-turbo`), ревизия закреплена; `large-v3` из `Systran/faster-whisper-large-v3`. Формат CTranslate2 `model.bin`, не pickle. Лицензия MIT | `~/.cache/huggingface/` | около 1.6 ГБ |
 
 Если хост JKU недоступен, скачайте `final0.ckpt` вручную с официальной страницы Beat This! и укажите путь: `export AH_BEAT_THIS_CHECKPOINT=/path/final0.ckpt`. Неофициальные зеркала на HF есть, но я их сознательно не подключал: torch.load на чужом чекпоинте означает чужой pickle.
 
@@ -137,6 +140,8 @@ uv run ah separate --backend remote   # или separate = "remote" в ah.toml
 ```
 
 Без туннеля можно запускать `ah` прямо в Colab; последняя ячейка ноутбука показывает как.
+
+`transcribe` в ноутбук пока не добавлен: для remote допишите `-e tools/transcribe` в `%pip install` и `transcribe` в `AH_SERVER_TOOLS`, на Mac `transcribe = "remote"`. Без torch в окружении `device = "auto"` даёт CPU, на Colab torch есть от separate, и Whisper идёт на CUDA в float16.
 
 Сервер требует bearer-токен от 24 символов и сравнивает его за постоянное время. Он отдаёт только инструменты из `AH_SERVER_TOOLS`, ограничивает загрузку 300 МБ и выполняет одну задачу за раз. Пути клиент не передаёт, а ответ в zip проверяется на path traversal. Quick tunnel даёт публичный URL, так что токен обязателен; для чего-то постоянного лучше named tunnel с Cloudflare Access.
 
@@ -255,6 +260,10 @@ ah CLI / ah ui ──► Runner ──► backend: local (uv-окружение 
 11. [ ] Синтетика для separate: 30–50 миксов «чистый вокал + минус», SI-SDR вокала с ДИ.
 12. [ ] denoise на пении (план просит показать честно: DFN обучен на речи). Бенчмарк Jamal покрывает только речь.
 13. [ ] Итог: сводная таблица, спектрограммы до/после, дерево версий, заранее прогнанные демо, одна команда на пересчёт всех цифр.
+
+**Вне плана MVP** (по запросу владельца 2026-10-23):
+
+- [~] `transcribe`: Whisper large-v3-turbo на вокальном стеме, таймкоды строк и слов, текст только в панели UI. Агент видит язык и счётчики (`lines`, `words`, `dropped_segments`), но не текст: это и защита от prompt injection, и чтобы модель не пересказывала текст песни в чат. Фильтр галлюцинаций: VAD, `condition_on_previous_text=False`, отсев по `no_speech_prob`/`avg_logprob`, `compression_ratio > 2.4` и «субтитровым» фразам. Нет: прогона на настоящих весах и пении, бэкенда через OpenRouter. В бенче планировщика задача `unsupported-08` (транскрипция интервью) теперь устарела: инструмент есть, эталон нужно поменять на `transcribe` по треку. Сам эталон не менял.
 
 **Инфраструктура**, можно в любой момент:
 

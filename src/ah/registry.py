@@ -85,6 +85,18 @@ TOOLS: dict[str, ToolSpec] = {
             params={"beats": {"type": "string", "enum": ["beat_this", "madmom"]},
                     "key": {"type": "boolean"}, "chords": {"type": "boolean"}},
         ),
+        ToolSpec(
+            name="transcribe", module="ah_transcribe", factory="TranscribeTool", project="transcribe",
+            inputs=("audio",), summary="Текст песни или речи с таймкодами (Whisper)", gpu=True,
+            outputs=("lyrics",),
+            hint="Transcribes sung lyrics or speech with line and word timestamps. On a song run separate first and "
+                 "transcribe the vocals; on speech run it on the track directly, without denoise or restore (cleaning "
+                 "made recognition worse). The text goes to a lyrics panel on the page; you only get counts and the language.",
+            params={"model": {"type": "string", "enum": ["large-v3-turbo", "large-v3"],
+                              "description": "large-v3 is slower and a bit more accurate; leave out for turbo"},
+                    "language": {"type": "string", "description": "ISO 639-1 code such as 'ru' or 'en'; leave out to detect"},
+                    "vad": {"type": "boolean", "description": "skip non-vocal parts before recognition (default true)"}},
+        ),
     )
 }
 

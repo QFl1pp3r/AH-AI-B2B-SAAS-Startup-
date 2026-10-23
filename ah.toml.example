@@ -7,6 +7,7 @@ separate = "local"    # switch to "remote" once the Colab server is up
 restore = "local"
 denoise = "local"     # DeepFilterNet is faster than real time on CPU; its env needs Python 3.11, so not on Colab
 analyze = "local"     # CPU is fine: a 32 s clip takes ~25 s with madmom here
+transcribe = "local"  # faster-whisper; CPU on a Mac (int8), "remote" on Colab is much faster
 
 [remote]
 url = ""                       # https://<random>.trycloudflare.com from the notebook (or AH_REMOTE_URL)

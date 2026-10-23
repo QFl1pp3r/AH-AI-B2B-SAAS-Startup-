@@ -168,6 +168,7 @@ def _load(path, name):
     ("restore", "tools/restore/src/ah_restore/__init__.py"),
     ("denoise", "tools/denoise/src/ah_denoise/__init__.py"),
     ("analyze", "tools/analyze/src/ah_analyze/__init__.py"),
+    ("transcribe", "tools/transcribe/src/ah_transcribe/__init__.py"),
 ])
 def test_registry_params_match_the_tools(tool, path):
     fields = set(_load(path, f"agent_check_{tool}").Params.model_fields)
