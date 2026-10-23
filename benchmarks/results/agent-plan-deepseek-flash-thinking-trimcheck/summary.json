@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "c19c26a6c296ccbb0519db9450858e27928d57ea",
+    "git_commit": "06f99eeed546493360d739d10bd5a53cf37ec58b",
     "git_dirty": true,
-    "date": "2026-10-23T10:29:10+00:00",
+    "date": "2026-10-23T18:35:23+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
       "planner": "openai-compatible:deepseek-flash@https://api.deepseek.com"
     },
     "dataset": "agent tasks plan.jsonl",
-    "manifest_sha256": "c98a643458f7229bf7b075767752ce12f172a6f932817b8ba6ab1e2588416d04",
+    "manifest_sha256": "fbe3ee2563717b18ad6bd4a899e9f71d4b0bd17d196de20b1f66c0be41bd2db2",
     "coverage": {
       "tasks": 100,
       "attempts": 500,
@@ -32,6 +32,22 @@
       "tasks": 100,
       "attempts": 500,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.963,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.963,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.963,
@@ -266,6 +282,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -434,6 +466,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -635,6 +683,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -860,6 +924,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -1046,6 +1126,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1262,6 +1358,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -1463,6 +1575,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -1649,6 +1777,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1874,6 +2018,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 0.98,
         "ci95": [
@@ -2075,6 +2235,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -2261,6 +2437,22 @@
       "tasks": 50,
       "attempts": 250,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.9286,
@@ -2480,6 +2672,22 @@
       "tasks": 50,
       "attempts": 250,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.9286,

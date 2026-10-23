@@ -34,16 +34,16 @@ def test_gold_plans_are_plans_the_agent_would_accept(task):
     assert (AGENT / task["track_data"]).is_file()
     assert set(gold.get("forbid", [])) <= set(TOOLS)
     for tools in gold["accept"] or []:
-        def wired(tool):
+        def wired(tool, options=None):
             """The first allowed input of this tool that names an output an earlier step of this plan really has."""
-            options = gold.get("tool_inputs", {}).get(tool, "track")
+            options = options or gold.get("tool_inputs", {}).get(tool, "track")
             for ref in [options] if isinstance(options, str) else options:
                 n, _, role = ref.partition(".")
                 if ref == "track" or (n.isdigit() and int(n) <= len(tools) and role in TOOLS[tools[int(n) - 1]].outputs):
                     return ref
             return options[0]
 
-        steps = [{"tool": tool, "input": gold.get("inputs", {}).get(str(n), wired(tool)), "why": "x",
+        steps = [{"tool": tool, "input": wired(tool, gold.get("inputs", {}).get(str(n))), "why": "x",
                   "params": gold.get("params", {}).get(str(n), gold.get("tool_params", {}).get(tool, {}))}
                  for n, tool in enumerate(tools, 1)]
         validate({"reply": "ok", "steps": steps})
@@ -79,8 +79,8 @@ def run(steps, reply="ok", ok=True, calls=1, attempt=0):
             "llm_calls": [{"at": at, "usage": usage, "latency_s": 1.5}] * calls}
 
 
-def task(**gold):
-    return {"id": "t", "category": "c", "lang": "en", "gold": gold, "_model": "deepseek-flash"}
+def task(lang="en", duration=None, **gold):
+    return {"id": "t", "category": "c", "lang": lang, "gold": gold, "_model": "deepseek-flash", "_duration": duration}
 
 
 def step(tool, source="track", **params):
@@ -116,6 +116,33 @@ def test_tool_params_apply_wherever_the_tool_stands():
     assert score.check(run([step("trim", start_s=3), step("denoise", "1.trimmed")]), gold)["params_ok"] == 0.0
 
 
+def test_trim_is_judged_by_the_range_the_user_gets():
+    gold = task(accept=[["trim"]], params={"1": {"end_s": 197.4}}, duration=212.4)  # "remove the last 15 seconds"
+    assert score.check(run([step("trim", end_s=197.4)]), gold)["params_ok"] == 1.0
+    assert score.check(run([step("trim", start_s=0, end_s=197.4, fade_ms=10)]), gold)["params_ok"] == 1.0
+    assert score.check(run([step("trim", start_s=5, end_s=197.4)]), gold)["params_ok"] == 0.0  # another fragment
+    assert score.check(run([step("trim", end_s=197.4, silence=True)]), gold)["params_ok"] == 0.0
+    tail = task(accept=[["trim"]], params={"1": {"start_s": 152.4}}, duration=212.4)  # "keep the last minute"
+    assert score.check(run([step("trim", start_s=152.4, end_s=212.4)]), tail)["params_ok"] == 1.0  # end of file spelled out
+    assert score.check(run([step("trim", start_s=152.4, end_s=200)]), tail)["params_ok"] == 0.0
+
+
+def test_analyze_must_not_switch_off_what_was_asked():
+    gold = task(accept=[["analyze"]], needs=["key"])
+    assert score.check(run([step("analyze")]), gold)["params_ok"] == 1.0  # key is on by default
+    assert score.check(run([step("analyze", chords=False)]), gold)["params_ok"] == 1.0
+    assert score.check(run([step("analyze", key=False)]), gold)["params_ok"] == 0.0
+
+
+def test_inputs_by_position_and_language_in_correct():
+    gold = task(accept=[["trim", "denoise", "trim"]], inputs={"2": "1.trimmed", "3": ["2.denoised", "2.restored"]})
+    right = [step("trim", start_s=5), step("denoise", "1.trimmed"), step("trim", "2.denoised", silence=True)]
+    assert score.check(run(right), gold)["inputs_ok"] == 1.0
+    assert score.check(run(right[:2] + [step("trim", "track", silence=True)]), gold)["inputs_ok"] == 0.0
+    italian = score.check(run(right, "Taglio i primi 5 secondi e pulisco la voce."), gold)
+    assert italian["plan_ok"] == 1.0 and italian["correct"] == 0.0 and italian["failed"] == "reply_lang_ok"
+
+
 def test_trim_params_within_tolerance():
     gold = task(accept=[["trim"]], params={"1": {"start_s": 60, "end_s": 150}})
     assert score.check(run([step("trim", start_s=60.05, end_s=150)]), gold)["params_ok"] == 1.0
@@ -125,9 +152,13 @@ def test_trim_params_within_tolerance():
 
 
 def test_unsupported_answer_and_ambiguous_rules():
-    unsupported = task(accept=[[]], must_say_unsupported=True)
+    unsupported = task(accept=[[]], must_say_unsupported=True, lang="ru")
     assert score.check(run([], "MIDI баса пока нельзя сделать"), unsupported)["correct"] == 1.0
     assert score.check(run([], "Sure, done!"), unsupported)["unsupported_ok"] == 0.0
+    for refusal in ("Sorry, none of our tools can normalize to LUFS.", "Reverb and compression aren't something I can do yet."):
+        assert score.check(run([], refusal), task(accept=[[]], must_say_unsupported=True))["unsupported_ok"] == 1.0
+    ru = task(accept=[[]], must_say_unsupported=True, lang="ru")
+    assert score.check(run([], "Ни один из доступных инструментов не умеет поднимать громкость."), ru)["unsupported_ok"] == 1.0
     answer = task(accept=[[]], reply_any=["124"])
     assert score.check(run([], "It is 124 BPM"), answer)["correct"] == 1.0
     assert score.check(run([step("analyze")], "Analysing"), answer)["failed"] == "seq_ok,reply_ok"
@@ -149,6 +180,10 @@ def test_unsupported_answer_and_ambiguous_rules():
     ("Separo la pista en voz e instrumental para que tengas el acapella.", "es", True),
     ("Taglio i primi 30 secondi e tengo il resto della traccia.", "it", True),
     ("Taglio i primi 30 secondi e tengo il resto della traccia.", "es", False),
+    ("Taglio i primi 20 secondi e tengo il resto.", "it", True),
+    ("Voy a analizar la tonalidad de la mezcla.", "es", True),
+    ("I'll analyze the key of the mix.", "es", False),
+    ("Ich lasse restore über deine Sprachaufnahme laufen.", "it", False),
     ("Just a trim: leading and trailing silence goes, nothing in between.", "en", True),
     ("Peak level is -0.3 dBFS, right up near full scale, but nothing clipped.", "en", True),
     ("Cortaré el silencio del principio y del final.", "en", False),

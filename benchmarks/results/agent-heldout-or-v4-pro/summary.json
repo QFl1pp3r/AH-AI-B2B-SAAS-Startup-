@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "4caa37e8dd67461895a20174d0b73b23907bfde8",
+    "git_commit": "06f99eeed546493360d739d10bd5a53cf37ec58b",
     "git_dirty": true,
-    "date": "2026-10-23T10:42:08+00:00",
+    "date": "2026-10-23T18:35:26+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
       "planner": "openai-compatible:deepseek/deepseek-v4-pro@https://openrouter.ai/api/v1"
     },
     "dataset": "agent tasks heldout.jsonl",
-    "manifest_sha256": "f88e028773d78e0fbbfacd7a137330e7aa23714d74b5accf7f1bb8e6f1fef7df",
+    "manifest_sha256": "fe8ea037646a325e05270aba5e0d2914975b1fcc6c68eca705c3e9cc8f06deb0",
     "coverage": {
       "tasks": 100,
       "attempts": 500,
@@ -32,19 +32,35 @@
       "tasks": 100,
       "attempts": 500,
       "correct": {
-        "mean": 0.954,
+        "mean": 0.96,
         "ci95": [
-          0.8936,
-          0.982
+          0.9016,
+          0.986
         ],
         "n": 500,
         "ci95_bootstrap": [
-          0.918,
-          0.982
+          0.926,
+          0.986
         ],
         "ci95_wilson": [
-          0.8936,
-          0.9809
+          0.9016,
+          0.9843
+        ]
+      },
+      "plan_ok": {
+        "mean": 0.968,
+        "ci95": [
+          0.9127,
+          0.992
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          0.936,
+          0.992
+        ],
+        "ci95_wilson": [
+          0.9127,
+          0.9887
         ]
       },
       "valid_first_try": {
@@ -176,19 +192,19 @@
         ]
       },
       "unsupported_ok": {
-        "mean": 0.8,
+        "mean": 0.94,
         "ci95": [
-          0.4902,
-          0.9433
+          0.6431,
+          1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.66,
-          0.92
+          0.84,
+          1.0
         ],
         "ci95_wilson": [
-          0.4902,
-          0.9433
+          0.6431,
+          0.9927
         ]
       },
       "reply_ok": {
@@ -208,35 +224,35 @@
         ]
       },
       "reply_lang_ok": {
-        "mean": 0.9812,
+        "mean": 0.9896,
         "ci95": [
-          0.9303,
-          0.9979
+          0.9433,
+          1.0
         ],
         "n": 480,
         "ci95_bootstrap": [
-          0.9604,
-          0.9979
+          0.975,
+          1.0
         ],
         "ci95_wilson": [
-          0.9303,
-          0.9951
+          0.9433,
+          0.9982
         ]
       },
       "pass_k": {
-        "mean": 0.9,
+        "mean": 0.91,
         "ci95": [
-          0.8256,
-          0.95
+          0.8377,
+          0.96
         ],
         "n": 100,
         "ci95_bootstrap": [
-          0.84,
-          0.95
+          0.85,
+          0.96
         ],
         "ci95_wilson": [
-          0.8256,
-          0.9448
+          0.8377,
+          0.9519
         ]
       },
       "invalid_after_retry": 0.0,
@@ -251,6 +267,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "plan_ok": {
         "mean": 0.98,
         "ci95": [
           0.6945,
@@ -467,6 +499,22 @@
           0.9991
         ]
       },
+      "plan_ok": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -653,19 +701,35 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
-        "mean": 0.8,
+        "mean": 0.94,
         "ci95": [
-          0.4902,
-          0.9433
+          0.6431,
+          1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.66,
-          0.92
+          0.84,
+          1.0
         ],
         "ci95_wilson": [
-          0.4902,
-          0.9433
+          0.6431,
+          0.9927
+        ]
+      },
+      "plan_ok": {
+        "mean": 0.94,
+        "ci95": [
+          0.6431,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.84,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6431,
+          0.9927
         ]
       },
       "valid_first_try": {
@@ -797,19 +861,19 @@
         ]
       },
       "unsupported_ok": {
-        "mean": 0.8,
+        "mean": 0.94,
         "ci95": [
-          0.4902,
-          0.9433
+          0.6431,
+          1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.66,
-          0.92
+          0.84,
+          1.0
         ],
         "ci95_wilson": [
-          0.4902,
-          0.9433
+          0.6431,
+          0.9927
         ]
       },
       "reply_ok": {
@@ -836,19 +900,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.5,
+        "mean": 0.8,
         "ci95": [
-          0.2,
-          0.8
+          0.4902,
+          1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          0.2,
-          0.8
+          0.5,
+          1.0
         ],
         "ci95_wilson": [
-          0.2366,
-          0.7634
+          0.4902,
+          0.9433
         ]
       },
       "invalid_after_retry": 0.0,
@@ -863,6 +927,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1088,6 +1168,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -1289,6 +1385,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -1432,19 +1544,19 @@
         "ci95_wilson": null
       },
       "reply_lang_ok": {
-        "mean": 0.9111,
+        "mean": 1.0,
         "ci95": [
-          0.5898,
+          0.7008,
           1.0
         ],
         "n": 45,
         "ci95_bootstrap": [
-          0.7778,
+          1.0,
           1.0
         ],
         "ci95_wilson": [
-          0.5898,
-          0.9865
+          0.7008,
+          1.0
         ]
       },
       "pass_k": {
@@ -1475,6 +1587,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.88,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "plan_ok": {
         "mean": 0.96,
         "ci95": [
           0.6681,
@@ -1676,6 +1804,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.8,
+        "ci95": [
+          0.4902,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.56,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4902,
+          0.9433
+        ]
+      },
+      "plan_ok": {
         "mean": 0.82,
         "ci95": [
           0.5102,
@@ -1850,19 +1994,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.8,
+        "mean": 0.7,
         "ci95": [
-          0.4902,
+          0.3968,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          0.5,
+          0.4,
           1.0
         ],
         "ci95_wilson": [
-          0.4902,
-          0.9433
+          0.3968,
+          0.8922
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1877,6 +2021,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -2078,6 +2238,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.94,
+        "ci95": [
+          0.6431,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.82,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6431,
+          0.9927
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -2252,19 +2428,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.9,
         "ci95": [
-          0.7225,
+          0.5958,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
+          0.7,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.5958,
+          0.9821
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2279,6 +2455,22 @@
       "tasks": 3,
       "attempts": 15,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.4385,
@@ -2483,16 +2675,32 @@
         "mean": 0.9349,
         "ci95": [
           0.8201,
-          0.986
+          0.9814
         ],
         "n": 215,
         "ci95_bootstrap": [
           0.8744,
-          0.986
+          0.9814
         ],
         "ci95_wilson": [
           0.8201,
           0.9784
+        ]
+      },
+      "plan_ok": {
+        "mean": 0.9535,
+        "ci95": [
+          0.8454,
+          0.9907
+        ],
+        "n": 215,
+        "ci95_bootstrap": [
+          0.8977,
+          0.9907
+        ],
+        "ci95_wilson": [
+          0.8454,
+          0.9872
         ]
       },
       "valid_first_try": {
@@ -2624,19 +2832,19 @@
         ]
       },
       "unsupported_ok": {
-        "mean": 0.72,
+        "mean": 0.88,
         "ci95": [
-          0.3134,
-          0.9354
+          0.4444,
+          1.0
         ],
         "n": 25,
         "ci95_bootstrap": [
-          0.52,
-          0.92
+          0.72,
+          1.0
         ],
         "ci95_wilson": [
-          0.3134,
-          0.9354
+          0.4444,
+          0.9853
         ]
       },
       "reply_ok": {
@@ -2672,19 +2880,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.8605,
+        "mean": 0.8372,
         "ci95": [
-          0.7274,
-          0.9535
+          0.7003,
+          0.9302
         ],
         "n": 43,
         "ci95_bootstrap": [
-          0.7442,
-          0.9535
+          0.7209,
+          0.9302
         ],
         "ci95_wilson": [
-          0.7274,
-          0.9344
+          0.7003,
+          0.9188
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2699,6 +2907,22 @@
       "tasks": 3,
       "attempts": 15,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.4385,
@@ -2857,19 +3081,19 @@
         "ci95_wilson": null
       },
       "reply_lang_ok": {
-        "mean": 0.9333,
+        "mean": 1.0,
         "ci95": [
-          0.3832,
+          0.4385,
           1.0
         ],
         "n": 15,
         "ci95_bootstrap": [
-          0.8,
+          1.0,
           1.0
         ],
         "ci95_wilson": [
-          0.3832,
-          0.9968
+          0.4385,
+          1.0
         ]
       },
       "pass_k": {
@@ -2915,6 +3139,22 @@
           1.0
         ]
       },
+      "plan_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
@@ -3058,19 +3298,19 @@
         "ci95_wilson": null
       },
       "reply_lang_ok": {
-        "mean": 0.7,
+        "mean": 1.0,
         "ci95": [
-          0.1743,
+          0.3424,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          0.4,
+          1.0,
           1.0
         ],
         "ci95_wilson": [
-          0.1743,
-          0.9627
+          0.3424,
+          1.0
         ]
       },
       "pass_k": {
@@ -3101,6 +3341,22 @@
       "tasks": 1,
       "attempts": 5,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.2065,
@@ -3293,19 +3549,35 @@
       "tasks": 45,
       "attempts": 225,
       "correct": {
-        "mean": 0.96,
+        "mean": 0.9733,
         "ci95": [
-          0.858,
-          0.9956
+          0.8776,
+          1.0
         ],
         "n": 225,
         "ci95_bootstrap": [
-          0.9156,
-          0.9956
+          0.9289,
+          1.0
         ],
         "ci95_wilson": [
-          0.858,
-          0.9896
+          0.8776,
+          0.9946
+        ]
+      },
+      "plan_ok": {
+        "mean": 0.9733,
+        "ci95": [
+          0.8776,
+          1.0
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
+          0.9289,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.8776,
+          0.9946
         ]
       },
       "valid_first_try": {
@@ -3437,19 +3709,19 @@
         ]
       },
       "unsupported_ok": {
-        "mean": 0.88,
+        "mean": 1.0,
         "ci95": [
-          0.4444,
+          0.5655,
           1.0
         ],
         "n": 25,
         "ci95_bootstrap": [
-          0.72,
+          1.0,
           1.0
         ],
         "ci95_wilson": [
-          0.4444,
-          0.9853
+          0.5655,
+          1.0
         ]
       },
       "reply_ok": {
@@ -3485,19 +3757,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.9111,
+        "mean": 0.9556,
         "ci95": [
-          0.7927,
-          0.9778
+          0.8517,
+          1.0
         ],
         "n": 45,
         "ci95_bootstrap": [
-          0.8222,
-          0.9778
+          0.8889,
+          1.0
         ],
         "ci95_wilson": [
-          0.7927,
-          0.9649
+          0.8517,
+          0.9877
         ]
       },
       "invalid_after_retry": 0.0,
@@ -3512,6 +3784,22 @@
       "tasks": 3,
       "attempts": 15,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.4385,
@@ -3730,31 +4018,31 @@
     ],
     "hard_unsupported": [
       {
-        "task": "hardunsup-01",
+        "task": "hardunsup-07",
         "attempt": 0,
         "tools": "-",
-        "failed": "unsupported_ok",
+        "failed": "seq_ok,unsupported_ok",
         "forbidden": "",
         "error": "",
-        "reply": "Ни один из доступных инструментов не умеет поднимать громкость. Ни normalize, ни gain, ни amplify здесь нет — это делается в любом аудиоредакторе."
+        "reply": "I can only split into vocals and instrumental here — no 4‑stem separation yet. Want me to run that?"
       },
       {
-        "task": "hardunsup-01",
-        "attempt": 3,
-        "tools": "-",
-        "failed": "unsupported_ok",
+        "task": "hardunsup-07",
+        "attempt": 2,
+        "tools": "separate",
+        "failed": "unsupported_ok,reply_lang_ok",
         "forbidden": "",
         "error": "",
-        "reply": "К сожалению, ни один из доступных инструментов не умеет поднимать громкость. У нас нет эквалайзера, компрессора или простого усиления — только разделение, очистка речи, обрезка, анализ и замеры. Это работа для любого аудиоредактора (Audacity, REAPER и т.д.) — там gain делается за секунду."
+        "reply": "Ich kann den Track nur in Vocals und Instrumental trennen — ein 4-Stem-Split in Drums, Bass, Vocals und Other ist mit den vorhandenen Tools nicht möglich. Der Plan macht die 2-Stem-Trennung, das ist das, was geht."
       },
       {
-        "task": "hardunsup-03",
+        "task": "hardunsup-08",
         "attempt": 2,
         "tools": "-",
         "failed": "unsupported_ok",
         "forbidden": "",
         "error": "",
-        "reply": "К сожалению, ни один из доступных инструментов не умеет менять темп. Здесь нет тайм-стретчинга — можно только измерить текущий BPM через анализ, но не перегнать трек в 120 BPM."
+        "reply": "Sorry, none of the available tools can convert audio to MP3. We can do separation, noise reduction, analysis, trimming, and loudness checks — but not format conversion or encoding."
       }
     ],
     "long": [
@@ -3804,6 +4092,35 @@
         "forbidden": "",
         "error": "",
         "reply": "Это голосовая заметка (voice memo), а не песня — анализировать темп для spoken word нет смысла, ритмической сетки там нет.\n\nЕсли хочешь, могу просто измерить длительность и громкость через inspect. Но темп — только для музыки."
+      }
+    ],
+    "noisy": [
+      {
+        "task": "noisy-07",
+        "attempt": 0,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Separo as vozes da mix — um passo só."
+      },
+      {
+        "task": "noisy-07",
+        "attempt": 1,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Séparer les voix de l'instrumental avec le modèle standard. Tu obtiendras l'acapella."
+      },
+      {
+        "task": "noisy-07",
+        "attempt": 4,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Separo las voces de la mezcla para obtener el acapella."
       }
     ]
   }

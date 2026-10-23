@@ -5,7 +5,7 @@ noisy-03,noisy,ru,5,1.0,1.0,denoise | restore
 noisy-04,noisy,ru,5,0.8,0.0,INVALID | trim
 noisy-05,noisy,en,5,1.0,1.0,denoise
 noisy-06,noisy,en,5,1.0,1.0,analyze
-noisy-07,noisy,en,5,1.0,1.0,separate
+noisy-07,noisy,en,5,0.8,0.0,separate
 noisy-08,noisy,translit,5,1.0,1.0,analyze
 noisy-09,noisy,translit,5,1.0,1.0,separate
 noisy-10,noisy,translit,5,1.0,1.0,denoise
@@ -97,5 +97,5 @@ hardunsup-05,hard_unsupported,ru,5,1.0,1.0,-
 hardunsup-06,hard_unsupported,en,5,1.0,1.0,-
 hardunsup-07,hard_unsupported,en,5,1.0,1.0,separate
 hardunsup-08,hard_unsupported,en,5,1.0,1.0,-
-hardunsup-09,hard_unsupported,en,5,0.8,0.0,-
-hardunsup-10,hard_unsupported,en,5,0.8,0.0,denoise
+hardunsup-09,hard_unsupported,en,5,1.0,1.0,-
+hardunsup-10,hard_unsupported,en,5,1.0,1.0,denoise

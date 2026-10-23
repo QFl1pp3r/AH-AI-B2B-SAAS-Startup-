@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "c19c26a6c296ccbb0519db9450858e27928d57ea",
+    "git_commit": "06f99eeed546493360d739d10bd5a53cf37ec58b",
     "git_dirty": true,
-    "date": "2026-10-23T10:29:07+00:00",
+    "date": "2026-10-23T18:35:24+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
       "planner": "openai-compatible:deepseek-flash@https://api.deepseek.com"
     },
     "dataset": "agent tasks plan.jsonl",
-    "manifest_sha256": "c98a643458f7229bf7b075767752ce12f172a6f932817b8ba6ab1e2588416d04",
+    "manifest_sha256": "fbe3ee2563717b18ad6bd4a899e9f71d4b0bd17d196de20b1f66c0be41bd2db2",
     "coverage": {
       "tasks": 100,
       "attempts": 500,
@@ -32,6 +32,22 @@
       "tasks": 100,
       "attempts": 500,
       "correct": {
+        "mean": 0.848,
+        "ci95": [
+          0.7649,
+          0.9054
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          0.796,
+          0.894
+        ],
+        "ci95_wilson": [
+          0.7649,
+          0.9054
+        ]
+      },
+      "plan_ok": {
         "mean": 0.98,
         "ci95": [
           0.93,
@@ -224,19 +240,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.93,
+        "mean": 0.65,
         "ci95": [
-          0.8625,
-          0.98
+          0.55,
+          0.74
         ],
         "n": 100,
         "ci95_bootstrap": [
-          0.88,
-          0.98
+          0.55,
+          0.74
         ],
         "ci95_wilson": [
-          0.8625,
-          0.9657
+          0.5525,
+          0.7364
         ]
       },
       "invalid_after_retry": 0.0,
@@ -251,6 +267,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.92,
+        "ci95": [
+          0.619,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.84,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.619,
+          0.9879
+        ]
+      },
+      "plan_ok": {
         "mean": 0.98,
         "ci95": [
           0.6945,
@@ -407,19 +439,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.9,
+        "mean": 0.7,
         "ci95": [
-          0.5958,
+          0.3968,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          0.7,
+          0.4,
           1.0
         ],
         "ci95_wilson": [
-          0.5958,
-          0.9821
+          0.3968,
+          0.8922
         ]
       },
       "invalid_after_retry": 0.0,
@@ -434,6 +466,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.8,
+        "ci95": [
+          0.4902,
+          0.96
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.6195,
+          0.96
+        ],
+        "ci95_wilson": [
+          0.4902,
+          0.9433
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -608,19 +656,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.6,
         "ci95": [
-          0.7225,
-          1.0
+          0.3,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.3,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3127,
+          0.8318
         ]
       },
       "invalid_after_retry": 0.0,
@@ -635,6 +683,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.84,
+        "ci95": [
+          0.5307,
+          0.9805
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.64,
+          0.9805
+        ],
+        "ci95_wilson": [
+          0.5307,
+          0.9606
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -818,19 +882,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.7,
         "ci95": [
-          0.7225,
-          1.0
+          0.3968,
+          0.9025
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.4,
+          0.9025
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3968,
+          0.8922
         ]
       },
       "invalid_after_retry": 0.0,
@@ -845,6 +909,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.86,
+        "ci95": [
+          0.5518,
+          0.98
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.7,
+          0.98
+        ],
+        "ci95_wilson": [
+          0.5518,
+          0.9684
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1019,19 +1099,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.6,
         "ci95": [
-          0.7225,
-          1.0
+          0.3,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.3,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3127,
+          0.8318
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1046,6 +1126,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.92,
+        "ci95": [
+          0.619,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.78,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.619,
+          0.9879
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1220,19 +1316,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.8,
         "ci95": [
-          0.7225,
+          0.4902,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
+          0.5,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.4902,
+          0.9433
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1247,6 +1343,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.86,
+        "ci95": [
+          0.5518,
+          0.98
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.72,
+          0.98
+        ],
+        "ci95_wilson": [
+          0.5518,
+          0.9684
+        ]
+      },
+      "plan_ok": {
         "mean": 0.92,
         "ci95": [
           0.619,
@@ -1421,19 +1533,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.8,
+        "mean": 0.6,
         "ci95": [
-          0.4902,
-          1.0
+          0.3,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          0.5,
-          1.0
+          0.3,
+          0.9
         ],
         "ci95_wilson": [
-          0.4902,
-          0.9433
+          0.3127,
+          0.8318
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1448,6 +1560,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.72,
+        "ci95": [
+          0.4146,
+          0.9032
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.52,
+          0.9
+        ],
+        "ci95_wilson": [
+          0.4146,
+          0.9032
+        ]
+      },
+      "plan_ok": {
         "mean": 0.98,
         "ci95": [
           0.6945,
@@ -1622,19 +1750,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.9,
+        "mean": 0.5,
         "ci95": [
-          0.5958,
-          1.0
+          0.2,
+          0.8
         ],
         "n": 10,
         "ci95_bootstrap": [
-          0.7,
-          1.0
+          0.2,
+          0.8
         ],
         "ci95_wilson": [
-          0.5958,
-          0.9821
+          0.2366,
+          0.7634
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1649,6 +1777,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.8,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "plan_ok": {
         "mean": 0.92,
         "ci95": [
           0.619,
@@ -1859,6 +2003,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.92,
+        "ci95": [
+          0.619,
+          0.9879
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.84,
+          0.98
+        ],
+        "ci95_wilson": [
+          0.619,
+          0.9879
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -2033,19 +2193,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.7,
         "ci95": [
-          0.7225,
-          1.0
+          0.3968,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.4,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3968,
+          0.8922
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2060,6 +2220,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.74,
+        "ci95": [
+          0.4329,
+          0.94
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.52,
+          0.94
+        ],
+        "ci95_wilson": [
+          0.4329,
+          0.9139
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -2234,19 +2410,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.6,
         "ci95": [
-          0.7225,
-          1.0
+          0.3,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.3,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3127,
+          0.8318
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2261,6 +2437,22 @@
       "tasks": 50,
       "attempts": 250,
       "correct": {
+        "mean": 0.708,
+        "ci95": [
+          0.5708,
+          0.8155
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
+          0.632,
+          0.78
+        ],
+        "ci95_wilson": [
+          0.5708,
+          0.8155
+        ]
+      },
+      "plan_ok": {
         "mean": 0.972,
         "ci95": [
           0.8829,
@@ -2453,19 +2645,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.9,
+        "mean": 0.34,
         "ci95": [
-          0.7864,
-          0.98
+          0.2,
+          0.48
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.8,
-          0.98
+          0.2,
+          0.48
         ],
         "ci95_wilson": [
-          0.7864,
-          0.9565
+          0.2244,
+          0.4785
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2480,6 +2672,22 @@
       "tasks": 50,
       "attempts": 250,
       "correct": {
+        "mean": 0.988,
+        "ci95": [
+          0.9078,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
+          0.968,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9078,
+          0.9985
+        ]
+      },
+      "plan_ok": {
         "mean": 0.988,
         "ci95": [
           0.9078,
@@ -2710,6 +2918,140 @@
         "forbidden": "separate",
         "error": "",
         "reply": "Это голосовое, так что план такой: сначала уберу тишину по краям, потом прогоню через реставрацию речи — она убирает шум и реверберацию и возвращает верх. На выходе будет моно-речь с сохранённым пиковым уровнем; исходник остаётся версией, так что откатиться можно в любой момент."
+      },
+      {
+        "task": "ambiguous-09",
+        "attempt": 1,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Tengo tu entrevista en crudo (45 min, picos a -2 dBFS) pero no me dijiste qué querés hacer con ella, así que no corro nada todavía. Lo típico sería: recortar silencios de los extremos, o limpiar la voz con denoise/restore para que se escuche más clara. Decime cuál te sirve —o si querés otra cosa— y "
+      },
+      {
+        "task": "ambiguous-09",
+        "attempt": 4,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Frag mich kurz, was du brauchst – „do your thing\" ist mir zu offen für eine 45-Minuten-Datei. Sie sieht wie ein unbearbeitetes Interview aus (Peak −2 dBFS, RMS −24 dBFS, 12 % Stille, praktisch kein Clipping). Sinnvoll wären z. B.: nur die Stille an Anfang/Ende wegschneiden (schnell), Sprache entraus"
+      }
+    ],
+    "analyze": [
+      {
+        "task": "analyze-02",
+        "attempt": 3,
+        "tools": "analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich lasse die Tonart aus deinem Mix analysieren. Hinweis: Die Tonart ist der unsicherste Wert der Analyse — bei stark bearbeiteten Mixes lohnt ein Gegencheck."
+      },
+      {
+        "task": "analyze-07",
+        "attempt": 2,
+        "tools": "analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Faccio un'analisi del mix per tirar fuori tempo e accordi."
+      },
+      {
+        "task": "analyze-07",
+        "attempt": 3,
+        "tools": "analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Analizo la mezcla para sacar tempo y acordes. Con eso ya tienes la armonía para tocar encima."
+      }
+    ],
+    "answer": [
+      {
+        "task": "answer-07",
+        "attempt": 0,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Já temos a análise dessa faixa: a progressão é Am – F – C – G (com Am voltando no fim), em Lá menor, 124 BPM em 4/4. Não precisa rodar nada."
+      },
+      {
+        "task": "answer-07",
+        "attempt": 1,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Já temos a análise dessa faixa: os acordes são Am – F – C – G (em A menor, 124 BPM, 4/4). Não preciso rodar nada de novo."
+      },
+      {
+        "task": "answer-07",
+        "attempt": 2,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ya está analizado: el tema va en La menor, 124 BPM, 4/4, y los acordes que aparecen son Am – F – C – G (con el Am volviendo al final del ciclo). No hace falta correr nada."
+      }
+    ],
+    "minimal": [
+      {
+        "task": "minimal-02",
+        "attempt": 3,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Já tenho essa medição do arquivo: pico de -6,2 dBFS e RMS de -31,5 dBFS em 95 s. É uma gravação de voz tranquila, com bastante folga de headroom e sem clipping (0%). Uns 18% do arquivo é silêncio. Não precisa rodar nada."
+      },
+      {
+        "task": "minimal-08",
+        "attempt": 0,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Peak è a -0,3 dBFS (RMS -11,8 dBFS, nessun clipping). È già nei dati del file, non serve far girare nulla. Se vuoi una misura fresca o un check più fine, dimmelo e lancio l'inspect."
+      },
+      {
+        "task": "minimal-09",
+        "attempt": 1,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "El archivo dura 2712 segundos, unos 45 minutos y 12 segundos. No hace falta procesar nada."
+      }
+    ],
+    "multi": [
+      {
+        "task": "multi-07",
+        "attempt": 0,
+        "tools": "separate>denoise>analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Plano: separo a faixa em voz e instrumental, limpo a voz separada com denoise (rápido e mantém o timbre próximo do original) e analiso a tonalidade do instrumental. A voz limpa fica numa nova versão; nada é sobrescrito e dá pra voltar atrás em cada passo."
+      },
+      {
+        "task": "multi-07",
+        "attempt": 2,
+        "tools": "separate>denoise>analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Separo la pista en voz e instrumental, limpio la voz con el denoiser y saco la tonalidad del instrumental. La separación tarda un poco, es lo más pesado del plan."
+      },
+      {
+        "task": "multi-07",
+        "attempt": 4,
+        "tools": "separate>denoise>analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich trenne zuerst Gesang und Instrumental, dann entrausche ich die Gesangsspur und lasse die Tonart des Instrumentals analysieren. Die rohe Gesangsspur bleibt als eigene Version erhalten, falls dir der Denoiser zu viel wegnimmt."
       }
     ],
     "speech_clean": [
@@ -2732,24 +3074,42 @@
         "reply": "Полноценного «студийного» сведения и мастеринга у нас пока нет — ни эквалайзера, ни компрессора, ни реверба. Что могу: почистить дубль от тишины по краям и прогнать голос через восстановление — уберёт шум и комнатный гул, вернёт верх и сделает запись плотнее и чище, ближе к студийной. Если нужен име"
       },
       {
-        "task": "speech-10",
-        "attempt": 0,
-        "tools": "trim>restore",
-        "failed": "seq_ok",
+        "task": "speech-07",
+        "attempt": 1,
+        "tools": "denoise",
+        "failed": "reply_lang_ok",
         "forbidden": "",
         "error": "",
-        "reply": "Since it's an interview (speech only), I'd skip separation and go straight to cleanup: first trim the dead air at the head and tail, then run the generative restoration to pull out hiss/room reverb and bring back some top end. That's the big step toward a professional sound. One caveat: we don't do "
+        "reply": "Es una nota de voz, así que no hace falta separar nada: le paso el denoiser de voz directamente. Es rápido y mantiene la voz muy cerca del original."
       }
     ],
     "trim": [
       {
-        "task": "trim-08",
-        "attempt": 4,
+        "task": "trim-02",
+        "attempt": 1,
         "tools": "trim",
-        "failed": "params_ok",
+        "failed": "reply_lang_ok",
         "forbidden": "",
         "error": "",
-        "reply": "One trim pass: it cuts the silence at both ends, which drops roughly 17 seconds of your 95-second memo. Everything else stays untouched, and the original version is kept so you can roll back."
+        "reply": "Taglio i primi 30 secondi e tengo tutto il resto, senza toccare l'originale."
+      },
+      {
+        "task": "trim-02",
+        "attempt": 2,
+        "tools": "trim",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Taglio i primi 30 secondi e tengo il resto così com'è, senza toccare nient'altro."
+      },
+      {
+        "task": "trim-02",
+        "attempt": 4,
+        "tools": "trim",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Klar – ich schneide die ersten 30 Sekunden weg und lasse den Rest unverändert."
       }
     ],
     "unsupported": [
@@ -2757,7 +3117,7 @@
         "task": "unsupported-02",
         "attempt": 1,
         "tools": "separate",
-        "failed": "unsupported_ok",
+        "failed": "unsupported_ok,reply_lang_ok",
         "forbidden": "",
         "error": "",
         "reply": "Separo la voce dall'instrumental (Kim, default). L'esportazione del progetto verso REAPER però non è ancora possibile: ti consegno i due stem separati, poi li importi tu in REAPER."
@@ -2766,7 +3126,7 @@
         "task": "unsupported-02",
         "attempt": 2,
         "tools": "separate",
-        "failed": "unsupported_ok",
+        "failed": "unsupported_ok,reply_lang_ok",
         "forbidden": "",
         "error": "",
         "reply": "Faccio la separazione: ti restituisco voce e strumentale come versioni separate (CPU, circa 9x la durata del brano). L'export del progetto su REAPER non è purtroppo supportato: dallo store potrai scaricare i due file e importarli tu nella DAW."
@@ -2779,6 +3139,64 @@
         "forbidden": "",
         "error": "",
         "reply": "Mastering isn't something these tools can do — there's no limiter, EQ or loudness normalisation here, so I can't produce a Spotify-ready master. What I can do is measure the mix (peak, RMS, clipping, silence) so you know how much headroom you're working with before you take it into a mastering chain"
+      }
+    ],
+    "vocal_clean": [
+      {
+        "task": "vocalclean-02",
+        "attempt": 1,
+        "tools": "denoise",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Le passo un denoise alla traccia voce: è il modo più rapido per togliere il fruscio tenendo la voce vicina all'originale. Se dopo vuoi qualcosa di più aggressivo si può provare il restore, ma sposta di più il timbro."
+      },
+      {
+        "task": "vocalclean-02",
+        "attempt": 3,
+        "tools": "denoise",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Hai già le voci separate, quindi passo solo il denoiser: toglie il fruscio tenendo la voce vicina all'originale. Se il risultato ti sembra troppo \"asciutto\" o aggressivo, si può rifare con una soppressione più morbida."
+      },
+      {
+        "task": "vocalclean-09",
+        "attempt": 1,
+        "tools": "separate>denoise",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Separo la voce dall'accompagnamento e passo il denoiser solo sulla traccia vocale, così il resto del mix non viene toccato. Attenzione: non ho ancora uno strumento per rimontare voce e base, quindi otterrai la voce pulita come versione separata."
+      }
+    ],
+    "vocals": [
+      {
+        "task": "vocals-07",
+        "attempt": 0,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Voy a separar la pista en voces e instrumental; te quedas con el instrumental como base de karaoke. Se tarda un poco (CPU), pero no toco nada del original."
+      },
+      {
+        "task": "vocals-07",
+        "attempt": 1,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Separo la canzone in voce e base: la traccia strumentale è la tua versione karaoke. La separazione è lenta (circa 9x la durata), ma il risultato resta come nuova versione, l'originale non si tocca."
+      },
+      {
+        "task": "vocals-07",
+        "attempt": 2,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Te separo la canción en voz e instrumental y te quedas con la pista instrumental como karaoke. Ojo: la separación en CPU tarda bastante (unas 9 veces la duración del tema)."
       }
     ]
   }

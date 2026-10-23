@@ -41,6 +41,8 @@ UNSUPPORTED = re.compile("|".join([
     r"isn't something", r"not something", r"not yet", r"unable", r"don't support", r"doesn't support", r"not available",
     r"isn't available", r"there's no", r"there is no", r"don't have", r"doesn't exist", r"\bno\b[^.!]{0,40}\btool",
     r"not part of", r"nothing here can", r"вне инструмент",
+    r"aren't something", r"aren't possible", r"aren't supported", r"none of (the|our|these) tools", r"не умеет",
+    r"ни один из [^.!]{0,40}инструмент",
 ]))
 EN_WORDS = {"the", "and", "to", "of", "is", "it", "you", "i", "i'll", "this", "that", "with", "for", "can", "will", "your",
             "on", "as", "from", "so", "but", "not", "there's", "here", "then", "be", "get", "it's", "we", "no", "need", "run", "already"}
@@ -56,7 +58,7 @@ PRICES = {
     "deepseek/deepseek-v4-pro": {"hit": 0.0796, "miss": 0.955, "out": 1.911, "flat": True},
 }
 PEAK_UTC = ((1, 4), (6, 10))  # weekdays only
-METRICS = ("correct", "valid_first_try", "valid", "seq_ok", "inputs_ok", "params_ok", "no_forbidden",
+METRICS = ("correct", "plan_ok", "valid_first_try", "valid", "seq_ok", "inputs_ok", "params_ok", "no_forbidden",
            "precision", "recall", "unsupported_ok", "reply_ok", "reply_lang_ok")
 TEXT = {"task", "category", "lang", "tools", "forbidden", "error", "reply", "failed"}
 
@@ -87,10 +89,15 @@ FOREIGN_WORDS = {"il", "la", "di", "che", "per", "non", "della", "sono", "una", 
 
 # Requests in a third language: the harness does not name the reply language for them, the model decides.
 OTHER_WORDS = {
-    "de": {"der", "die", "das", "und", "ist", "nicht", "ich", "mit", "ein", "eine", "den", "zu", "dem", "du", "es", "auf", "für"},
-    "es": {"el", "los", "las", "del", "que", "y", "para", "por", "es", "lo", "una", "un", "con", "te", "tu", "pista"},
-    "it": {"il", "la", "di", "che", "per", "non", "della", "sono", "una", "un", "con", "è", "ti", "lo", "traccia"},
+    "de": {"der", "die", "das", "und", "ist", "nicht", "ich", "mit", "ein", "eine", "den", "zu", "dem", "du", "es", "auf", "für",
+           "vom", "von", "dann", "aus", "wird", "bekommst"},
+    "es": {"el", "los", "las", "del", "que", "y", "para", "por", "es", "lo", "una", "un", "con", "te", "tu", "pista", "la", "de",
+           "voy", "a", "mezcla", "canción", "voz", "en", "al", "se"},
+    "it": {"il", "la", "di", "che", "per", "non", "della", "sono", "una", "un", "con", "è", "ti", "lo", "traccia", "i", "e",
+           "del", "brano", "primi", "secondi", "resto", "voce", "taglio", "dalla", "al"},
 }
+# English words that are also function words of the languages above; they say nothing about which one it is.
+SHARED = {"i", "a", "in", "e", "no"}
 
 
 def reply_lang_ok(reply: str, lang: str) -> bool:
@@ -103,10 +110,34 @@ def reply_lang_ok(reply: str, lang: str) -> bool:
         return False
     words = re.findall(r"[^\W\d_']+(?:'[a-z]+)?", reply.lower())
     if lang in OTHER_WORDS:
-        return sum(w in OTHER_WORDS[lang] for w in words) > sum(w in EN_WORDS for w in words)
+        return sum(w in OTHER_WORDS[lang] for w in words) > sum(w in EN_WORDS and w not in SHARED for w in words)
     english, foreign = sum(w in EN_WORDS for w in words), sum(w in FOREIGN_WORDS for w in words)
     # A short plain-ASCII reply may have no function words at all ("One trim, cutting everything before 0:12.").
     return bool(words) and (english > foreign or (english == foreign == 0 and all(c.isascii() for c in letters)))
+
+
+# Params that decide what the user gets. When the gold gives params for such a tool, the plan's effective
+# values (defaults filled in) must match the gold's, so a stray start_s cannot slip past a gold that only names end_s.
+SEMANTIC = {"trim": {"start_s": 0.0, "end_s": None, "silence": False}}
+
+
+def effective(tool: str, params: dict[str, Any], duration: float | None) -> dict[str, Any]:
+    out = {}
+    for key, default in SEMANTIC[tool].items():
+        value = params.get(key, default)
+        if key == "start_s" and value is None:
+            value = 0.0
+        if key == "end_s" and value is not None and duration and value >= duration - PARAM_TOLERANCE:
+            value = None  # the end of the file, however it was written
+        out[key] = value
+    return out
+
+
+def step_params_ok(step: dict[str, Any], want: dict[str, Any], duration: float | None) -> bool:
+    if step["tool"] in SEMANTIC:
+        got, exp = effective(step["tool"], step["params"], duration), effective(step["tool"], want, duration)
+        return all(got[k] is None if exp[k] is None else param_ok(got[k], exp[k]) for k in exp)
+    return all(param_ok(step["params"].get(k), v) for k, v in want.items())
 
 
 def param_ok(got: Any, want: Any) -> bool:
@@ -143,21 +174,23 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         row["seq_ok"] = float(len(tools) <= gold.get("max_steps", 8) if accept is None else tools in accept)
         # inputs: by step number; tool_inputs: by tool, for gold plans whose steps may come in more than one order.
         by_tool = {tool: [want] if isinstance(want, str) else want for tool, want in gold.get("tool_inputs", {}).items()}
-        row["inputs_ok"] = float(all(steps[int(n) - 1]["input"] == want for n, want in gold.get("inputs", {}).items()
-                                     if int(n) <= len(steps))
+        row["inputs_ok"] = float(all(steps[int(n) - 1]["input"] in ([want] if isinstance(want, str) else want)
+                                     for n, want in gold.get("inputs", {}).items() if int(n) <= len(steps))
                                  and all(s["input"] in by_tool[s["tool"]] for s in steps if s["tool"] in by_tool))
-        row["params_ok"] = float(all(int(n) <= len(steps) and all(param_ok(steps[int(n) - 1]["params"].get(k), v)
-                                                                   for k, v in want.items())
+        duration = task.get("_duration")
+        tool_params = gold.get("tool_params", {})
+        # needs: what the request asked analyze for (key, chords); switching it off is a wrong plan.
+        row["params_ok"] = float(all(int(n) <= len(steps) and step_params_ok(steps[int(n) - 1], want, duration)
                                      for n, want in gold.get("params", {}).items())
-                                 and all(param_ok(st["params"].get(k), v) for st in steps
-                                         for k, v in gold.get("tool_params", {}).get(st["tool"], {}).items()))
+                                 and all(step_params_ok(st, tool_params[st["tool"]], duration) for st in steps if st["tool"] in tool_params)
+                                 and all(st["params"].get(need) is not False for st in steps if st["tool"] == "analyze"
+                                         for need in gold.get("needs", [])))
         forbidden = sorted(set(tools) & set(gold.get("forbid", [])))
         row["forbidden"] = ",".join(forbidden)
         row["no_forbidden"] = float(not forbidden)
         row["precision"], row["recall"] = f1_against(tools, accept) if accept is not None else (None, None)
         row["unsupported_ok"] = float(bool(UNSUPPORTED.search(reply))) if gold.get("must_say_unsupported") else None
         row["reply_ok"] = float(any(s.lower() in reply for s in gold["reply_any"])) if gold.get("reply_any") else None
-        # Not part of "correct" (the plan's definition), reported next to it: the user has to read the reply.
         # translit and mixed ru/en requests have no single right reply language, so they are not scored on it.
         row["reply_lang_ok"] = (float(reply_lang_ok(run["reply"] or "", task["lang"]))
                                 if run["reply"] and task["lang"] not in ("translit", "mixed") else None)
@@ -165,6 +198,11 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         failed = [k for k in ("seq_ok", "inputs_ok", "params_ok", "no_forbidden", "unsupported_ok", "reply_ok") if row[k] == 0.0]
     else:
         failed = ["valid"]
+    # plan_ok: the plan alone. correct also needs the reply in the user's language: a right plan explained in Italian
+    # to someone who wrote in English is not a success for them.
+    row["plan_ok"] = float(not failed)
+    if row.get("reply_lang_ok") == 0.0:
+        failed.append("reply_lang_ok")
     row["correct"] = float(not failed)
     row["failed"] = ",".join(failed)
     usage = [c["usage"] for c in calls if "usage" in c]
@@ -224,6 +262,11 @@ def aggregate(rows: list[dict[str, Any]], meta: dict[str, Any], out_dir: Path) -
     return summary
 
 
+def fixture_duration(task: dict[str, Any]) -> float | None:
+    path = HERE / task.get("track_data", "")
+    return json.loads(path.read_text())["selected_version"]["duration_s"] if path.is_file() else None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", type=Path, required=True)
@@ -239,7 +282,7 @@ def main() -> None:
 
     config = json.loads((args.out / "raw" / "config.json").read_text())
     tasks_path = Path(config["tasks"])
-    tasks = {t["id"]: t | {"_model": config["model"]} for t in read(tasks_path, required=("id", "gold"))}
+    tasks = {t["id"]: t | {"_model": config["model"], "_duration": fixture_duration(t)} for t in read(tasks_path, required=("id", "gold"))}
     # After run.py --resume an attempt can appear twice; the later line replaces the earlier one.
     latest = {(r["task"], r["attempt"]): r for r in map(json.loads, (args.out / "raw" / "runs.jsonl").read_text().splitlines())}
     runs = sorted(latest.values(), key=lambda r: (list(tasks).index(r["task"]), r["attempt"]))

@@ -1,8 +1,8 @@
 {
   "meta": {
-    "git_commit": "788a3f7453ef05f17684450ce41c02e83713fb69",
+    "git_commit": "06f99eeed546493360d739d10bd5a53cf37ec58b",
     "git_dirty": true,
-    "date": "2026-10-23T11:29:50+00:00",
+    "date": "2026-10-23T18:35:29+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {},
@@ -13,10 +13,10 @@
       "distinct_plans": 61
     },
     "clips": {
-      "song_analyzed": "song.wav",
-      "song_named_memo": "song.wav",
-      "song_separated": "song.wav",
       "song_fresh": "song.wav",
+      "song_analyzed": "song.wav",
+      "song_separated": "song.wav",
+      "song_named_memo": "song.wav",
       "voice_memo": "memo.wav",
       "podcast_long": "talk.wav",
       "speech_named_song": "talk.wav",
@@ -44,19 +44,19 @@
       "attempts": 500,
       "attempts_with_steps": 409,
       "e2e_success": {
-        "mean": 0.914,
+        "mean": 0.916,
         "ci95": [
-          0.8426,
-          0.9547
+          0.8451,
+          0.9561
         ],
         "n": 500,
         "ci95_bootstrap": [
-          0.872,
+          0.876,
           0.952
         ],
         "ci95_wilson": [
-          0.8426,
-          0.9547
+          0.8451,
+          0.9561
         ]
       },
       "exec_success": {
@@ -152,19 +152,19 @@
       "attempts": 50,
       "attempts_with_steps": 10,
       "e2e_success": {
-        "mean": 0.96,
+        "mean": 1.0,
         "ci95": [
-          0.6681,
+          0.7225,
           1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.9,
+          1.0,
           1.0
         ],
         "ci95_wilson": [
-          0.6681,
-          0.9965
+          0.7225,
+          1.0
         ]
       },
       "exec_success": {
@@ -404,19 +404,19 @@
       "attempts": 50,
       "attempts_with_steps": 49,
       "e2e_success": {
-        "mean": 0.98,
+        "mean": 0.96,
         "ci95": [
-          0.6945,
+          0.6681,
           1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.94,
+          0.9,
           1.0
         ],
         "ci95_wilson": [
-          0.6945,
-          0.9991
+          0.6681,
+          0.9965
         ]
       },
       "exec_success": {
@@ -476,19 +476,19 @@
       "attempts": 215,
       "attempts_with_steps": 183,
       "e2e_success": {
-        "mean": 0.9581,
+        "mean": 0.9628,
         "ci95": [
-          0.852,
-          0.9891
+          0.8587,
+          0.991
         ],
         "n": 215,
         "ci95_bootstrap": [
-          0.9302,
-          0.9814
+          0.9349,
+          0.986
         ],
         "ci95_wilson": [
-          0.852,
-          0.9891
+          0.8587,
+          0.991
         ]
       },
       "exec_success": {
@@ -698,7 +698,7 @@
         0.8241,
         1.0
       ],
-      "seconds_p50": 8.05,
+      "seconds_p50": null,
       "errors": {}
     },
     "denoise": {
@@ -709,7 +709,7 @@
         0.8157,
         1.0
       ],
-      "seconds_p50": 3.37,
+      "seconds_p50": null,
       "errors": {}
     },
     "inspect": {
@@ -720,7 +720,7 @@
         0.6097,
         1.0
       ],
-      "seconds_p50": 0.01,
+      "seconds_p50": null,
       "errors": {}
     },
     "restore": {
@@ -731,7 +731,7 @@
         0.7008,
         1.0
       ],
-      "seconds_p50": 17.16,
+      "seconds_p50": null,
       "errors": {}
     },
     "separate": {
@@ -742,7 +742,7 @@
         0.8241,
         1.0
       ],
-      "seconds_p50": 37.59,
+      "seconds_p50": null,
       "errors": {}
     },
     "trim": {
@@ -753,7 +753,7 @@
         0.9059,
         1.0
       ],
-      "seconds_p50": 0.02,
+      "seconds_p50": null,
       "errors": {}
     }
   }

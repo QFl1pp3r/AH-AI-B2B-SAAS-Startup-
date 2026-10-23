@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "c19c26a6c296ccbb0519db9450858e27928d57ea",
+    "git_commit": "06f99eeed546493360d739d10bd5a53cf37ec58b",
     "git_dirty": true,
-    "date": "2026-10-23T10:29:08+00:00",
+    "date": "2026-10-23T18:35:25+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
       "planner": "openai-compatible:deepseek-v4-pro@https://api.deepseek.com"
     },
     "dataset": "agent tasks plan.jsonl",
-    "manifest_sha256": "c98a643458f7229bf7b075767752ce12f172a6f932817b8ba6ab1e2588416d04",
+    "manifest_sha256": "fbe3ee2563717b18ad6bd4a899e9f71d4b0bd17d196de20b1f66c0be41bd2db2",
     "coverage": {
       "tasks": 100,
       "attempts": 500,
@@ -32,6 +32,22 @@
       "tasks": 100,
       "attempts": 500,
       "correct": {
+        "mean": 0.92,
+        "ci95": [
+          0.85,
+          0.9589
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          0.884,
+          0.95
+        ],
+        "ci95_wilson": [
+          0.85,
+          0.9589
+        ]
+      },
+      "plan_ok": {
         "mean": 0.998,
         "ci95": [
           0.9592,
@@ -224,19 +240,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.99,
+        "mean": 0.76,
         "ci95": [
-          0.9455,
-          1.0
+          0.6677,
+          0.84
         ],
         "n": 100,
         "ci95_bootstrap": [
-          0.97,
-          1.0
+          0.67,
+          0.84
         ],
         "ci95_wilson": [
-          0.9455,
-          0.9982
+          0.6677,
+          0.8331
         ]
       },
       "invalid_after_retry": 0.0,
@@ -251,6 +267,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.94,
+        "ci95": [
+          0.6431,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.84,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6431,
+          0.9927
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -407,19 +439,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.8,
         "ci95": [
-          0.7225,
+          0.4902,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
+          0.5,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.4902,
+          0.9433
         ]
       },
       "invalid_after_retry": 0.0,
@@ -434,6 +466,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.9,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -608,19 +656,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.8,
         "ci95": [
-          0.7225,
+          0.4902,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
+          0.5,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.4902,
+          0.9433
         ]
       },
       "invalid_after_retry": 0.0,
@@ -635,6 +683,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.68,
+        "ci95": [
+          0.3793,
+          0.8808
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.48,
+          0.86
+        ],
+        "ci95_wilson": [
+          0.3793,
+          0.8808
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -818,19 +882,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.4,
         "ci95": [
-          0.7225,
-          1.0
+          0.1,
+          0.7
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.1,
+          0.7
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.1682,
+          0.6873
         ]
       },
       "invalid_after_retry": 0.0,
@@ -845,6 +909,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.86,
+        "ci95": [
+          0.5518,
+          0.9684
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.74,
+          0.96
+        ],
+        "ci95_wilson": [
+          0.5518,
+          0.9684
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1019,19 +1099,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.6,
         "ci95": [
-          0.7225,
-          1.0
+          0.3,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.3,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3127,
+          0.8318
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1046,6 +1126,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1247,6 +1343,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.88,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1421,19 +1533,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.9,
         "ci95": [
-          0.7225,
+          0.5958,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
+          0.7,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.5958,
+          0.9821
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1448,6 +1560,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.92,
+        "ci95": [
+          0.619,
+          0.9879
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.84,
+          0.98
+        ],
+        "ci95_wilson": [
+          0.619,
+          0.9879
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -1622,19 +1750,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.7,
         "ci95": [
-          0.7225,
-          1.0
+          0.3968,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.4,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3968,
+          0.8922
         ]
       },
       "invalid_after_retry": 0.0,
@@ -1649,6 +1777,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "plan_ok": {
         "mean": 0.98,
         "ci95": [
           0.6945,
@@ -1859,6 +2003,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -2033,19 +2193,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.9,
         "ci95": [
-          0.7225,
+          0.5958,
           1.0
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
+          0.7,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.5958,
+          0.9821
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2060,6 +2220,22 @@
       "tasks": 10,
       "attempts": 50,
       "correct": {
+        "mean": 0.92,
+        "ci95": [
+          0.619,
+          0.9879
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.86,
+          0.98
+        ],
+        "ci95_wilson": [
+          0.619,
+          0.9879
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.7225,
@@ -2234,19 +2410,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.6,
         "ci95": [
-          0.7225,
-          1.0
+          0.3,
+          0.9
         ],
         "n": 10,
         "ci95_bootstrap": [
-          1.0,
-          1.0
+          0.3,
+          0.9
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.3127,
+          0.8318
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2261,6 +2437,22 @@
       "tasks": 50,
       "attempts": 250,
       "correct": {
+        "mean": 0.844,
+        "ci95": [
+          0.7195,
+          0.9194
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
+          0.784,
+          0.9
+        ],
+        "ci95_wilson": [
+          0.7195,
+          0.9194
+        ]
+      },
+      "plan_ok": {
         "mean": 0.996,
         "ci95": [
           0.9214,
@@ -2453,19 +2645,19 @@
         ]
       },
       "pass_k": {
-        "mean": 0.98,
+        "mean": 0.54,
         "ci95": [
-          0.895,
-          1.0
+          0.4,
+          0.68
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.92,
-          1.0
+          0.4,
+          0.68
         ],
         "ci95_wilson": [
-          0.895,
-          0.9965
+          0.404,
+          0.6703
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2480,6 +2672,22 @@
       "tasks": 50,
       "attempts": 250,
       "correct": {
+        "mean": 0.996,
+        "ci95": [
+          0.9214,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
+          0.988,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9214,
+          0.9998
+        ]
+      },
+      "plan_ok": {
         "mean": 1.0,
         "ci95": [
           0.9286,
@@ -2672,19 +2880,19 @@
         ]
       },
       "pass_k": {
-        "mean": 1.0,
+        "mean": 0.98,
         "ci95": [
-          0.9286,
+          0.895,
           1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          1.0,
+          0.94,
           1.0
         ],
         "ci95_wilson": [
-          0.9286,
-          1.0
+          0.895,
+          0.9965
         ]
       },
       "invalid_after_retry": 0.0,
@@ -2701,15 +2909,211 @@
     "p95": 6.167
   },
   "wrong_examples": {
+    "ambiguous": [
+      {
+        "task": "ambiguous-07",
+        "attempt": 2,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "\"Make it better\" ist zu unkonkret, um einen Plan zu bauen – Mastering oder generelles Verbessern kann ich nicht automatisch machen. Sag mir, was dich stört (z. B. zu leise, Rauschen, Vocals zu dumpf, Song soll gekürzt werden) und ich plane die passenden Schritte."
+      },
+      {
+        "task": "ambiguous-07",
+        "attempt": 3,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "„Besser machen“ ist noch zu unbestimmt, und echtes Mixing/Mastering kann ich hier nicht übernehmen. Sag mir konkret, was dich stört – zum Beispiel zu leise, clippt, Rauschen, Hall, Stimme zu leise im Mix, Tempo/Key bestimmen oder etwas rausschneiden – dann plane ich die passenden Schritte."
+      },
+      {
+        "task": "ambiguous-08",
+        "attempt": 4,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ja, klar helfe ich dir. „Sounds off\" kann vieles heißen – sag mir kurz, was dich stört: zu leise/laut, dumpf, Rauschen, Tempo/Tonart wirkt falsch, oder soll was geschnitten werden? Dann plane ich genau die passenden Schritte."
+      }
+    ],
+    "analyze": [
+      {
+        "task": "analyze-02",
+        "attempt": 3,
+        "tools": "analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Je vais analyser la tonalité du morceau."
+      },
+      {
+        "task": "analyze-07",
+        "attempt": 4,
+        "tools": "analyze",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich messe Tempo und Akkorde des Tracks in einem Durchgang."
+      }
+    ],
+    "answer": [
+      {
+        "task": "answer-02",
+        "attempt": 0,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "124 BPM — ya lo teníamos medido en el análisis anterior."
+      },
+      {
+        "task": "answer-02",
+        "attempt": 1,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Das Tempo liegt bei 124 BPM (4/4-Takt)."
+      },
+      {
+        "task": "answer-03",
+        "attempt": 2,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "124 BPM."
+      }
+    ],
+    "minimal": [
+      {
+        "task": "minimal-07",
+        "attempt": 0,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "No, non sta clippando da nessuna parte: il picco è a -0.3 dBFS e il rapporto di clipping è 0.0%. Il mix è pulito."
+      },
+      {
+        "task": "minimal-07",
+        "attempt": 2,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "No, non sta clippando da nessuna parte: il picco è a -0.3 dBFS e il rapporto di clipping è 0.0%."
+      },
+      {
+        "task": "minimal-08",
+        "attempt": 2,
+        "tools": "-",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "El pico del track está en -0.3 dBFS, así que no hace falta correr nada."
+      }
+    ],
+    "speech_clean": [
+      {
+        "task": "speech-08",
+        "attempt": 0,
+        "tools": "restore",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich lasse eine Sprachrestaurierung über das Interview laufen – das entfernt den Raumhall und Rauschen und liefert die Stimme sauber als Mono zurück."
+      },
+      {
+        "task": "speech-08",
+        "attempt": 1,
+        "tools": "restore",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich entferne den Raumnachhall mit der Sprach-Restauration. Das Ergebnis ist ein saubereres, trockeneres Monosignal der Stimme."
+      }
+    ],
+    "trim": [
+      {
+        "task": "trim-02",
+        "attempt": 1,
+        "tools": "trim",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Skracam początek o pierwsze 30 sekund — zostawiam resztę nagrania bez zmian."
+      },
+      {
+        "task": "trim-02",
+        "attempt": 2,
+        "tools": "trim",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich schneide die ersten 30 Sekunden weg und lasse den Rest ab da laufen."
+      },
+      {
+        "task": "trim-08",
+        "attempt": 4,
+        "tools": "trim",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich schneide die Stille am Anfang und Ende weg, der Ton dazwischen bleibt unverändert."
+      }
+    ],
     "unsupported": [
       {
         "task": "unsupported-08",
         "attempt": 4,
         "tools": "-",
-        "failed": "unsupported_ok",
+        "failed": "unsupported_ok,reply_lang_ok",
         "forbidden": "",
         "error": "",
         "reply": "Leider kann ich die Transkription mit den vorhandenen Werkzeugen noch nicht erstellen – es gibt hier kein Speech-to-Text-Tool. Ich kann dir aber helfen, das Interview z. B. zu schneiden, Stille zu entfernen oder die Lautstärke zu prüfen. Sag einfach Bescheid, was du stattdessen brauchst."
+      }
+    ],
+    "vocal_clean": [
+      {
+        "task": "vocalclean-07",
+        "attempt": 4,
+        "tools": "separate>denoise",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich trenne zuerst den Gesang vom Instrumental und entrausche dann die Gesangsspur."
+      }
+    ],
+    "vocals": [
+      {
+        "task": "vocals-07",
+        "attempt": 1,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Rozo il brano in voce e base: la base strumentale sarà la tua versione karaoke."
+      },
+      {
+        "task": "vocals-08",
+        "attempt": 3,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich trenne den Gesang vom Instrumental – danach hast du die isolierte Gesangsspur."
+      },
+      {
+        "task": "vocals-09",
+        "attempt": 0,
+        "tools": "separate",
+        "failed": "reply_lang_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Ich trenne den Track in Gesang und Instrumental (Backing)."
       }
     ]
   }

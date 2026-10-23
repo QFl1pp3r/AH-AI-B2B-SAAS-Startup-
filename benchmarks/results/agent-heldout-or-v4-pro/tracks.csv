@@ -5,7 +5,7 @@ noisy-03,noisy,ru,5,1.0,1.0,denoise
 noisy-04,noisy,ru,5,1.0,1.0,trim
 noisy-05,noisy,en,5,1.0,1.0,denoise
 noisy-06,noisy,en,5,1.0,1.0,analyze
-noisy-07,noisy,en,5,1.0,1.0,separate
+noisy-07,noisy,en,5,0.4,0.0,separate
 noisy-08,noisy,translit,5,1.0,1.0,analyze
 noisy-09,noisy,translit,5,1.0,1.0,separate
 noisy-10,noisy,translit,5,1.0,1.0,denoise
@@ -47,7 +47,7 @@ misname-05,misleading_name,ru,5,0.2,0.0,- | analyze
 misname-06,misleading_name,en,5,1.0,1.0,separate
 misname-07,misleading_name,en,5,0.0,0.0,- | denoise | restore
 misname-08,misleading_name,en,5,1.0,1.0,denoise
-misname-09,misleading_name,en,5,1.0,1.0,restore
+misname-09,misleading_name,en,5,0.8,0.0,restore
 misname-10,misleading_name,en,5,1.0,1.0,trim
 history-01,history,ru,5,1.0,1.0,denoise | restore
 history-02,history,ru,5,1.0,1.0,-
@@ -89,13 +89,13 @@ indirect-07,indirect,en,5,1.0,1.0,denoise | restore
 indirect-08,indirect,en,5,1.0,1.0,analyze
 indirect-09,indirect,en,5,1.0,1.0,-
 indirect-10,indirect,en,5,1.0,1.0,restore
-hardunsup-01,hard_unsupported,ru,5,0.6,0.0,-
+hardunsup-01,hard_unsupported,ru,5,1.0,1.0,-
 hardunsup-02,hard_unsupported,ru,5,1.0,1.0,-
-hardunsup-03,hard_unsupported,ru,5,0.8,0.0,-
+hardunsup-03,hard_unsupported,ru,5,1.0,1.0,-
 hardunsup-04,hard_unsupported,ru,5,1.0,1.0,-
 hardunsup-05,hard_unsupported,ru,5,1.0,1.0,-
-hardunsup-06,hard_unsupported,en,5,0.4,0.0,-
+hardunsup-06,hard_unsupported,en,5,1.0,1.0,-
 hardunsup-07,hard_unsupported,en,5,0.6,0.0,- | separate
-hardunsup-08,hard_unsupported,en,5,0.6,0.0,-
+hardunsup-08,hard_unsupported,en,5,0.8,0.0,-
 hardunsup-09,hard_unsupported,en,5,1.0,1.0,-
 hardunsup-10,hard_unsupported,en,5,1.0,1.0,denoise

@@ -5,10 +5,10 @@
  "groups": {
   "all": {
    "correct": {
-    "diff": 0.018,
+    "diff": 0.15,
     "ci95": [
-     0.004,
-     0.034
+     0.1059,
+     0.202
     ],
     "n": 100,
     "significant": true
@@ -99,10 +99,10 @@
   },
   "lang=en": {
    "correct": {
-    "diff": 0.028,
+    "diff": 0.292,
     "ci95": [
-     0.008,
-     0.056
+     0.22,
+     0.368
     ],
     "n": 50,
     "significant": true
@@ -146,10 +146,10 @@
   },
   "category=ambiguous": {
    "correct": {
-    "diff": 0.02,
+    "diff": 0.08,
     "ci95": [
      0.0,
-     0.06
+     0.16
     ],
     "n": 10,
     "significant": false
@@ -190,13 +190,13 @@
   },
   "category=analyze": {
    "correct": {
-    "diff": 0.0,
+    "diff": 0.2,
     "ci95": [
-     0.0,
-     0.0
+     0.04,
+     0.3805
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.2,
@@ -234,13 +234,13 @@
   },
   "category=answer": {
    "correct": {
-    "diff": 0.0,
+    "diff": 0.16,
     "ci95": [
-     0.0,
-     0.0
+     0.0195,
+     0.36
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.16,
@@ -278,13 +278,13 @@
   },
   "category=minimal": {
    "correct": {
-    "diff": 0.0,
+    "diff": 0.14,
     "ci95": [
-     0.0,
-     0.0
+     0.02,
+     0.3
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.14,
@@ -322,10 +322,10 @@
   },
   "category=multi": {
    "correct": {
-    "diff": -0.02,
+    "diff": 0.06,
     "ci95": [
-     -0.06,
-     0.0
+     -0.04,
+     0.2
     ],
     "n": 10,
     "significant": false
@@ -366,13 +366,13 @@
   },
   "category=speech_clean": {
    "correct": {
-    "diff": 0.08,
+    "diff": 0.14,
     "ci95": [
-     0.0,
-     0.2
+     0.02,
+     0.28
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.06,
@@ -410,13 +410,13 @@
   },
   "category=trim": {
    "correct": {
-    "diff": 0.02,
+    "diff": 0.28,
     "ci95": [
-     0.0,
-     0.06
+     0.1,
+     0.48
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.26,
@@ -454,10 +454,10 @@
   },
   "category=unsupported": {
    "correct": {
-    "diff": 0.08,
+    "diff": 0.1,
     "ci95": [
      0.0,
-     0.16
+     0.2
     ],
     "n": 10,
     "significant": false
@@ -501,13 +501,13 @@
   },
   "category=vocal_clean": {
    "correct": {
-    "diff": 0.0,
+    "diff": 0.08,
     "ci95": [
-     0.0,
-     0.0
+     0.02,
+     0.16
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.08,
@@ -545,13 +545,13 @@
   },
   "category=vocals": {
    "correct": {
-    "diff": 0.0,
+    "diff": 0.26,
     "ci95": [
-     0.0,
-     0.0
+     0.06,
+     0.48
     ],
     "n": 10,
-    "significant": false
+    "significant": true
    },
    "reply_lang_ok": {
     "diff": 0.26,

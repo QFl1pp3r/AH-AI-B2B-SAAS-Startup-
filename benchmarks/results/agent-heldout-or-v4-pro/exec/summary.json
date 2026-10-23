@@ -1,8 +1,8 @@
 {
   "meta": {
-    "git_commit": "788a3f7453ef05f17684450ce41c02e83713fb69",
+    "git_commit": "06f99eeed546493360d739d10bd5a53cf37ec58b",
     "git_dirty": true,
-    "date": "2026-10-23T11:31:14+00:00",
+    "date": "2026-10-23T18:35:30+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {},
@@ -13,8 +13,8 @@
       "distinct_plans": 72
     },
     "clips": {
-      "song_analyzed": "song.wav",
       "song_fresh": "song.wav",
+      "song_analyzed": "song.wav",
       "song_separated": "song.wav",
       "song_named_memo": "song.wav",
       "voice_memo": "memo.wav",
@@ -44,19 +44,19 @@
       "attempts": 500,
       "attempts_with_steps": 439,
       "e2e_success": {
-        "mean": 0.952,
+        "mean": 0.958,
         "ci95": [
-          0.8909,
-          0.98
+          0.8989,
+          0.984
         ],
         "n": 500,
         "ci95_bootstrap": [
-          0.916,
-          0.98
+          0.924,
+          0.984
         ],
         "ci95_wilson": [
-          0.8909,
-          0.9797
+          0.8989,
+          0.9832
         ]
       },
       "exec_success": {
@@ -152,19 +152,19 @@
       "attempts": 50,
       "attempts_with_steps": 9,
       "e2e_success": {
-        "mean": 0.8,
+        "mean": 0.94,
         "ci95": [
-          0.4902,
-          0.9433
+          0.6431,
+          1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          0.66,
-          0.92
+          0.84,
+          1.0
         ],
         "ci95_wilson": [
-          0.4902,
-          0.9433
+          0.6431,
+          0.9927
         ]
       },
       "exec_success": {
@@ -332,9 +332,9 @@
       "attempts": 50,
       "attempts_with_steps": 45,
       "e2e_success": {
-        "mean": 0.82,
+        "mean": 0.8,
         "ci95": [
-          0.5102,
+          0.4902,
           1.0
         ],
         "n": 50,
@@ -343,8 +343,8 @@
           1.0
         ],
         "ci95_wilson": [
-          0.5102,
-          0.9522
+          0.4902,
+          0.9433
         ]
       },
       "exec_success": {
@@ -404,19 +404,19 @@
       "attempts": 50,
       "attempts_with_steps": 50,
       "e2e_success": {
-        "mean": 1.0,
+        "mean": 0.94,
         "ci95": [
-          0.7225,
+          0.6431,
           1.0
         ],
         "n": 50,
         "ci95_bootstrap": [
-          1.0,
+          0.82,
           1.0
         ],
         "ci95_wilson": [
-          0.7225,
-          1.0
+          0.6431,
+          0.9927
         ]
       },
       "exec_success": {
@@ -479,12 +479,12 @@
         "mean": 0.9349,
         "ci95": [
           0.8201,
-          0.986
+          0.9814
         ],
         "n": 215,
         "ci95_bootstrap": [
           0.8744,
-          0.986
+          0.9814
         ],
         "ci95_wilson": [
           0.8201,
@@ -620,19 +620,19 @@
       "attempts": 225,
       "attempts_with_steps": 191,
       "e2e_success": {
-        "mean": 0.9556,
+        "mean": 0.9689,
         "ci95": [
-          0.8517,
-          0.9911
+          0.8709,
+          1.0
         ],
         "n": 225,
         "ci95_bootstrap": [
-          0.9111,
-          0.9911
+          0.92,
+          1.0
         ],
         "ci95_wilson": [
-          0.8517,
-          0.9877
+          0.8709,
+          0.9931
         ]
       },
       "exec_success": {
@@ -698,9 +698,9 @@
         0.7901,
         0.9923
       ],
-      "seconds_p50": 6.15,
+      "seconds_p50": null,
       "errors": {
-        "run rce2f5af2be failed: ValidationError: 1 validation error for Params\nbeats\n  Input should be 'beat_this' or 'madmom' [type=literal_error, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.14/v/literal_error": 1
+        "run rdd5475b01b failed: ValidationError: 1 validation error for Params\nbeats\n  Input should be 'beat_this' or 'madmom' [type=literal_error, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.14/v/literal_error": 1
       }
     },
     "denoise": {
@@ -733,7 +733,7 @@
         0.7412,
         1.0
       ],
-      "seconds_p50": 10.73,
+      "seconds_p50": null,
       "errors": {}
     },
     "separate": {
@@ -755,7 +755,7 @@
         0.9162,
         1.0
       ],
-      "seconds_p50": 0.02,
+      "seconds_p50": null,
       "errors": {}
     }
   }

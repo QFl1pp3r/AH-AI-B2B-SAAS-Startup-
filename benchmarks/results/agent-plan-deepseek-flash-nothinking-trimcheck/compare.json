@@ -5,10 +5,10 @@
  "groups": {
   "all": {
    "correct": {
-    "diff": -0.014,
+    "diff": -0.012,
     "ci95": [
-     -0.034,
-     0.004
+     -0.032,
+     0.006
     ],
     "n": 100,
     "significant": false
@@ -41,9 +41,9 @@
     "significant": false
    },
    "unsupported_ok": {
-    "diff": -0.02,
+    "diff": 0.0,
     "ci95": [
-     -0.06,
+     0.0,
      0.0
     ],
     "n": 10,
@@ -99,9 +99,9 @@
   },
   "lang=en": {
    "correct": {
-    "diff": -0.008,
+    "diff": -0.004,
     "ci95": [
-     -0.044,
+     -0.036,
      0.024
     ],
     "n": 50,
@@ -135,9 +135,9 @@
     "significant": false
    },
    "unsupported_ok": {
-    "diff": -0.04,
+    "diff": 0.0,
     "ci95": [
-     -0.12,
+     0.0,
      0.0
     ],
     "n": 5,
@@ -454,10 +454,10 @@
   },
   "category=unsupported": {
    "correct": {
-    "diff": -0.12,
+    "diff": -0.1,
     "ci95": [
-     -0.26,
-     -0.0
+     -0.22,
+     0.02
     ],
     "n": 10,
     "significant": false
@@ -490,9 +490,9 @@
     "significant": false
    },
    "unsupported_ok": {
-    "diff": -0.02,
+    "diff": 0.0,
     "ci95": [
-     -0.06,
+     0.0,
      0.0
     ],
     "n": 10,

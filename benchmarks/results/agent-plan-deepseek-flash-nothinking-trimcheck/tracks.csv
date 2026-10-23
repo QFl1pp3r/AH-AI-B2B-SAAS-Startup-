@@ -71,7 +71,7 @@ unsupported-03,unsupported,ru,5,1.0,1.0,-
 unsupported-04,unsupported,ru,5,1.0,1.0,-
 unsupported-05,unsupported,ru,5,0.2,0.0,- | separate
 unsupported-06,unsupported,ru,5,1.0,1.0,separate
-unsupported-07,unsupported,en,5,0.0,0.0,- | inspect
+unsupported-07,unsupported,en,5,0.2,0.0,- | inspect
 unsupported-08,unsupported,en,5,0.0,0.0,denoise
 unsupported-09,unsupported,en,5,1.0,1.0,-
 unsupported-10,unsupported,en,5,1.0,1.0,denoise | restore
