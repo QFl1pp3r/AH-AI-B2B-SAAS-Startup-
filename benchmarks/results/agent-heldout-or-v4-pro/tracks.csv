@@ -1,0 +1,101 @@
+task,category,lang,attempts,correct_rate,pass_k,plans
+noisy-01,noisy,ru,5,1.0,1.0,separate
+noisy-02,noisy,ru,5,1.0,1.0,analyze
+noisy-03,noisy,ru,5,1.0,1.0,denoise
+noisy-04,noisy,ru,5,1.0,1.0,trim
+noisy-05,noisy,en,5,1.0,1.0,denoise
+noisy-06,noisy,en,5,1.0,1.0,analyze
+noisy-07,noisy,en,5,1.0,1.0,separate
+noisy-08,noisy,translit,5,1.0,1.0,analyze
+noisy-09,noisy,translit,5,1.0,1.0,separate
+noisy-10,noisy,translit,5,1.0,1.0,denoise
+arith-01,arithmetic,ru,5,1.0,1.0,trim
+arith-02,arithmetic,ru,5,1.0,1.0,trim
+arith-03,arithmetic,ru,5,1.0,1.0,trim
+arith-04,arithmetic,ru,5,1.0,1.0,trim
+arith-05,arithmetic,ru,5,1.0,1.0,trim
+arith-06,arithmetic,en,5,1.0,1.0,trim
+arith-07,arithmetic,en,5,1.0,1.0,trim
+arith-08,arithmetic,en,5,1.0,1.0,trim
+arith-09,arithmetic,en,5,1.0,1.0,trim
+arith-10,arithmetic,en,5,0.8,0.0,trim
+negation-01,negation,ru,5,1.0,1.0,denoise
+negation-02,negation,ru,5,1.0,1.0,analyze
+negation-03,negation,ru,5,1.0,1.0,separate
+negation-04,negation,ru,5,1.0,1.0,separate>denoise
+negation-05,negation,ru,5,1.0,1.0,analyze
+negation-06,negation,en,5,1.0,1.0,restore
+negation-07,negation,en,5,1.0,1.0,separate
+negation-08,negation,en,5,1.0,1.0,denoise
+negation-09,negation,en,5,1.0,1.0,analyze
+negation-10,negation,en,5,1.0,1.0,separate
+long-01,long,ru,5,1.0,1.0,separate>denoise
+long-02,long,ru,5,1.0,1.0,denoise | restore
+long-03,long,ru,5,1.0,1.0,analyze
+long-04,long,ru,5,0.6,0.0,trim
+long-05,long,ru,5,1.0,1.0,restore
+long-06,long,en,5,1.0,1.0,separate
+long-07,long,en,5,1.0,1.0,denoise
+long-08,long,en,5,1.0,1.0,analyze
+long-09,long,en,5,1.0,1.0,trim>denoise
+long-10,long,en,5,1.0,1.0,denoise | restore
+misname-01,misleading_name,ru,5,1.0,1.0,separate
+misname-02,misleading_name,ru,5,1.0,1.0,separate>denoise | separate>restore
+misname-03,misleading_name,ru,5,1.0,1.0,denoise
+misname-04,misleading_name,ru,5,1.0,1.0,denoise | restore
+misname-05,misleading_name,ru,5,0.2,0.0,- | analyze
+misname-06,misleading_name,en,5,1.0,1.0,separate
+misname-07,misleading_name,en,5,0.0,0.0,- | denoise | restore
+misname-08,misleading_name,en,5,1.0,1.0,denoise
+misname-09,misleading_name,en,5,1.0,1.0,restore
+misname-10,misleading_name,en,5,1.0,1.0,trim
+history-01,history,ru,5,1.0,1.0,denoise | restore
+history-02,history,ru,5,1.0,1.0,-
+history-03,history,ru,5,1.0,1.0,trim
+history-04,history,ru,5,1.0,1.0,separate>denoise
+history-05,history,ru,5,1.0,1.0,analyze
+history-06,history,en,5,1.0,1.0,denoise
+history-07,history,en,5,1.0,1.0,-
+history-08,history,en,5,1.0,1.0,trim
+history-09,history,en,5,1.0,1.0,restore
+history-10,history,en,5,1.0,1.0,separate
+chain-01,chain,ru,5,1.0,1.0,trim>separate>denoise>inspect
+chain-02,chain,ru,5,1.0,1.0,trim>separate>restore>analyze
+chain-03,chain,ru,5,1.0,1.0,trim>separate>denoise>analyze
+chain-04,chain,ru,5,1.0,1.0,denoise>trim>inspect | trim>denoise>inspect
+chain-05,chain,ru,5,1.0,1.0,separate>denoise>trim
+chain-06,chain,en,5,1.0,1.0,trim>separate>denoise>inspect
+chain-07,chain,en,5,1.0,1.0,trim>separate>restore>analyze
+chain-08,chain,en,5,1.0,1.0,trim>separate>denoise>analyze
+chain-09,chain,en,5,0.8,0.0,denoise>trim | trim>denoise>trim
+chain-10,chain,en,5,1.0,1.0,separate>restore>inspect>inspect
+lang-01,language,de,5,1.0,1.0,separate
+lang-02,language,de,5,1.0,1.0,analyze
+lang-03,language,de,5,1.0,1.0,denoise
+lang-04,language,es,5,1.0,1.0,separate
+lang-05,language,es,5,1.0,1.0,analyze
+lang-06,language,es,5,1.0,1.0,denoise
+lang-07,language,it,5,1.0,1.0,separate
+lang-08,language,it,5,1.0,1.0,trim
+lang-09,language,ru,5,1.0,1.0,separate
+lang-10,language,mixed,5,1.0,1.0,denoise
+indirect-01,indirect,ru,5,1.0,1.0,separate
+indirect-02,indirect,ru,5,1.0,1.0,denoise
+indirect-03,indirect,ru,5,1.0,1.0,analyze
+indirect-04,indirect,ru,5,1.0,1.0,separate
+indirect-05,indirect,ru,5,1.0,1.0,analyze
+indirect-06,indirect,en,5,1.0,1.0,separate
+indirect-07,indirect,en,5,1.0,1.0,denoise | restore
+indirect-08,indirect,en,5,1.0,1.0,analyze
+indirect-09,indirect,en,5,1.0,1.0,-
+indirect-10,indirect,en,5,1.0,1.0,restore
+hardunsup-01,hard_unsupported,ru,5,0.6,0.0,-
+hardunsup-02,hard_unsupported,ru,5,1.0,1.0,-
+hardunsup-03,hard_unsupported,ru,5,0.8,0.0,-
+hardunsup-04,hard_unsupported,ru,5,1.0,1.0,-
+hardunsup-05,hard_unsupported,ru,5,1.0,1.0,-
+hardunsup-06,hard_unsupported,en,5,0.4,0.0,-
+hardunsup-07,hard_unsupported,en,5,0.6,0.0,- | separate
+hardunsup-08,hard_unsupported,en,5,0.6,0.0,-
+hardunsup-09,hard_unsupported,en,5,1.0,1.0,-
+hardunsup-10,hard_unsupported,en,5,1.0,1.0,denoise

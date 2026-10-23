@@ -1,0 +1,3879 @@
+{
+  "meta": {
+    "git_commit": "4caa37e8dd67461895a20174d0b73b23907bfde8",
+    "git_dirty": true,
+    "date": "2026-10-23T10:42:07+00:00",
+    "device": "cpu arm64 arm",
+    "tools": {},
+    "models": {
+      "planner": "openai-compatible:deepseek/deepseek-v4.1-flash-1017@https://openrouter.ai/api/v1"
+    },
+    "dataset": "agent tasks heldout.jsonl",
+    "manifest_sha256": "f88e028773d78e0fbbfacd7a137330e7aa23714d74b5accf7f1bb8e6f1fef7df",
+    "coverage": {
+      "tasks": 100,
+      "attempts": 500,
+      "llm_errors": 0
+    },
+    "planner": {
+      "llm": "openai-compatible:deepseek/deepseek-v4.1-flash-1017@https://openrouter.ai/api/v1",
+      "model": "deepseek/deepseek-v4.1-flash-1017",
+      "provider": "openai",
+      "base_url": "https://openrouter.ai/api/v1",
+      "thinking": "provider default",
+      "reasoning_effort": "provider default",
+      "k": 5,
+      "tasks": "benchmarks/agent/tasks/heldout.jsonl",
+      "tasks_sha256": "f88e028773d78e0fbbfacd7a137330e7aa23714d74b5accf7f1bb8e6f1fef7df"
+    }
+  },
+  "groups": {
+    "all": {
+      "tasks": 100,
+      "attempts": 500,
+      "correct": {
+        "mean": 0.914,
+        "ci95": [
+          0.8426,
+          0.9547
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          0.872,
+          0.952
+        ],
+        "ci95_wilson": [
+          0.8426,
+          0.9547
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.916,
+        "ci95": [
+          0.8451,
+          0.9561
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          0.872,
+          0.952
+        ],
+        "ci95_wilson": [
+          0.8451,
+          0.9561
+        ]
+      },
+      "valid": {
+        "mean": 0.934,
+        "ci95": [
+          0.8676,
+          0.9683
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
+          0.896,
+          0.966
+        ],
+        "ci95_wilson": [
+          0.8676,
+          0.9683
+        ]
+      },
+      "seq_ok": {
+        "mean": 0.9829,
+        "ci95": [
+          0.9348,
+          1.0
+        ],
+        "n": 467,
+        "ci95_bootstrap": [
+          0.9574,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9348,
+          0.9961
+        ]
+      },
+      "inputs_ok": {
+        "mean": 0.9979,
+        "ci95": [
+          0.9584,
+          1.0
+        ],
+        "n": 467,
+        "ci95_bootstrap": [
+          0.9934,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9584,
+          0.9999
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.9623,
+          1.0
+        ],
+        "n": 467,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9623,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.9623,
+          1.0
+        ],
+        "n": 467,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9623,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 0.9936,
+        "ci95": [
+          0.9512,
+          1.0
+        ],
+        "n": 467,
+        "ci95_bootstrap": [
+          0.9804,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9512,
+          0.9993
+        ]
+      },
+      "recall": {
+        "mean": 0.9893,
+        "ci95": [
+          0.9444,
+          1.0
+        ],
+        "n": 467,
+        "ci95_bootstrap": [
+          0.9717,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9444,
+          0.9982
+        ]
+      },
+      "unsupported_ok": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.9,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "reply_lang_ok": {
+        "mean": 0.9978,
+        "ci95": [
+          0.9567,
+          1.0
+        ],
+        "n": 447,
+        "ci95_bootstrap": [
+          0.9932,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9567,
+          0.9999
+        ]
+      },
+      "pass_k": {
+        "mean": 0.78,
+        "ci95": [
+          0.6893,
+          0.86
+        ],
+        "n": 100,
+        "ci95_bootstrap": [
+          0.69,
+          0.86
+        ],
+        "ci95_wilson": [
+          0.6893,
+          0.85
+        ]
+      },
+      "invalid_after_retry": 0.066,
+      "cost_usd_per_attempt": 0.000221,
+      "cost_usd_total": 0.1106,
+      "cost_usd_per_attempt_at_peak": 0.000221,
+      "prompt_tokens_per_attempt": 2110.3,
+      "completion_tokens_per_attempt": 236.3,
+      "reasoning_tokens_per_attempt": 121.1
+    },
+    "category=arithmetic": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.76,
+        "ci95": [
+          0.4516,
+          0.9241
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.66,
+          0.86
+        ],
+        "ci95_wilson": [
+          0.4516,
+          0.9241
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.7,
+        "ci95": [
+          0.3968,
+          0.8922
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.5995,
+          0.8005
+        ],
+        "ci95_wilson": [
+          0.3968,
+          0.8922
+        ]
+      },
+      "valid": {
+        "mean": 0.76,
+        "ci95": [
+          0.4516,
+          0.9241
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.66,
+          0.86
+        ],
+        "ci95_wilson": [
+          0.4516,
+          0.9241
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 38,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.3,
+        "ci95": [
+          0.0,
+          0.6032
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.0,
+          0.6
+        ],
+        "ci95_wilson": [
+          0.1078,
+          0.6032
+        ]
+      },
+      "invalid_after_retry": 0.24,
+      "cost_usd_per_attempt": 0.000192,
+      "cost_usd_total": 0.0096,
+      "cost_usd_per_attempt_at_peak": 0.000192,
+      "prompt_tokens_per_attempt": 2538.8,
+      "completion_tokens_per_attempt": 209.2,
+      "reasoning_tokens_per_attempt": 101.5
+    },
+    "category=chain": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.74,
+        "ci95": [
+          0.4329,
+          0.92
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.52,
+          0.92
+        ],
+        "ci95_wilson": [
+          0.4329,
+          0.9139
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.64,
+        "ci95": [
+          0.3453,
+          0.857
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.4,
+          0.8405
+        ],
+        "ci95_wilson": [
+          0.3453,
+          0.857
+        ]
+      },
+      "valid": {
+        "mean": 0.74,
+        "ci95": [
+          0.4329,
+          0.92
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.52,
+          0.92
+        ],
+        "ci95_wilson": [
+          0.4329,
+          0.9139
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 37,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.4,
+        "ci95": [
+          0.1,
+          0.7
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.1,
+          0.7
+        ],
+        "ci95_wilson": [
+          0.1682,
+          0.6873
+        ]
+      },
+      "invalid_after_retry": 0.26,
+      "cost_usd_per_attempt": 0.000315,
+      "cost_usd_total": 0.0157,
+      "cost_usd_per_attempt_at_peak": 0.000315,
+      "prompt_tokens_per_attempt": 2713.1,
+      "completion_tokens_per_attempt": 448.1,
+      "reasoning_tokens_per_attempt": 274.9
+    },
+    "category=hard_unsupported": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.9,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.9,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.8,
+        "ci95": [
+          0.4902,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.5,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4902,
+          0.9433
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000209,
+      "cost_usd_total": 0.0105,
+      "cost_usd_per_attempt_at_peak": 0.000209,
+      "prompt_tokens_per_attempt": 1933.2,
+      "completion_tokens_per_attempt": 227.0,
+      "reasoning_tokens_per_attempt": 114.2
+    },
+    "category=history": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "valid": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "invalid_after_retry": 0.02,
+      "cost_usd_per_attempt": 0.000225,
+      "cost_usd_total": 0.0112,
+      "cost_usd_per_attempt_at_peak": 0.000225,
+      "prompt_tokens_per_attempt": 2036.2,
+      "completion_tokens_per_attempt": 190.7,
+      "reasoning_tokens_per_attempt": 94.2
+    },
+    "category=indirect": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "inputs_ok": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000184,
+      "cost_usd_total": 0.0092,
+      "cost_usd_per_attempt_at_peak": 0.000184,
+      "prompt_tokens_per_attempt": 1921.1,
+      "completion_tokens_per_attempt": 219.9,
+      "reasoning_tokens_per_attempt": 117.7
+    },
+    "category=language": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000153,
+      "cost_usd_total": 0.0077,
+      "cost_usd_per_attempt_at_peak": 0.000153,
+      "prompt_tokens_per_attempt": 1914.2,
+      "completion_tokens_per_attempt": 168.2,
+      "reasoning_tokens_per_attempt": 56.5
+    },
+    "category=long": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "valid": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7008,
+          1.0
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7008,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "invalid_after_retry": 0.1,
+      "cost_usd_per_attempt": 0.000283,
+      "cost_usd_total": 0.0142,
+      "cost_usd_per_attempt_at_peak": 0.000283,
+      "prompt_tokens_per_attempt": 2167.4,
+      "completion_tokens_per_attempt": 268.0,
+      "reasoning_tokens_per_attempt": 158.0
+    },
+    "category=misleading_name": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.84,
+        "ci95": [
+          0.5307,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.66,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5307,
+          0.9606
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.96,
+        "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.88,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
+      },
+      "valid": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "seq_ok": {
+        "mean": 0.8571,
+        "ci95": [
+          0.5518,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          0.66,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5518,
+          0.9684
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 0.9388,
+        "ci95": [
+          0.6431,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          0.8125,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6431,
+          0.9927
+        ]
+      },
+      "recall": {
+        "mean": 0.898,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          0.7551,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.7,
+        "ci95": [
+          0.3968,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.4,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3968,
+          0.8922
+        ]
+      },
+      "invalid_after_retry": 0.02,
+      "cost_usd_per_attempt": 0.000304,
+      "cost_usd_total": 0.0152,
+      "cost_usd_per_attempt_at_peak": 0.000304,
+      "prompt_tokens_per_attempt": 1998.9,
+      "completion_tokens_per_attempt": 284.7,
+      "reasoning_tokens_per_attempt": 178.1
+    },
+    "category=negation": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000151,
+      "cost_usd_total": 0.0075,
+      "cost_usd_per_attempt_at_peak": 0.000151,
+      "prompt_tokens_per_attempt": 1920.9,
+      "completion_tokens_per_attempt": 166.1,
+      "reasoning_tokens_per_attempt": 53.9
+    },
+    "category=noisy": {
+      "tasks": 10,
+      "attempts": 50,
+      "correct": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "valid": {
+        "mean": 0.98,
+        "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
+          0.94,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 49,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 0.9706,
+        "ci95": [
+          0.6101,
+          1.0
+        ],
+        "n": 34,
+        "ci95_bootstrap": [
+          0.9118,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.6101,
+          0.9986
+        ]
+      },
+      "pass_k": {
+        "mean": 0.9,
+        "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          0.7,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
+      },
+      "invalid_after_retry": 0.02,
+      "cost_usd_per_attempt": 0.000197,
+      "cost_usd_total": 0.0099,
+      "cost_usd_per_attempt_at_peak": 0.000197,
+      "prompt_tokens_per_attempt": 1958.9,
+      "completion_tokens_per_attempt": 180.6,
+      "reasoning_tokens_per_attempt": 62.1
+    },
+    "lang=de": {
+      "tasks": 3,
+      "attempts": 15,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 3,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000123,
+      "cost_usd_total": 0.0018,
+      "cost_usd_per_attempt_at_peak": 0.000123,
+      "prompt_tokens_per_attempt": 1905.7,
+      "completion_tokens_per_attempt": 143.7,
+      "reasoning_tokens_per_attempt": 26.7
+    },
+    "lang=en": {
+      "tasks": 43,
+      "attempts": 215,
+      "correct": {
+        "mean": 0.9581,
+        "ci95": [
+          0.852,
+          0.9891
+        ],
+        "n": 215,
+        "ci95_bootstrap": [
+          0.9302,
+          0.9814
+        ],
+        "ci95_wilson": [
+          0.852,
+          0.9891
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.9535,
+        "ci95": [
+          0.8454,
+          0.9872
+        ],
+        "n": 215,
+        "ci95_bootstrap": [
+          0.9209,
+          0.9814
+        ],
+        "ci95_wilson": [
+          0.8454,
+          0.9872
+        ]
+      },
+      "valid": {
+        "mean": 0.9674,
+        "ci95": [
+          0.8654,
+          0.9928
+        ],
+        "n": 215,
+        "ci95_bootstrap": [
+          0.9395,
+          0.9907
+        ],
+        "ci95_wilson": [
+          0.8654,
+          0.9928
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": 0.92,
+        "ci95": [
+          0.482,
+          1.0
+        ],
+        "n": 25,
+        "ci95_bootstrap": [
+          0.84,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.482,
+          0.993
+        ]
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "reply_lang_ok": {
+        "mean": 0.9952,
+        "ci95": [
+          0.9097,
+          1.0
+        ],
+        "n": 208,
+        "ci95_bootstrap": [
+          0.9854,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9097,
+          0.9998
+        ]
+      },
+      "pass_k": {
+        "mean": 0.814,
+        "ci95": [
+          0.6738,
+          0.907
+        ],
+        "n": 43,
+        "ci95_bootstrap": [
+          0.6977,
+          0.907
+        ],
+        "ci95_wilson": [
+          0.6738,
+          0.9026
+        ]
+      },
+      "invalid_after_retry": 0.0326,
+      "cost_usd_per_attempt": 0.000208,
+      "cost_usd_total": 0.0448,
+      "cost_usd_per_attempt_at_peak": 0.000208,
+      "prompt_tokens_per_attempt": 2034.6,
+      "completion_tokens_per_attempt": 222.8,
+      "reasoning_tokens_per_attempt": 110.1
+    },
+    "lang=es": {
+      "tasks": 3,
+      "attempts": 15,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 3,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000186,
+      "cost_usd_total": 0.0028,
+      "cost_usd_per_attempt_at_peak": 0.000186,
+      "prompt_tokens_per_attempt": 1915.0,
+      "completion_tokens_per_attempt": 173.9,
+      "reasoning_tokens_per_attempt": 54.9
+    },
+    "lang=it": {
+      "tasks": 2,
+      "attempts": 10,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.3424,
+          1.0
+        ],
+        "n": 2,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.3424,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000183,
+      "cost_usd_total": 0.0018,
+      "cost_usd_per_attempt_at_peak": 0.000183,
+      "prompt_tokens_per_attempt": 1910.0,
+      "completion_tokens_per_attempt": 191.0,
+      "reasoning_tokens_per_attempt": 74.0
+    },
+    "lang=mixed": {
+      "tasks": 1,
+      "attempts": 5,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 1,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000116,
+      "cost_usd_total": 0.0006,
+      "cost_usd_per_attempt_at_peak": 0.000116,
+      "prompt_tokens_per_attempt": 1932.0,
+      "completion_tokens_per_attempt": 174.0,
+      "reasoning_tokens_per_attempt": 29.4
+    },
+    "lang=ru": {
+      "tasks": 45,
+      "attempts": 225,
+      "correct": {
+        "mean": 0.8489,
+        "ci95": [
+          0.7173,
+          0.9256
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
+          0.7644,
+          0.9201
+        ],
+        "ci95_wilson": [
+          0.7173,
+          0.9256
+        ]
+      },
+      "valid_first_try": {
+        "mean": 0.8578,
+        "ci95": [
+          0.7277,
+          0.9316
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
+          0.7733,
+          0.9289
+        ],
+        "ci95_wilson": [
+          0.7277,
+          0.9316
+        ]
+      },
+      "valid": {
+        "mean": 0.8844,
+        "ci95": [
+          0.7596,
+          0.9488
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
+          0.8089,
+          0.9467
+        ],
+        "ci95_wilson": [
+          0.7596,
+          0.9488
+        ]
+      },
+      "seq_ok": {
+        "mean": 0.9598,
+        "ci95": [
+          0.8587,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          0.9078,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.8587,
+          0.991
+        ]
+      },
+      "inputs_ok": {
+        "mean": 0.995,
+        "ci95": [
+          0.9097,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          0.9845,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.9097,
+          0.9998
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 0.9849,
+        "ci95": [
+          0.8941,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          0.9536,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.8941,
+          0.9983
+        ]
+      },
+      "recall": {
+        "mean": 0.9749,
+        "ci95": [
+          0.8794,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          0.9381,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.8794,
+          0.9959
+        ]
+      },
+      "unsupported_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.5655,
+          1.0
+        ],
+        "n": 25,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.5655,
+          1.0
+        ]
+      },
+      "reply_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.2065,
+          1.0
+        ],
+        "n": 5,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.2065,
+          1.0
+        ]
+      },
+      "reply_lang_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.918,
+          1.0
+        ],
+        "n": 199,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.918,
+          1.0
+        ]
+      },
+      "pass_k": {
+        "mean": 0.6889,
+        "ci95": [
+          0.5433,
+          0.8222
+        ],
+        "n": 45,
+        "ci95_bootstrap": [
+          0.5556,
+          0.8222
+        ],
+        "ci95_wilson": [
+          0.5433,
+          0.8047
+        ]
+      },
+      "invalid_after_retry": 0.1156,
+      "cost_usd_per_attempt": 0.000243,
+      "cost_usd_total": 0.0546,
+      "cost_usd_per_attempt_at_peak": 0.000243,
+      "prompt_tokens_per_attempt": 2235.1,
+      "completion_tokens_per_attempt": 264.6,
+      "reasoning_tokens_per_attempt": 149.1
+    },
+    "lang=translit": {
+      "tasks": 3,
+      "attempts": 15,
+      "correct": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "valid_first_try": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "valid": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "seq_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "inputs_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "params_ok": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "no_forbidden": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "precision": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "recall": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 15,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "unsupported_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "reply_lang_ok": {
+        "mean": null,
+        "ci95": null,
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
+      },
+      "pass_k": {
+        "mean": 1.0,
+        "ci95": [
+          0.4385,
+          1.0
+        ],
+        "n": 3,
+        "ci95_bootstrap": [
+          1.0,
+          1.0
+        ],
+        "ci95_wilson": [
+          0.4385,
+          1.0
+        ]
+      },
+      "invalid_after_retry": 0.0,
+      "cost_usd_per_attempt": 0.000283,
+      "cost_usd_total": 0.0042,
+      "cost_usd_per_attempt_at_peak": 0.000283,
+      "prompt_tokens_per_attempt": 1914.0,
+      "completion_tokens_per_attempt": 210.3,
+      "reasoning_tokens_per_attempt": 82.2
+    }
+  },
+  "latency_per_request_s": {
+    "p50": 1.996,
+    "p95": 5.01
+  },
+  "wrong_examples": {
+    "arithmetic": [
+      {
+        "task": "arith-01",
+        "attempt": 0,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      },
+      {
+        "task": "arith-01",
+        "attempt": 1,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      },
+      {
+        "task": "arith-02",
+        "attempt": 1,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      }
+    ],
+    "chain": [
+      {
+        "task": "chain-02",
+        "attempt": 2,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      },
+      {
+        "task": "chain-02",
+        "attempt": 3,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      },
+      {
+        "task": "chain-02",
+        "attempt": 4,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      }
+    ],
+    "hard_unsupported": [
+      {
+        "task": "hardunsup-09",
+        "attempt": 4,
+        "tools": "-",
+        "failed": "unsupported_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Reverb and compression aren't something I can do yet — the tools here only trim, separate, restore/denoise and analyze. Your vocals version is already in the store, so you can take that into a DAW for the effects. Happy to do a cleanup or analysis pass meanwhile if that helps."
+      },
+      {
+        "task": "hardunsup-10",
+        "attempt": 0,
+        "tools": "denoise",
+        "failed": "unsupported_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Speed changes aren't possible yet — none of the tools can time-stretch or change playback rate. I can clean the noise, though: a quick denoise pass on the memo (speech, so no separate needed). If you want the result shorter, tell me and I'll trim it instead."
+      }
+    ],
+    "history": [
+      {
+        "task": "history-03",
+        "attempt": 1,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      }
+    ],
+    "indirect": [
+      {
+        "task": "indirect-05",
+        "attempt": 0,
+        "tools": "analyze>separate",
+        "failed": "seq_ok,inputs_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Сначала прогоню анализ микса: темп, тональность и аккорды. Если по миксу аккорды будут грязноваты, можно дополнительно выделить инструментал, но начнём с простого. Готов?"
+      }
+    ],
+    "long": [
+      {
+        "task": "long-04",
+        "attempt": 0,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      },
+      {
+        "task": "long-04",
+        "attempt": 1,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      },
+      {
+        "task": "long-04",
+        "attempt": 2,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      }
+    ],
+    "misleading_name": [
+      {
+        "task": "misname-02",
+        "attempt": 0,
+        "tools": "denoise",
+        "failed": "seq_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Файл — голосовая заметка, а не песня: музыки в ней нет, так что разделять на вокал и минус нечего. Просто прогоню запись через денойзер — он уберёт шум и оставит голос близким к оригиналу."
+      },
+      {
+        "task": "misname-02",
+        "attempt": 1,
+        "tools": "denoise",
+        "failed": "seq_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Судя по файлу, это голосовая заметка (voice_memo_0412), а не песня с музыкой — разделять на вокал и инструментал тут нечего, поэтому чищу голос напрямую. Если внутри всё-таки есть музыкальная подложка, скажи — тогда сначала прогоню separate и почищу только вокал."
+      },
+      {
+        "task": "misname-02",
+        "attempt": 2,
+        "tools": "denoise",
+        "failed": "seq_ok",
+        "forbidden": "",
+        "error": "",
+        "reply": "Файл — голосовая заметка, а не песня: музыки там нет, так что разделять на вокал/минус нечего. Просто прогоню его через денойзер — он уберёт шум и оставит голос близко к оригиналу. Если на самом деле это запись песни, скажи — тогда сначала сделаю separate и почищу вокал отдельно."
+      }
+    ],
+    "noisy": [
+      {
+        "task": "noisy-04",
+        "attempt": 2,
+        "tools": null,
+        "failed": "valid",
+        "forbidden": null,
+        "error": "Модель дважды вернула негодный план: step 1: trim without start_s, end_s or silence: true cuts nothing; give the range or silence: true",
+        "reply": null
+      }
+    ]
+  }
+}

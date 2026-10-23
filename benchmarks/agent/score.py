@@ -50,6 +50,10 @@ PRICES = {
     "deepseek-flash": {"hit": 0.006, "miss": 0.30, "out": 1.20},
     "deepseek-v4-flash": {"hit": 0.006, "miss": 0.30, "out": 1.20},
     "deepseek-v4-pro": {"hit": 1.32, "miss": 1.32, "out": 3.96},
+    # OpenRouter list prices as of 2026-10-23: one tariff around the clock.
+    "deepseek/deepseek-v4.1-flash-1017": {"hit": 0.003, "miss": 0.15, "out": 0.60, "flat": True},
+    "deepseek/deepseek-v4.1-flash": {"hit": 0.006, "miss": 0.30, "out": 1.20, "flat": True},
+    "deepseek/deepseek-v4-pro": {"hit": 0.0796, "miss": 0.955, "out": 1.911, "flat": True},
 }
 PEAK_UTC = ((1, 4), (6, 10))  # weekdays only
 METRICS = ("correct", "valid_first_try", "valid", "seq_ok", "inputs_ok", "params_ok", "no_forbidden",
@@ -71,7 +75,7 @@ def call_cost(call: dict[str, Any], model: str, at_peak: bool = False) -> float 
     hit = usage.get("prompt_cache_hit_tokens", usage.get("cached_tokens", 0))
     miss = usage.get("prompt_cache_miss_tokens", usage.get("prompt_tokens", 0) - hit)
     cost = (hit * price["hit"] + miss * price["miss"] + usage.get("completion_tokens", 0) * price["out"]) / 1e6
-    return cost if at_peak or peak(call["at"]) else cost / 2
+    return cost if at_peak or price.get("flat") or peak(call["at"]) else cost / 2
 
 
 # Function words of the languages the planner drifted into (it, es, pt, de, fr, nl, pl), none of them English.
