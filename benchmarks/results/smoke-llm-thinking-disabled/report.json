@@ -1,0 +1,232 @@
+{
+ "llm": "openai-compatible:deepseek-flash@https://api.deepseek.com",
+ "thinking": "disabled",
+ "reasoning_effort": "provider default",
+ "ok": true,
+ "scenarios": [
+  {
+   "scenario": "plan",
+   "request": "Отдели вокал от музыки",
+   "ok": true,
+   "error": null,
+   "plan": {
+    "reply": "Разделю трек на вокал и инструментал — получите два отдельных файла, оба сохранятся как новые версии. Учтите, на CPU это около 45 секунд.",
+    "steps": [
+     {
+      "tool": "separate",
+      "input": "track",
+      "params": {}
+     }
+    ]
+   },
+   "llm_calls": [
+    {
+     "messages": 1,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 128,
+      "prompt_tokens": 1696,
+      "total_tokens": 1824,
+      "cached_tokens": 1408,
+      "prompt_cache_hit_tokens": 1408,
+      "prompt_cache_miss_tokens": 288
+     },
+     "latency_s": 1.629,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделю трек на вокал и инструментал — получите два отдельных файла, оба сохранятся как новые версии. Учтите, на CPU это около 45 секунд.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Разделяем микс на вокал и инструментал"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "history",
+   "request": "А теперь узнай темп и тональность",
+   "ok": true,
+   "error": null,
+   "plan": {
+    "reply": "Разделю трек на вокал и инструментал, а темп и тональность определю по инструменталу — так анализ надёжнее, чем по миксу.",
+    "steps": [
+     {
+      "tool": "separate",
+      "input": "track",
+      "params": {}
+     },
+     {
+      "tool": "analyze",
+      "input": "1.instrumental",
+      "params": {}
+     }
+    ]
+   },
+   "llm_calls": [
+    {
+     "messages": 3,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 154,
+      "prompt_tokens": 1755,
+      "total_tokens": 1909,
+      "cached_tokens": 1408,
+      "prompt_cache_hit_tokens": 1408,
+      "prompt_cache_miss_tokens": 347
+     },
+     "latency_s": 1.479,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделю трек на вокал и инструментал, а темп и тональность определю по инструменталу — так анализ надёжнее, чем по миксу.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Отделяем вокал от музыки"
+         },
+         {
+          "tool": "analyze",
+          "input": "2.instrumental",
+          "why": "Темп и тональность по инструменталу"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "messages": 5,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 154,
+      "prompt_tokens": 1911,
+      "total_tokens": 2065,
+      "cached_tokens": 1664,
+      "prompt_cache_hit_tokens": 1664,
+      "prompt_cache_miss_tokens": 247
+     },
+     "latency_s": 1.263,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделю трек на вокал и инструментал, а темп и тональность определю по инструменталу — так анализ надёжнее, чем по миксу.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Отделяем вокал от музыки"
+         },
+         {
+          "tool": "analyze",
+          "input": "1.instrumental",
+          "why": "Темп и тональность по инструменталу"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "retry",
+   "request": "Отдели вокал от музыки",
+   "ok": true,
+   "error": null,
+   "plan": {
+    "reply": "Отделяю вокал от инструментала — получишь две дорожки: вокал и музыку.",
+    "steps": [
+     {
+      "tool": "separate",
+      "input": "track",
+      "params": {}
+     }
+    ]
+   },
+   "llm_calls": [
+    {
+     "messages": 1,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 133,
+      "prompt_tokens": 1696,
+      "total_tokens": 1829,
+      "cached_tokens": 1536,
+      "prompt_cache_hit_tokens": 1536,
+      "prompt_cache_miss_tokens": 160
+     },
+     "latency_s": 1.769,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделю трек на вокал и инструментал — на выходе получатся две дорожки, обе сохранятся новыми версиями, так что можно послушать и при желании откатиться.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Разделяем микс на вокал и инструментал"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "messages": 3,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 111,
+      "prompt_tokens": 1779,
+      "total_tokens": 1890,
+      "cached_tokens": 1536,
+      "prompt_cache_hit_tokens": 1536,
+      "prompt_cache_miss_tokens": 243
+     },
+     "latency_s": 1.127,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Отделяю вокал от инструментала — получишь две дорожки: вокал и музыку.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Разделяю микс на вокал и инструментал"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

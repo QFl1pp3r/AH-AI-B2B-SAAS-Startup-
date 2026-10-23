@@ -1,0 +1,37 @@
+{
+ "file_name": "rehearsal_take3",
+ "selected_version": {
+  "id": "ad6395df8de",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 184.0,
+  "peak_dbfs": -1.2,
+  "rms_dbfs": -14.5,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "ad6395df8de",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  },
+  {
+   "id": "a09a8db8734",
+   "role": "vocals",
+   "kind": "audio",
+   "made_by": "separate",
+   "depth": 1
+  },
+  {
+   "id": "a782a17ae6e",
+   "role": "instrumental",
+   "kind": "audio",
+   "made_by": "separate",
+   "depth": 1
+  }
+ ],
+ "analysis": null
+}

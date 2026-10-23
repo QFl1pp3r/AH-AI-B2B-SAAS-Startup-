@@ -1,0 +1,195 @@
+{
+ "llm": "openai-compatible:deepseek-flash@https://api.deepseek.com",
+ "thinking": "provider default",
+ "reasoning_effort": "provider default",
+ "ok": true,
+ "scenarios": [
+  {
+   "scenario": "plan",
+   "request": "Отдели вокал от музыки",
+   "ok": true,
+   "error": null,
+   "plan": {
+    "reply": "Разделю трек на вокал и инструментал — получишь две отдельные дорожки.",
+    "steps": [
+     {
+      "tool": "separate",
+      "input": "track",
+      "params": {}
+     }
+    ]
+   },
+   "llm_calls": [
+    {
+     "messages": 1,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 129,
+      "prompt_tokens": 1723,
+      "total_tokens": 1852,
+      "reasoning_tokens": 20,
+      "cached_tokens": 1408,
+      "prompt_cache_hit_tokens": 1408,
+      "prompt_cache_miss_tokens": 315
+     },
+     "latency_s": 1.617,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделю трек на вокал и инструментал — получишь две отдельные дорожки.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Разделяю микс на вокал и инструментал"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "history",
+   "request": "А теперь узнай темп и тональность",
+   "ok": true,
+   "error": null,
+   "plan": {
+    "reply": "Определю темп и тональность по исходному миксу. Учти: тональность — самый ненадёжный параметр анализа, так что на неё лучше смотреть как на подсказку.",
+    "steps": [
+     {
+      "tool": "analyze",
+      "input": "track",
+      "params": {
+       "key": true
+      }
+     }
+    ]
+   },
+   "llm_calls": [
+    {
+     "messages": 3,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 247,
+      "prompt_tokens": 1762,
+      "total_tokens": 2009,
+      "reasoning_tokens": 85,
+      "cached_tokens": 1408,
+      "prompt_cache_hit_tokens": 1408,
+      "prompt_cache_miss_tokens": 354
+     },
+     "latency_s": 2.192,
+     "text": "Темп и тональность можно снять прямо с микса — разделение для этого не нужно.",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Определю темп и тональность по исходному миксу. Учти: тональность — самый ненадёжный параметр анализа, так что на неё лучше смотреть как на подсказку.",
+        "steps": [
+         {
+          "tool": "analyze",
+          "input": "track",
+          "why": "Темп и тональность по миксу",
+          "params": {
+           "key": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "retry",
+   "request": "Отдели вокал от музыки",
+   "ok": true,
+   "error": null,
+   "plan": {
+    "reply": "Разделяю трек на вокал и инструментал — обе версии сохранятся отдельно, так что можно будет откатиться.",
+    "steps": [
+     {
+      "tool": "separate",
+      "input": "track",
+      "params": {}
+     }
+    ]
+   },
+   "llm_calls": [
+    {
+     "messages": 1,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 129,
+      "prompt_tokens": 1723,
+      "total_tokens": 1852,
+      "reasoning_tokens": 21,
+      "cached_tokens": 1536,
+      "prompt_cache_hit_tokens": 1536,
+      "prompt_cache_miss_tokens": 187
+     },
+     "latency_s": 1.267,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделяю трек на вокал и инструментал — получишь две отдельные версии.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Разделяем микс на вокал и инструментал"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "messages": 3,
+     "tools": [
+      "submit_plan"
+     ],
+     "usage": {
+      "completion_tokens": 144,
+      "prompt_tokens": 1807,
+      "total_tokens": 1951,
+      "reasoning_tokens": 26,
+      "cached_tokens": 1664,
+      "prompt_cache_hit_tokens": 1664,
+      "prompt_cache_miss_tokens": 143
+     },
+     "latency_s": 1.266,
+     "text": "",
+     "calls": [
+      {
+       "name": "submit_plan",
+       "input": {
+        "reply": "Разделяю трек на вокал и инструментал — обе версии сохранятся отдельно, так что можно будет откатиться.",
+        "steps": [
+         {
+          "tool": "separate",
+          "input": "track",
+          "why": "Разделяет микс на вокал и инструментал"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

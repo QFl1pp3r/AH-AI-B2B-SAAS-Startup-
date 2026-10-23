@@ -21,3 +21,5 @@ api_key_env = "ANTHROPIC_API_KEY"  # name of the env var with the key; the key i
 # DeepSeek (OpenAI-compatible, tool calls work with its default thinking mode):
 #   provider = "openai", model = "deepseek-flash" (or "deepseek-v4-pro"),
 #   base_url = "https://api.deepseek.com", api_key_env = "DEEPSEEK_API_KEY"
+# thinking = "disabled"          # enabled | disabled; empty = provider default. OpenAI-compatible only, Anthropic ignores it
+# reasoning_effort = "high"      # DeepSeek: low | high | max; empty = provider default

@@ -1,0 +1,22 @@
+[project]
+name = "ah-bench-speech"
+version = "0.1.0"
+description = "Speech metrics for the chain benchmarks: Whisper, jiwer, DNSMOS, UTMOS22, ECAPA (benchmarks/common/speech.py)"
+requires-python = ">=3.12,<3.13"
+# Same versions as the eval env (ev312) of Jamal's denoise benchmark v2, so the numbers stay comparable.
+dependencies = [
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+    "transformers==4.56.2",
+    "huggingface_hub>=0.34,<1.0",
+    "speechbrain==1.0.3",
+    "onnxruntime==1.23.2",
+    "jiwer==4.0.0",
+    "soundfile==0.13.1",
+    "soxr==1.0.0",
+    "scipy",
+    "numpy<2.3",
+]
+
+[tool.uv]
+package = false

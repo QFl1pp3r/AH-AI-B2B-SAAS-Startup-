@@ -1,0 +1,42 @@
+{
+ "file_name": "night_drive_demo",
+ "selected_version": {
+  "id": "a524e23b394",
+  "role": "original",
+  "made_by": "import",
+  "duration_s": 212.4,
+  "peak_dbfs": -0.3,
+  "rms_dbfs": -11.8,
+  "clipped_ratio": 0.0,
+  "silence_ratio": 0.0
+ },
+ "versions": [
+  {
+   "id": "a524e23b394",
+   "role": "original",
+   "kind": "audio",
+   "made_by": "import",
+   "depth": 0
+  },
+  {
+   "id": "a0bd0c9a3f1",
+   "role": "analysis",
+   "kind": "json",
+   "made_by": "analyze",
+   "depth": 1
+  }
+ ],
+ "analysis": {
+  "of": "a524e23b394",
+  "bpm": 124.0,
+  "meter": "4/4",
+  "key": "A minor",
+  "chords": [
+   "Am",
+   "F",
+   "C",
+   "G",
+   "Am"
+  ]
+ }
+}
