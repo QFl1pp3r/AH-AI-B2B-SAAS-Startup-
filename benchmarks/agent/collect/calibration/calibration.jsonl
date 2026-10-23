@@ -1,0 +1,20 @@
+{"id": "cal-01", "participant": "CAL", "card": "calibration", "fixture": "song_fresh", "situation": "", "request": "сделай мне минусовку, хочу петь на свадьбе у брата", "lang": "ru"}
+{"id": "cal-02", "participant": "CAL", "card": "calibration", "fixture": "voice_memo", "situation": "", "request": "на голосовухе гудит холодильник, помоги плз", "lang": "ru"}
+{"id": "cal-03", "participant": "CAL", "card": "calibration", "fixture": "podcast_long", "situation": "", "request": "звук как из ведра, можно сделать как в студии?", "lang": "ru"}
+{"id": "cal-04", "participant": "CAL", "card": "calibration", "fixture": "phone_call_mono", "situation": "", "request": "убери шум, но чтобы голос остался как есть, без всяких эффектов", "lang": "ru"}
+{"id": "cal-05", "participant": "CAL", "card": "calibration", "fixture": "song_analyzed", "situation": "", "request": "какой темп и в какой тональности это?", "lang": "ru"}
+{"id": "cal-06", "participant": "CAL", "card": "calibration", "fixture": "acapella_only", "situation": "", "request": "какие тут аккорды? хочу подобрать на укулеле", "lang": "ru"}
+{"id": "cal-07", "participant": "CAL", "card": "calibration", "fixture": "song_fresh", "situation": "", "request": "вырежи кусок с 0:45 до 1:30", "lang": "ru"}
+{"id": "cal-08", "participant": "CAL", "card": "calibration", "fixture": "live_long_clipped", "situation": "", "request": "keep only the last 30 seconds", "lang": "en"}
+{"id": "cal-09", "participant": "CAL", "card": "calibration", "fixture": "voice_memo", "situation": "", "request": "убери все паузы между фразами", "lang": "ru"}
+{"id": "cal-10", "participant": "CAL", "card": "calibration", "fixture": "loud_master", "situation": "", "request": "сделай погромче и чтоб не хрипело", "lang": "ru"}
+{"id": "cal-11", "participant": "CAL", "card": "calibration", "fixture": "song_fresh", "situation": "", "request": "split it into drums, bass and vocals", "lang": "en"}
+{"id": "cal-12", "participant": "CAL", "card": "calibration", "fixture": "song_trimmed_selected", "situation": "", "request": "почисти голос в этом куске", "lang": "ru"}
+{"id": "cal-13", "participant": "CAL", "card": "calibration", "fixture": "history_full_denoised_vocals", "situation": "", "request": "ок, а теперь какой темп у песни?", "lang": "ru"}
+{"id": "cal-14", "participant": "CAL", "card": "calibration", "fixture": "speech_restored_selected", "situation": "", "request": "голос стал как у робота, верни как было", "lang": "ru"}
+{"id": "cal-15", "participant": "CAL", "card": "calibration", "fixture": "instrumental_only", "situation": "", "request": "нужен трек без вокала для караоке", "lang": "ru"}
+{"id": "cal-16", "participant": "CAL", "card": "calibration", "fixture": "phone_call_mono", "situation": "", "request": "this call is so hard to understand, make it clearer", "lang": "en"}
+{"id": "cal-17", "participant": "CAL", "card": "calibration", "fixture": "live_long_clipped", "situation": "", "request": "is it clipping anywhere?", "lang": "en"}
+{"id": "cal-18", "participant": "CAL", "card": "calibration", "fixture": "voice_memo", "situation": "", "request": "обрежь тишину по краям и почисти", "lang": "ru"}
+{"id": "cal-19", "participant": "CAL", "card": "calibration", "fixture": "song_fresh", "situation": "", "request": "translate the lyrics to English", "lang": "en"}
+{"id": "cal-20", "participant": "CAL", "card": "calibration", "fixture": "loud_master", "situation": "", "request": "make it better", "lang": "en"}

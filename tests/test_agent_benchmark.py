@@ -358,3 +358,46 @@ def test_merge_keeps_agreed_rows_and_reports_kappa(tmp_path, monkeypatch):
     resolved = sheet("r.csv", ["denoise | restore", "denoise | restore", "analyze"])
     assert len(collect.merge(a, b, resolved)["tasks"]) == 3
     assert collect.kappa(["x", "y"], ["x", "y"]) == 1.0
+
+
+def _sheet(path, rows, fields):
+    import csv as csv_module
+
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv_module.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
+    return path
+
+
+def test_check_reports_what_an_annotator_must_fix(tmp_path):
+    collect = _load("collect")
+    rows = [{"id": "r1", "fixture": "song_fresh", "accept": "separate>denoise", "inputs": "2=1.vocals"},
+            {"id": "r2", "fixture": "song_fresh", "accept": "trim"},                      # cuts nothing
+            {"id": "r3", "fixture": "song_fresh", "accept": "trim", "params": "1:end_s=300"},  # past 212.4 s
+            {"id": "r4", "fixture": "song_fresh", "accept": "separate", "forbid": "eq"},
+            {"id": "r5", "fixture": "song_fresh", "accept": "analyze", "needs": "tempo"},
+            {"id": "r6", "fixture": "song_fresh", "accept": "separate>denoise", "inputs": "2=1.analysis"},  # separate has no analysis
+            {"id": "r7", "fixture": "song_fresh", "accept": "trim", "params": "1:end_s=abc"},
+            {"id": "r8", "fixture": "song_fresh", "accept": ""}]
+    report = collect.check_sheet(_sheet(tmp_path / "s.csv", rows, collect.LABEL_FIELDS))
+    assert (report["rows"], report["labelled"], report["unlabelled"]) == (8, 7, ["r8"])
+    failing = sorted(e.split(":")[0] for e in report["errors"])
+    assert failing == ["r2", "r4", "r5", "r6", "r7"]
+    assert len(report["warnings"]) == 1 and report["warnings"][0].startswith("r3")
+
+
+def test_calibration_sheets_are_blank_and_merge_where_told(tmp_path):
+    collect = _load("collect")
+    cal = AGENT / "collect" / "calibration"
+    drafts = [json.loads(line) for line in (cal / "calibration.jsonl").read_text().splitlines()]
+    assert len(drafts) == 20 and all((AGENT / "fixtures" / f"{d['fixture']}.json").is_file() for d in drafts)
+    for name in ("calib_A.csv", "calib_B.csv"):
+        report = collect.check_sheet(cal / name)
+        assert report["rows"] == 20 and report["labelled"] == 0
+    filled = [{"id": d["id"], "accept": "*", "max_steps": "2"} for d in drafts]
+    a = _sheet(tmp_path / "a.csv", filled, collect.LABEL_FIELDS)
+    b = _sheet(tmp_path / "b.csv", filled[:-1] + [{"id": "cal-20", "accept": "-", "unsupported": "yes"}], collect.LABEL_FIELDS)
+    out = collect.merge(a, b, None, cal / "calibration.jsonl")
+    assert out["stats"]["labelled_by_both"] == 20 and out["stats"]["full_agreement"] == 0.95
+    assert len(out["tasks"]) == 19 and out["disagreements"][0]["id"] == "cal-20"

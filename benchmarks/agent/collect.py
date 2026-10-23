@@ -6,8 +6,12 @@ or that were settled by hand, become tasks. Protocol: collect/README.md.
 
     uv run python benchmarks/agent/collect.py questionnaire --participant P01 --lang ru > p01.md
     uv run python benchmarks/agent/collect.py import responses.csv        # -> collect/drafts/
+    uv run python benchmarks/agent/collect.py check collect/drafts/label_B.csv    # an annotator checks their own sheet
     uv run python benchmarks/agent/collect.py merge collect/drafts/label_A.csv collect/drafts/label_B.csv \\
         [--resolved resolved.csv]                                          # -> tasks/heldout2.jsonl
+
+Calibration before the real labelling: collect/calibration/ has 20 requests and blank sheets; merge them
+with --drafts collect/calibration/calibration.jsonl --out collect/calibration/merged.jsonl.
 
 responses.csv columns: participant, card, request. Raw responses and drafts stay out of git
 (collect/drafts is ignored); only the merged, anonymised task file is committed.
@@ -36,6 +40,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from ah.agent import PlanError, reply_language, validate
+from ah.registry import TOOLS
 
 HERE = Path(__file__).parent
 COLLECT = HERE / "collect"
@@ -172,6 +177,38 @@ def check_gold(gold: dict[str, Any]) -> None:
         validate({"reply": "ok", "steps": steps})
 
 
+def check_sheet(path: Path) -> dict[str, Any]:
+    """What an annotator should fix before handing the sheet in: unlabelled rows, errors, and times past the end."""
+    report: dict[str, Any] = {"rows": 0, "labelled": 0, "unlabelled": [], "errors": [], "warnings": []}
+    for task_id, row in read_sheet(path).items():
+        report["rows"] += 1
+        if not (row.get("accept") or "").strip():
+            report["unlabelled"].append(task_id)
+            continue
+        report["labelled"] += 1
+        fixture = HERE / "fixtures" / f"{row.get('fixture', '')}.json"
+        try:
+            gold = parse_gold(row)
+            check_gold(gold)
+        except (ValueError, PlanError) as err:
+            report["errors"].append(f"{task_id}: {err}")
+            continue
+        unknown = set(gold.get("forbid", [])) - set(TOOLS)
+        if unknown:
+            report["errors"].append(f"{task_id}: forbid has unknown tools {sorted(unknown)}")
+        if set(gold.get("needs", [])) - {"key", "chords"}:
+            report["errors"].append(f"{task_id}: needs takes only key and chords")
+        if not fixture.is_file():
+            report["errors"].append(f"{task_id}: no fixture {fixture.name}")
+            continue
+        duration = json.loads(fixture.read_text())["selected_version"]["duration_s"]
+        for n, values in gold.get("params", {}).items():
+            for key in ("start_s", "end_s"):
+                if isinstance(values.get(key), float) and values[key] > duration + 0.1:
+                    report["warnings"].append(f"{task_id}: step {n} {key}={values[key]} is past the end of the open version ({duration} s)")
+    return report
+
+
 def kappa(a: list[str], b: list[str]) -> float | None:
     """Cohen's kappa: agreement on the plan class beyond what two random labellers with these habits would reach."""
     n = len(a)
@@ -188,19 +225,25 @@ def read_sheet(path: Path) -> dict[str, dict[str, str]]:
         return {row["id"]: row for row in csv.DictReader(f)}
 
 
-def merge(a_path: Path, b_path: Path, resolved_path: Path | None) -> dict[str, Any]:
-    drafts = {t["id"]: t for t in map(json.loads, (DRAFTS / "tasks.draft.jsonl").read_text().splitlines())}
+def merge(a_path: Path, b_path: Path, resolved_path: Path | None, drafts_path: Path | None = None) -> dict[str, Any]:
+    drafts = {t["id"]: t for t in map(json.loads, (drafts_path or DRAFTS / "tasks.draft.jsonl").read_text().splitlines())}
     a, b = read_sheet(a_path), read_sheet(b_path)
     resolved = read_sheet(resolved_path) if resolved_path else {}
     labelled = sorted(set(a) & set(b) & set(drafts))
-    tasks, disagreements, classes_a, classes_b, invalid = [], [], [], [], []
+    tasks, disagreements, classes_a, classes_b, invalid, agreed = [], [], [], [], [], 0
     for task_id in labelled:
-        gold_a, gold_b = parse_gold(a[task_id]), parse_gold(b[task_id])
+        try:
+            gold_a, gold_b = parse_gold(a[task_id]), parse_gold(b[task_id])
+        except ValueError as err:
+            invalid.append(f"{task_id}: {err}")
+            continue
         classes_a.append(json.dumps(gold_a["accept"]))
         classes_b.append(json.dumps(gold_b["accept"]))
+        same = json.dumps(gold_a, sort_keys=True) == json.dumps(gold_b, sort_keys=True)
+        agreed += same
         if task_id in resolved:
             gold = parse_gold(resolved[task_id])
-        elif json.dumps(gold_a, sort_keys=True) == json.dumps(gold_b, sort_keys=True):
+        elif same:
             gold = gold_a
         else:
             disagreements.append({"id": task_id, "request": drafts[task_id]["request"],
@@ -215,9 +258,9 @@ def merge(a_path: Path, b_path: Path, resolved_path: Path | None) -> dict[str, A
         d = drafts[task_id]
         tasks.append({"id": task_id, "category": d["card"], "lang": d["lang"], "request": d["request"],
                       "track_data": f"fixtures/{d['fixture']}.json", "participant": d["participant"], "gold": gold})
-    agreed = sum(json.dumps(parse_gold(a[t]), sort_keys=True) == json.dumps(parse_gold(b[t]), sort_keys=True) for t in labelled)
+    parsed = len(classes_a)
     return {"tasks": tasks, "disagreements": disagreements, "invalid": invalid,
-            "stats": {"labelled_by_both": len(labelled), "full_agreement": round(agreed / len(labelled), 4) if labelled else None,
+            "stats": {"labelled_by_both": parsed, "full_agreement": round(agreed / parsed, 4) if parsed else None,
                       "plan_class_kappa": kappa(classes_a, classes_b), "resolved_by_hand": len(set(resolved) & set(labelled)),
                       "tasks": len(tasks), "open_disagreements": len(disagreements), "invalid_gold": len(invalid)}}
 
@@ -234,6 +277,10 @@ def main() -> None:
     m.add_argument("label_a", type=Path)
     m.add_argument("label_b", type=Path)
     m.add_argument("--resolved", type=Path)
+    m.add_argument("--drafts", type=Path, help="draft tasks (default collect/drafts/tasks.draft.jsonl)")
+    m.add_argument("--out", type=Path, help="merged task file (default tasks/heldout2.jsonl)")
+    c = sub.add_parser("check")
+    c.add_argument("sheet", type=Path)
     args = parser.parse_args()
 
     if args.cmd == "questionnaire":
@@ -253,15 +300,26 @@ def main() -> None:
         print(json.dumps({"requests": len(tasks), "participants": len({t["participant"] for t in tasks}),
                           "by_lang": Counter(t["lang"] for t in tasks), "by_card": Counter(t["card"] for t in tasks)},
                          ensure_ascii=False, indent=1))
+    elif args.cmd == "check":
+        report = check_sheet(args.sheet)
+        print(f"\n{args.sheet.name}: {report['labelled']} of {report['rows']} rows labelled")
+        for kind in ("errors", "warnings"):
+            for line in report[kind]:
+                print(f"{kind[:-1]}: {line}")
+        if report["unlabelled"]:
+            print(f"unlabelled: {', '.join(report['unlabelled'])}")
+        print("ok" if not report["errors"] else f"{len(report['errors'])} errors")
+        sys.exit(1 if report["errors"] else 0)
     else:
-        out = merge(args.label_a, args.label_b, args.resolved)
-        (DRAFTS / "disagreements.csv").parent.mkdir(parents=True, exist_ok=True)
+        drafts = args.drafts or DRAFTS / "tasks.draft.jsonl"
+        out = merge(args.label_a, args.label_b, args.resolved, drafts)
+        disagreements = drafts.parent / "disagreements.csv"
         if out["disagreements"]:
-            with (DRAFTS / "disagreements.csv").open("w", newline="", encoding="utf-8") as f:
+            with disagreements.open("w", newline="", encoding="utf-8") as f:
                 writer = csv.DictWriter(f, fieldnames=list(out["disagreements"][0]))
                 writer.writeheader()
                 writer.writerows(out["disagreements"])
-        target = HERE / "tasks" / "heldout2.jsonl"
+        target = args.out or HERE / "tasks" / "heldout2.jsonl"
         target.write_text("".join(json.dumps(t, ensure_ascii=False) + "\n" for t in out["tasks"]))
         print(json.dumps(out["stats"] | {"invalid": out["invalid"][:10], "written": str(target)}, ensure_ascii=False, indent=1))
 
