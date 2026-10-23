@@ -25,7 +25,7 @@ def _load(name):
 
 score = _load("score")
 fixtures = _load("fixtures")
-TASKS = [json.loads(line) for line in (AGENT / "tasks/plan.jsonl").read_text().splitlines()]
+TASKS = [json.loads(line) for path in sorted((AGENT / "tasks").glob("*.jsonl")) for line in path.read_text().splitlines()]
 
 
 @pytest.mark.parametrize("task", TASKS, ids=[t["id"] for t in TASKS])
@@ -44,14 +44,19 @@ def test_gold_plans_are_plans_the_agent_would_accept(task):
             return options[0]
 
         steps = [{"tool": tool, "input": gold.get("inputs", {}).get(str(n), wired(tool)), "why": "x",
-                  "params": gold.get("params", {}).get(str(n), {})} for n, tool in enumerate(tools, 1)]
+                  "params": gold.get("params", {}).get(str(n), gold.get("tool_params", {}).get(tool, {}))}
+                 for n, tool in enumerate(tools, 1)]
         validate({"reply": "ok", "steps": steps})
         assert not set(tools) & set(gold.get("forbid", []))
 
 
 def test_task_ids_unique_and_both_languages():
     assert len({t["id"] for t in TASKS}) == len(TASKS)
-    assert {t["lang"] for t in TASKS} == {"ru", "en"}
+    assert {"ru", "en"} <= {t["lang"] for t in TASKS}
+    for t in TASKS:
+        assert (AGENT / t["track_data"]).is_file()
+        for turn in t.get("history", []):
+            assert set(turn) == {"request", "reply", "summary"}
 
 
 def test_committed_fixtures_are_what_the_store_gives_today(tmp_path):
@@ -105,6 +110,12 @@ def test_tool_inputs_accept_any_order():
     assert score.check(run([step("separate"), step("analyze", "1.instrumental"), step("denoise", "track")]), gold)["inputs_ok"] == 0.0
 
 
+def test_tool_params_apply_wherever_the_tool_stands():
+    gold = task(accept=[["denoise", "trim"], ["trim", "denoise"]], tool_params={"trim": {"silence": True}})
+    assert score.check(run([step("denoise"), step("trim", "1.denoised", silence=True)]), gold)["params_ok"] == 1.0
+    assert score.check(run([step("trim", start_s=3), step("denoise", "1.trimmed")]), gold)["params_ok"] == 0.0
+
+
 def test_trim_params_within_tolerance():
     gold = task(accept=[["trim"]], params={"1": {"start_s": 60, "end_s": 150}})
     assert score.check(run([step("trim", start_s=60.05, end_s=150)]), gold)["params_ok"] == 1.0
@@ -133,6 +144,11 @@ def test_unsupported_answer_and_ambiguous_rules():
     ("Il tempo è 124 BPM, in 4/4 (l'analisi precedente dà anche A minore).", "en", False),
     ("Ich trenne den Track in Gesang und Instrumental.", "en", False),
     ("Splitting the track", "ru", False),
+    ("Ich trenne den Track in Gesang und Instrumental.", "de", True),
+    ("I'll split the track into vocals and instrumental.", "de", False),
+    ("Separo la pista en voz e instrumental para que tengas el acapella.", "es", True),
+    ("Taglio i primi 30 secondi e tengo il resto della traccia.", "it", True),
+    ("Taglio i primi 30 secondi e tengo il resto della traccia.", "es", False),
     ("Just a trim: leading and trailing silence goes, nothing in between.", "en", True),
     ("Peak level is -0.3 dBFS, right up near full scale, but nothing clipped.", "en", True),
     ("Cortaré el silencio del principio y del final.", "en", False),
@@ -190,3 +206,22 @@ def test_resume_redoes_only_attempts_the_provider_refused():
     twice_invalid = {"llm_calls": [{"at": 0, "usage": {}}, {"at": 1, "usage": {}}]}
     assert run_module.provider_failed(refused)
     assert not run_module.provider_failed(broken_json) and not run_module.provider_failed(twice_invalid)
+
+
+def test_task_history_reaches_the_agent_as_chat_turns(tmp_path):
+    from test_core import tone
+
+    from ah.agent import Agent
+    from ah.config import Settings
+    from ah.runner import Runner
+    from ah.store import ArtifactStore
+
+    run_module = _load("run")
+    store = ArtifactStore(tmp_path / "home")
+    runner = Runner(store, Settings(home=tmp_path / "home"))
+    track = runner.ingest(tone(tmp_path / "in.wav")).id
+    history = [{"request": "Отдели вокал", "reply": "Разделю трек.", "summary": "Готово: vocals и instrumental."}]
+    agent = run_module.with_history(Agent(store, runner, None), track, {"history": history})
+    assert agent._history(store.root(track).id) == [
+        {"role": "user", "content": "Отдели вокал"},
+        {"role": "assistant", "content": "Разделю трек.\n\nResult: Готово: vocals и instrumental."}]

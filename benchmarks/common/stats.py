@@ -69,3 +69,33 @@ def paired_diff(a: Sequence[float], b: Sequence[float], groups: Sequence[Sequenc
     lo_hi = out["ci95"]
     return {"diff": out["mean"], "ci95": lo_hi, "n": out["n"],
             "significant": bool(lo_hi and (lo_hi[0] > 0 or lo_hi[1] < 0))}
+
+
+def wilson_ci(successes: float, n: int, z: float = 1.96, digits: int = 4) -> list[float] | None:
+    """Wilson score interval for a proportion; unlike the bootstrap it stays open at 0 or n successes.
+
+    With every one of 100 tasks right the bootstrap can only say [1.0, 1.0]; Wilson says
+    [0.963, 1.0], the same as the rule of three. successes may be fractional (a sum of
+    per-task rates), which treats each task as one trial: conservative when attempts correlate.
+    """
+    if n == 0:
+        return None
+    p = successes / n
+    center = (p + z * z / (2 * n)) / (1 + z * z / n)
+    half = z * np.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n)
+    return [round(float(max(0.0, center - half)), digits), round(float(min(1.0, center + half)), digits)]
+
+
+def by_unit_ci(values: Sequence[float], units: Sequence[Any], digits: int = 4) -> dict[str, Any]:
+    """Mean with two 95% CIs: the bootstrap over units and Wilson on per-unit means; "ci95" is the wider of the two."""
+    out = mean_ci(values, groups=[units], digits=digits)
+    per_unit: dict[Any, list[float]] = {}
+    for value, unit in zip(values, units):
+        if not np.isnan(value):
+            per_unit.setdefault(unit, []).append(value)
+    rates = [float(np.mean(v)) for v in per_unit.values()]
+    out["ci95_bootstrap"] = out["ci95"]
+    out["ci95_wilson"] = wilson_ci(sum(rates), len(rates), digits=digits)
+    if out["ci95_bootstrap"] and out["ci95_wilson"]:
+        out["ci95"] = [min(out["ci95_bootstrap"][0], out["ci95_wilson"][0]), max(out["ci95_bootstrap"][1], out["ci95_wilson"][1])]
+    return out

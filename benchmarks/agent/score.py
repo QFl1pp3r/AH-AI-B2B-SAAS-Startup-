@@ -81,6 +81,14 @@ FOREIGN_WORDS = {"il", "la", "di", "che", "per", "non", "della", "sono", "una", 
                  "pas", "je", "het", "een", "ik", "niet", "van", "jest", "nie", "się", "na"}
 
 
+# Requests in a third language: the harness does not name the reply language for them, the model decides.
+OTHER_WORDS = {
+    "de": {"der", "die", "das", "und", "ist", "nicht", "ich", "mit", "ein", "eine", "den", "zu", "dem", "du", "es", "auf", "für"},
+    "es": {"el", "los", "las", "del", "que", "y", "para", "por", "es", "lo", "una", "un", "con", "te", "tu", "pista"},
+    "it": {"il", "la", "di", "che", "per", "non", "della", "sono", "una", "un", "con", "è", "ti", "lo", "traccia"},
+}
+
+
 def reply_lang_ok(reply: str, lang: str) -> bool:
     """ru: mostly Cyrillic letters. en: no Cyrillic or CJK, and English function words outnumber those of it/es/de/fr/nl/pl/pt."""
     letters = re.findall(r"[^\W\d_]", reply)
@@ -90,6 +98,8 @@ def reply_lang_ok(reply: str, lang: str) -> bool:
     if cyrillic or re.search(r"[\u3040-\u30ff\u4e00-\u9fff]", reply):
         return False
     words = re.findall(r"[^\W\d_']+(?:'[a-z]+)?", reply.lower())
+    if lang in OTHER_WORDS:
+        return sum(w in OTHER_WORDS[lang] for w in words) > sum(w in EN_WORDS for w in words)
     english, foreign = sum(w in EN_WORDS for w in words), sum(w in FOREIGN_WORDS for w in words)
     # A short plain-ASCII reply may have no function words at all ("One trim, cutting everything before 0:12.").
     return bool(words) and (english > foreign or (english == foreign == 0 and all(c.isascii() for c in letters)))
@@ -134,7 +144,9 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
                                  and all(s["input"] in by_tool[s["tool"]] for s in steps if s["tool"] in by_tool))
         row["params_ok"] = float(all(int(n) <= len(steps) and all(param_ok(steps[int(n) - 1]["params"].get(k), v)
                                                                    for k, v in want.items())
-                                     for n, want in gold.get("params", {}).items()))
+                                     for n, want in gold.get("params", {}).items())
+                                 and all(param_ok(st["params"].get(k), v) for st in steps
+                                         for k, v in gold.get("tool_params", {}).get(st["tool"], {}).items()))
         forbidden = sorted(set(tools) & set(gold.get("forbid", [])))
         row["forbidden"] = ",".join(forbidden)
         row["no_forbidden"] = float(not forbidden)
@@ -142,7 +154,9 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         row["unsupported_ok"] = float(bool(UNSUPPORTED.search(reply))) if gold.get("must_say_unsupported") else None
         row["reply_ok"] = float(any(s.lower() in reply for s in gold["reply_any"])) if gold.get("reply_any") else None
         # Not part of "correct" (the plan's definition), reported next to it: the user has to read the reply.
-        row["reply_lang_ok"] = float(reply_lang_ok(run["reply"] or "", task["lang"])) if run["reply"] else None
+        # translit and mixed ru/en requests have no single right reply language, so they are not scored on it.
+        row["reply_lang_ok"] = (float(reply_lang_ok(run["reply"] or "", task["lang"]))
+                                if run["reply"] and task["lang"] not in ("translit", "mixed") else None)
         row["reply"] = run["reply"][:300]
         failed = [k for k in ("seq_ok", "inputs_ok", "params_ok", "no_forbidden", "unsupported_ok", "reply_ok") if row[k] == 0.0]
     else:
@@ -166,11 +180,11 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     out: dict[str, Any] = {"tasks": len(set(tasks)), "attempts": len(rows)}
     for key in METRICS:
         values = [np.nan if r.get(key) is None else r[key] for r in rows]
-        out[key] = stats.mean_ci(values, groups=[tasks])
+        out[key] = stats.by_unit_ci(values, tasks)
     by_task = defaultdict(list)
     for r in rows:
         by_task[r["task"]].append(r["correct"])
-    out["pass_k"] = stats.mean_ci([float(all(v)) for v in by_task.values()])
+    out["pass_k"] = stats.by_unit_ci([float(all(v)) for v in by_task.values()], list(by_task))
     out["invalid_after_retry"] = round(1 - out["valid"]["mean"], 4) if out["valid"]["mean"] is not None else None
     costs = [r["cost_usd"] for r in rows if r.get("cost_usd") is not None]
     out["cost_usd_per_attempt"] = round(float(np.mean(costs)), 6) if costs else None

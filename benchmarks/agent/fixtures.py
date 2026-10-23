@@ -87,6 +87,10 @@ def build(home: Path) -> dict[str, dict[str, Any]]:
     fixtures["voice_memo"] = b.original("voice_memo_2026-10-12.m4a", levels(95.3, -6.2, -31.5, silence=0.18))
     fixtures["podcast_long"] = b.original("interview_raw.wav", levels(2712.0, -2.0, -24.0, clipped=0.0004, silence=0.12))
 
+    # Held-out set: names that point the wrong way, so only the user's words tell song from speech.
+    fixtures["song_named_memo"] = b.original("voice_memo_0412.m4a", levels(187.5, -0.6, -12.4))
+    fixtures["speech_named_song"] = b.original("final_mix_v3.wav", levels(1305.0, -3.1, -27.2, silence=0.09))
+
     return {name: track_data(b.store, artifact) for name, artifact in fixtures.items()}
 
 
@@ -94,6 +98,8 @@ def main() -> None:
     OUT.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
         for name, data in build(Path(tmp) / "home").items():
+            if (OUT / f"{name}.json").exists():
+                continue  # ids are random: rewriting would change fixtures that finished runs were made with
             (OUT / f"{name}.json").write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n")
             print(f"\n{name}: {data['selected_version']['role']} of {data['file_name']}, {len(data['versions'])} versions")
 

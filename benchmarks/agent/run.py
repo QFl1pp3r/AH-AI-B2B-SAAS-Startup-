@@ -30,12 +30,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import ah.agent
 from ah import audio
-from ah.agent import Agent, PlanError
+from ah.agent import Agent, Plan, PlanError
 from ah.config import Settings, load_settings
 from ah.llm import LLMError, configured, make_llm
 from ah.runner import Runner
 from ah.store import ArtifactStore
 from common import manifest
+from agent.score import call_cost
 
 HERE = Path(__file__).parent
 
@@ -73,8 +74,17 @@ def load_tasks(path: Path) -> list[dict]:
     return tasks
 
 
+def with_history(agent: Agent, track: str, task: dict) -> Agent:
+    """Earlier turns on this track, kept as the chat keeps them; Agent._history turns them into messages."""
+    root = agent.store.root(track).id
+    for n, turn in enumerate(task.get("history", [])):
+        agent.plans[f"h{n}"] = Plan(id=f"h{n}", root=root, track=track, request=turn["request"], reply=turn["reply"],
+                                    steps=[], status="done", summary=turn.get("summary", ""))
+    return agent
+
+
 def attempt(store, runner, llm, track: str, task: dict, k: int) -> dict:
-    agent = Agent(store, runner, Recorder(llm))  # a fresh agent per attempt: no chat history
+    agent = with_history(Agent(store, runner, Recorder(llm)), track, task)  # fresh per attempt: only the task's own history
     out = {"task": task["id"], "attempt": k, "ok": True, "error": None, "reply": None, "steps": None}
     try:
         plan = agent.message(track, task["request"])
@@ -97,6 +107,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--budget-usd", type=float, help="stop once this run has spent more (tariff of each call's hour)")
     args = parser.parse_args()
 
     if args.model:
@@ -137,12 +148,25 @@ def main() -> None:
         print(f"\n{llm.name} thinking={cfg.thinking or 'default'}: {len(jobs)} attempts", file=sys.stderr)
         with ThreadPoolExecutor(args.workers) as pool, raw.open("a") as f:
             futures = [pool.submit(attempt, store, runner, llm, tracks[t["id"]], t, k) for t, k in jobs]
+            spent, stop = 0.0, None
             for n, future in enumerate(as_completed(futures), 1):
                 result = future.result()
                 f.write(json.dumps(result, ensure_ascii=False) + "\n")
                 f.flush()
+                spent += sum(call_cost(c, cfg.model) or 0.0 for c in result["llm_calls"] if "usage" in c)
                 if n % 10 == 0 or n == len(jobs):
-                    print(f"[{n}/{len(jobs)}]", file=sys.stderr)
+                    print(f"[{n}/{len(jobs)}] spent ${spent:.4f}", file=sys.stderr)
+                if args.budget_usd is not None and spent > args.budget_usd:
+                    stop = f"бюджет ${args.budget_usd} превышен: потрачено ${spent:.4f}"
+                elif provider_failed(result) and "402" in result["error"]:
+                    stop = "у провайдера кончились деньги (402)"
+                if stop:
+                    for rest in futures:
+                        rest.cancel()
+                    break
+        print(f"\nspent ${spent:.4f}" + (f"; остановлено: {stop}" if stop else ""), file=sys.stderr)
+        if stop:
+            sys.exit(3)
 
 
 if __name__ == "__main__":

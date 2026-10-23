@@ -167,3 +167,18 @@ def test_si_sdr_and_alignment():
     aligned, lag = speech.align(late, ref)
     assert lag == 80
     assert speech.si_sdr(aligned, ref) > speech.si_sdr(late, ref) + 20
+
+
+def test_wilson_stays_open_where_the_bootstrap_collapses():
+    assert stats.bootstrap_ci([1.0] * 100) == [1.0, 1.0]
+    lo, hi = stats.wilson_ci(100, 100)
+    assert hi == 1.0 and 0.96 < lo < 0.965  # rule of three: about 3% errors still possible
+    lo, hi = stats.wilson_ci(50, 100)
+    assert lo < 0.5 < hi and abs((0.5 - lo) - (hi - 0.5)) < 1e-3
+
+
+def test_by_unit_ci_takes_the_wider_interval_and_counts_units_not_rows():
+    units = [u for u in range(20) for _ in range(5)]
+    out = stats.by_unit_ci([1.0] * 100, units)
+    assert out["mean"] == 1.0 and out["ci95_bootstrap"] == [1.0, 1.0]
+    assert out["ci95"] == out["ci95_wilson"] and out["ci95"][0] < 0.85  # 20 tasks, not 100 attempts

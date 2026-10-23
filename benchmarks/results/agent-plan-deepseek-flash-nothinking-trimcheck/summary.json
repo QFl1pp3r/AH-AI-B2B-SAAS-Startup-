@@ -1,8 +1,8 @@
 {
   "meta": {
-    "git_commit": "8385fb410b6df171936a82dfc787fee71cdf2c29",
+    "git_commit": "c19c26a6c296ccbb0519db9450858e27928d57ea",
     "git_dirty": true,
-    "date": "2026-10-23T07:11:07+00:00",
+    "date": "2026-10-23T10:29:10+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
@@ -34,106 +34,210 @@
       "correct": {
         "mean": 0.96,
         "ci95": [
+          0.9016,
+          0.99
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           0.922,
           0.99
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.9016,
+          0.9843
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.963,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.963,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.963,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.963,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 0.966,
         "ci95": [
+          0.9099,
+          0.994
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           0.93,
           0.994
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.9099,
+          0.9876
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.963,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.963,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 0.996,
         "ci95": [
+          0.9556,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           0.988,
           1.0
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.9556,
+          0.9997
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.963,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.963,
+          1.0
+        ]
       },
       "precision": {
         "mean": 0.9656,
         "ci95": [
+          0.905,
+          0.9933
+        ],
+        "n": 450,
+        "ci95_bootstrap": [
           0.93,
           0.9933
         ],
-        "n": 450
+        "ci95_wilson": [
+          0.905,
+          0.988
+        ]
       },
       "recall": {
         "mean": 0.9689,
         "ci95": [
+          0.9097,
+          0.9978
+        ],
+        "n": 450,
+        "ci95_bootstrap": [
           0.9333,
           0.9978
         ],
-        "n": 450
+        "ci95_wilson": [
+          0.9097,
+          0.9897
+        ]
       },
       "unsupported_ok": {
         "mean": 0.98,
         "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.94,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
       },
       "reply_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.963,
+          1.0
+        ],
+        "n": 500,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 500
+        "ci95_wilson": [
+          0.963,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 0.93,
         "ci95": [
-          0.87,
-          0.97
+          0.8625,
+          0.98
         ],
-        "n": 100
+        "n": 100,
+        "ci95_bootstrap": [
+          0.87,
+          0.98
+        ],
+        "ci95_wilson": [
+          0.8625,
+          0.9657
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000242,
@@ -149,94 +253,174 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "recall": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000275,
@@ -252,100 +436,192 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000236,
@@ -361,103 +637,201 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000191,
@@ -473,100 +847,192 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000209,
@@ -582,100 +1048,192 @@
       "correct": {
         "mean": 0.96,
         "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.88,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 0.96,
         "ci95": [
+          0.6681,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.88,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6681,
+          0.9965
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 0.9,
         "ci95": [
+          0.5958,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           0.7,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.5958,
+          0.9821
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000296,
@@ -691,100 +1249,192 @@
       "correct": {
         "mean": 0.94,
         "ci95": [
+          0.6431,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.86,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6431,
+          0.9927
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 0.94,
         "ci95": [
+          0.6431,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.86,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6431,
+          0.9927
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 0.97,
         "ci95": [
+          0.6812,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.93,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6812,
+          0.998
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 0.8,
         "ci95": [
+          0.4902,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           0.5,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.4902,
+          0.9433
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000261,
@@ -800,100 +1450,192 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000219,
@@ -909,95 +1651,185 @@
       "correct": {
         "mean": 0.7,
         "ci95": [
+          0.3968,
+          0.9205
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.42,
           0.9205
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.3968,
+          0.8922
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 0.72,
         "ci95": [
+          0.4146,
+          0.9205
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.46,
           0.9205
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.4146,
+          0.9032
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 0.72,
         "ci95": [
+          0.4146,
+          0.9205
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.46,
           0.9205
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.4146,
+          0.9032
+        ]
       },
       "recall": {
         "mean": 0.72,
         "ci95": [
+          0.4146,
+          0.9205
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.46,
           0.9205
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.4146,
+          0.9032
+        ]
       },
       "unsupported_ok": {
         "mean": 0.98,
         "ci95": [
+          0.6945,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.94,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.6945,
+          0.9991
+        ]
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 0.6,
@@ -1005,7 +1837,15 @@
           0.3,
           0.9
         ],
-        "n": 10
+        "n": 10,
+        "ci95_bootstrap": [
+          0.3,
+          0.9
+        ],
+        "ci95_wilson": [
+          0.3127,
+          0.8318
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000265,
@@ -1021,100 +1861,192 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000262,
@@ -1130,100 +2062,192 @@
       "correct": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "precision": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "recall": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "unsupported_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_ok": {
         "mean": null,
         "ci95": null,
-        "n": 0
+        "n": 0,
+        "ci95_bootstrap": null,
+        "ci95_wilson": null
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 1.0,
         "ci95": [
+          0.7225,
+          1.0
+        ],
+        "n": 10,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 10
+        "ci95_wilson": [
+          0.7225,
+          1.0
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000211,
@@ -1239,106 +2263,210 @@
       "correct": {
         "mean": 0.948,
         "ci95": [
+          0.8487,
+          0.996
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           0.88,
           0.996
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.8487,
+          0.9834
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 0.96,
         "ci95": [
+          0.8654,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           0.896,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.8654,
+          0.989
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 0.992,
         "ci95": [
+          0.9145,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           0.976,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9145,
+          0.9993
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "precision": {
         "mean": 0.9578,
         "ci95": [
+          0.8549,
+          1.0
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
           0.8933,
           1.0
         ],
-        "n": 225
+        "ci95_wilson": [
+          0.8549,
+          0.9887
+        ]
       },
       "recall": {
         "mean": 0.96,
         "ci95": [
+          0.858,
+          1.0
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
           0.8978,
           1.0
         ],
-        "n": 225
+        "ci95_wilson": [
+          0.858,
+          0.9896
+        ]
       },
       "unsupported_ok": {
         "mean": 0.96,
         "ci95": [
+          0.5222,
+          1.0
+        ],
+        "n": 25,
+        "ci95_bootstrap": [
           0.88,
           1.0
         ],
-        "n": 25
+        "ci95_wilson": [
+          0.5222,
+          0.9981
+        ]
       },
       "reply_ok": {
         "mean": 1.0,
         "ci95": [
+          0.5655,
+          1.0
+        ],
+        "n": 25,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 25
+        "ci95_wilson": [
+          0.5655,
+          1.0
+        ]
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 0.92,
         "ci95": [
+          0.8116,
+          0.98
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.84,
           0.98
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.8116,
+          0.9685
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000233,
@@ -1354,106 +2482,210 @@
       "correct": {
         "mean": 0.972,
         "ci95": [
+          0.8829,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           0.932,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.8829,
+          0.9938
+        ]
       },
       "valid_first_try": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "valid": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "seq_ok": {
         "mean": 0.972,
         "ci95": [
+          0.8829,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           0.932,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.8829,
+          0.9938
+        ]
       },
       "inputs_ok": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "params_ok": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "no_forbidden": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "precision": {
         "mean": 0.9733,
         "ci95": [
+          0.8776,
+          1.0
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
           0.9289,
           1.0
         ],
-        "n": 225
+        "ci95_wilson": [
+          0.8776,
+          0.9946
+        ]
       },
       "recall": {
         "mean": 0.9778,
         "ci95": [
+          0.8843,
+          1.0
+        ],
+        "n": 225,
+        "ci95_bootstrap": [
           0.9377,
           1.0
         ],
-        "n": 225
+        "ci95_wilson": [
+          0.8843,
+          0.9961
+        ]
       },
       "unsupported_ok": {
         "mean": 1.0,
         "ci95": [
+          0.5655,
+          1.0
+        ],
+        "n": 25,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 25
+        "ci95_wilson": [
+          0.5655,
+          1.0
+        ]
       },
       "reply_ok": {
         "mean": 1.0,
         "ci95": [
+          0.5655,
+          1.0
+        ],
+        "n": 25,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 25
+        "ci95_wilson": [
+          0.5655,
+          1.0
+        ]
       },
       "reply_lang_ok": {
         "mean": 1.0,
         "ci95": [
+          0.9286,
+          1.0
+        ],
+        "n": 250,
+        "ci95_bootstrap": [
           1.0,
           1.0
         ],
-        "n": 250
+        "ci95_wilson": [
+          0.9286,
+          1.0
+        ]
       },
       "pass_k": {
         "mean": 0.94,
         "ci95": [
+          0.8378,
+          1.0
+        ],
+        "n": 50,
+        "ci95_bootstrap": [
           0.86,
           1.0
         ],
-        "n": 50
+        "ci95_wilson": [
+          0.8378,
+          0.9794
+        ]
       },
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.000251,
