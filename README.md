@@ -57,7 +57,7 @@ brew install uv ffmpeg
 cd audio-harness
 uv sync --all-extras          # core + страница + сервер (нужно и для полного pytest)
 cp ah.toml.example ah.toml
-uv run pytest -q              # 32 passed
+uv run pytest -q              # 324 passed, 1 skipped
 
 uv run ah import ~/Music/demo.wav
 uv run ah analyze             # первый запуск соберёт окружение tools/analyze (madmom из git)
@@ -68,6 +68,32 @@ uv run ah tree
 export ANTHROPIC_API_KEY=...  # или другой провайдер, см. [agent] в ah.toml.example
 uv run ah ui                  # http://localhost:7860
 ```
+
+### Подключение главной LLM и запуск
+
+Главная LLM — это планировщик агента в `ah ui`: по запросу словами она выбирает инструменты из реестра и порядок, план проверяется кодом и подтверждается человеком. Настраивается в секции `[agent]` файла `ah.toml` (шаблон в `ah.toml.example`). Сам ключ в файл не пишется: в `api_key_env` указывается только **имя** переменной окружения, а ключ экспортируется в shell. Любое поле `[agent]` можно переопределить переменной `AH_AGENT_<ПОЛЕ>` (`AH_AGENT_PROVIDER`, `AH_AGENT_MODEL`, `AH_AGENT_BASE_URL`, `AH_AGENT_API_KEY_ENV`, `AH_AGENT_THINKING`, `AH_AGENT_REASONING_EFFORT`), не трогая файл. Провайдеров два: `anthropic` и `openai`, где `openai` означает любой OpenAI-совместимый endpoint.
+
+| Провайдер | `[agent]` в ah.toml | Переменная с ключом |
+| --- | --- | --- |
+| Anthropic (по умолчанию) | `provider = "anthropic"`, `model = "claude-opus-5-5"` | `ANTHROPIC_API_KEY` |
+| DeepSeek (проверен бенчем) | `provider = "openai"`, `model = "deepseek-flash"` или `"deepseek-v4-pro"`, `base_url = "https://api.deepseek.com"`, `api_key_env = "DEEPSEEK_API_KEY"` | `DEEPSEEK_API_KEY` |
+| OpenRouter | `provider = "openai"`, `model = "deepseek/deepseek-v4-pro"`, `base_url = "https://openrouter.ai/api/v1"`, `api_key_env = "OPENROUTER_API_KEY"` | `OPENROUTER_API_KEY` |
+| Ollama / LM Studio (локально) | `provider = "openai"`, `model = "<имя модели>"`, `base_url = "http://localhost:11434/v1"` | не нужна: для localhost ключ не требуется |
+
+Для DeepSeek дополнительно есть `thinking = "enabled" | "disabled"` и `reasoning_effort = "low" | "high" | "max"`; пусто — значение провайдера. Anthropic оба поля игнорирует.
+
+Запуск с нуля:
+
+```bash
+brew install uv ffmpeg
+uv sync --all-extras                  # core + ui (anthropic, openai) + server
+cp ah.toml.example ah.toml            # поправить [agent] под своего провайдера; ah.toml не коммитим
+export ANTHROPIC_API_KEY=...          # или DEEPSEEK_API_KEY / OPENROUTER_API_KEY, как в api_key_env
+uv run python benchmarks/agent/smoke_llm.py > /tmp/smoke.json   # необязательно: живая проверка планировщика, инструменты не гоняет
+uv run ah ui                          # http://localhost:7860
+```
+
+Дальше на странице: загрузить трек, написать, что сделать, подтвердить план. Если ключ не найден, `ah ui` всё равно стартует, но пишет в stderr `agent is off: set <ИМЯ_ПЕРЕМЕННОЙ>`, и агент не отвечает. `smoke_llm.py` по умолчанию берёт DeepSeek; для другого провайдера задайте `AH_AGENT_*`. Тяжёлые инструменты (separate, restore) на CPU медленные: для настоящего материала поднимите GPU-сервер (см. «GPU на Colab T4»). Без LLM всё доступно из CLI: `uv run ah import file.wav`, `uv run ah analyze` и т. д., см. «Команды».
 
 У каждого инструмента своё uv-окружение в `tools/<name>`, поэтому torch, madmom и transformers не конфликтуют. Окружения создаются сами при первом вызове (`uv run --project tools/<name>`); заранее можно так: `uv sync --project tools/separate`.
 
