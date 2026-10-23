@@ -9,7 +9,7 @@ import pytest
 from test_core import tone
 
 from ah import registry
-from ah.agent import Agent, PlanError, validate
+from ah.agent import Agent, PlanError, reply_language, validate
 from ah.config import Settings, load_settings
 from ah.llm import LLMError, Reply, ToolCall, configured
 from ah.registry import ToolSpec
@@ -196,3 +196,23 @@ def test_agent_settings_from_toml_and_env(tmp_path, monkeypatch):
     monkeypatch.setenv("AH_AGENT_PROVIDER", "gemini")
     with pytest.raises(ValueError, match="agent.provider"):
         load_settings()
+
+
+@pytest.mark.parametrize("request_text, language", [
+    ("Cut off the first 30 seconds", "English"),
+    ("Improve this", "English"),
+    ("Сделай получше", "Russian"),
+    ("Спочатку зріж тишу", "Ukrainian"),
+    ("Taglio i primi 30 secondi", None),  # not obvious: the model decides
+    ("Mach es besser", None),
+])
+def test_reply_language_is_decided_only_when_obvious(request_text, language):
+    assert reply_language(request_text) == language
+
+
+def test_reply_language_reaches_the_planner_outside_the_request(store_runner):
+    store, runner, original = store_runner
+    llm = ScriptedLLM(plan("Temp is not known yet."))
+    Agent(store, runner, llm).message(original.id, "What's the tempo?")
+    content = llm.sent[0]["messages"][-1]["content"]
+    assert "</track_data>\n<reply_language>English</reply_language>\n\nWhat's the tempo?" in content

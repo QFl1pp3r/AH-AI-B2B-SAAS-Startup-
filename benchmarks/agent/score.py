@@ -40,7 +40,7 @@ UNSUPPORTED = re.compile("|".join([
     r"can't", r"cannot", r"can not", r"not possible", r"not supported", r"isn't supported", r"isn't possible",
     r"isn't something", r"not something", r"not yet", r"unable", r"don't support", r"doesn't support", r"not available",
     r"isn't available", r"there's no", r"there is no", r"don't have", r"doesn't exist", r"\bno\b[^.!]{0,40}\btool",
-    r"not part of",
+    r"not part of", r"nothing here can", r"вне инструмент",
 ]))
 EN_WORDS = {"the", "and", "to", "of", "is", "it", "you", "i", "i'll", "this", "that", "with", "for", "can", "will", "your",
             "on", "as", "from", "so", "but", "not", "there's", "here", "then", "be", "get", "it's", "we", "no", "need", "run", "already"}
@@ -62,7 +62,8 @@ def peak(at: float) -> bool:
     return t.weekday() < 5 and any(lo <= t.hour < hi for lo, hi in PEAK_UTC)
 
 
-def call_cost(call: dict[str, Any], model: str) -> float | None:
+def call_cost(call: dict[str, Any], model: str, at_peak: bool = False) -> float | None:
+    """Price of one call at the tariff of its hour; at_peak prices every call at peak, to compare runs made at different times."""
     price = PRICES.get(model)
     usage = call.get("usage")
     if price is None or not usage:
@@ -70,17 +71,28 @@ def call_cost(call: dict[str, Any], model: str) -> float | None:
     hit = usage.get("prompt_cache_hit_tokens", usage.get("cached_tokens", 0))
     miss = usage.get("prompt_cache_miss_tokens", usage.get("prompt_tokens", 0) - hit)
     cost = (hit * price["hit"] + miss * price["miss"] + usage.get("completion_tokens", 0) * price["out"]) / 1e6
-    return cost if peak(call["at"]) else cost / 2
+    return cost if at_peak or peak(call["at"]) else cost / 2
+
+
+# Function words of the languages the planner drifted into (it, es, pt, de, fr, nl, pl), none of them English.
+FOREIGN_WORDS = {"il", "la", "di", "che", "per", "non", "della", "sono", "una", "con", "è", "el", "los", "las", "del", "que",
+                 "y", "para", "por", "es", "lo", "os", "da", "não", "com", "uma", "em", "você", "der", "die", "das", "und",
+                 "ist", "nicht", "ich", "mit", "ein", "eine", "den", "zu", "le", "les", "des", "et", "est", "une", "pour",
+                 "pas", "je", "het", "een", "ik", "niet", "van", "jest", "nie", "się", "na"}
 
 
 def reply_lang_ok(reply: str, lang: str) -> bool:
-    """ru: mostly Cyrillic letters. en: no Cyrillic and at least 15% common English words (Italian or German fail)."""
+    """ru: mostly Cyrillic letters. en: no Cyrillic or CJK, and English function words outnumber those of it/es/de/fr/nl/pl/pt."""
     letters = re.findall(r"[^\W\d_]", reply)
     cyrillic = sum("а" <= c.lower() <= "я" or c.lower() == "ё" for c in letters)
     if lang == "ru":
         return bool(letters) and cyrillic / len(letters) > 0.5
-    words = re.findall(r"[a-z']+", reply.lower())
-    return not cyrillic and bool(words) and sum(w in EN_WORDS for w in words) / len(words) >= 0.15
+    if cyrillic or re.search(r"[\u3040-\u30ff\u4e00-\u9fff]", reply):
+        return False
+    words = re.findall(r"[^\W\d_']+(?:'[a-z]+)?", reply.lower())
+    english, foreign = sum(w in EN_WORDS for w in words), sum(w in FOREIGN_WORDS for w in words)
+    # A short plain-ASCII reply may have no function words at all ("One trim, cutting everything before 0:12.").
+    return bool(words) and (english > foreign or (english == foreign == 0 and reply.isascii()))
 
 
 def param_ok(got: Any, want: Any) -> bool:
@@ -144,6 +156,8 @@ def check(run: dict[str, Any], task: dict[str, Any]) -> dict[str, Any]:
         row[name] = sum(u.get(key, 0) for u in usage)
     costs = [call_cost(c, task["_model"]) for c in calls if "usage" in c]
     row["cost_usd"] = round(sum(costs), 7) if costs and None not in costs else None
+    peak_costs = [call_cost(c, task["_model"], at_peak=True) for c in calls if "usage" in c]
+    row["cost_usd_at_peak"] = round(sum(peak_costs), 7) if peak_costs and None not in peak_costs else None
     return row
 
 
@@ -161,6 +175,8 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     costs = [r["cost_usd"] for r in rows if r.get("cost_usd") is not None]
     out["cost_usd_per_attempt"] = round(float(np.mean(costs)), 6) if costs else None
     out["cost_usd_total"] = round(float(np.sum(costs)), 4) if costs else None
+    at_peak = [r["cost_usd_at_peak"] for r in rows if r.get("cost_usd_at_peak") is not None]
+    out["cost_usd_per_attempt_at_peak"] = round(float(np.mean(at_peak)), 6) if at_peak else None
     for key in ("prompt_tokens", "completion_tokens", "reasoning_tokens"):
         out[f"{key}_per_attempt"] = round(float(np.mean([r[key] for r in rows])), 1)
     return out

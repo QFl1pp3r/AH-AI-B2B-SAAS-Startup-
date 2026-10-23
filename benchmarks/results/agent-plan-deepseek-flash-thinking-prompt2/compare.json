@@ -1,0 +1,591 @@
+{
+ "before": "benchmarks/results/agent-plan-deepseek-flash-thinking",
+ "after": "benchmarks/results/agent-plan-deepseek-flash-thinking-prompt2",
+ "tasks": 100,
+ "groups": {
+  "all": {
+   "correct": {
+    "diff": 0.018,
+    "ci95": [
+     0.004,
+     0.034
+    ],
+    "n": 100,
+    "significant": true
+   },
+   "reply_lang_ok": {
+    "diff": 0.138,
+    "ci95": [
+     0.0959,
+     0.186
+    ],
+    "n": 100,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.01,
+    "ci95": [
+     0.0,
+     0.024
+    ],
+    "n": 100,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.002,
+    "ci95": [
+     0.0,
+     0.006
+    ],
+    "n": 100,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": 0.06,
+    "ci95": [
+     0.0,
+     0.14
+    ],
+    "n": 10,
+    "significant": false
+   }
+  },
+  "lang=ru": {
+   "correct": {
+    "diff": 0.008,
+    "ci95": [
+     -0.008,
+     0.028
+    ],
+    "n": 50,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 50,
+    "significant": false
+   },
+   "seq_ok": {
+    "diff": 0.008,
+    "ci95": [
+     0.0,
+     0.024
+    ],
+    "n": 50,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.004,
+    "ci95": [
+     0.0,
+     0.012
+    ],
+    "n": 50,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 5,
+    "significant": false
+   }
+  },
+  "lang=en": {
+   "correct": {
+    "diff": 0.028,
+    "ci95": [
+     0.008,
+     0.056
+    ],
+    "n": 50,
+    "significant": true
+   },
+   "reply_lang_ok": {
+    "diff": 0.276,
+    "ci95": [
+     0.204,
+     0.352
+    ],
+    "n": 50,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.012,
+    "ci95": [
+     0.0,
+     0.032
+    ],
+    "n": 50,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 50,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": 0.12,
+    "ci95": [
+     0.0,
+     0.28
+    ],
+    "n": 5,
+    "significant": false
+   }
+  },
+  "category=ambiguous": {
+   "correct": {
+    "diff": 0.02,
+    "ci95": [
+     0.0,
+     0.06
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.06,
+    "ci95": [
+     0.0,
+     0.14
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.02,
+    "ci95": [
+     0.0,
+     0.06
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=analyze": {
+   "correct": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.2,
+    "ci95": [
+     0.04,
+     0.3805
+    ],
+    "n": 10,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=answer": {
+   "correct": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.16,
+    "ci95": [
+     0.0195,
+     0.36
+    ],
+    "n": 10,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=minimal": {
+   "correct": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.14,
+    "ci95": [
+     0.02,
+     0.3
+    ],
+    "n": 10,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=multi": {
+   "correct": {
+    "diff": -0.02,
+    "ci95": [
+     -0.06,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.08,
+    "ci95": [
+     0.0,
+     0.22
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=speech_clean": {
+   "correct": {
+    "diff": 0.08,
+    "ci95": [
+     0.0,
+     0.2
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.06,
+    "ci95": [
+     0.0,
+     0.12
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "seq_ok": {
+    "diff": 0.08,
+    "ci95": [
+     0.0,
+     0.2
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=trim": {
+   "correct": {
+    "diff": 0.02,
+    "ci95": [
+     0.0,
+     0.06
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.26,
+    "ci95": [
+     0.1,
+     0.44
+    ],
+    "n": 10,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=unsupported": {
+   "correct": {
+    "diff": 0.08,
+    "ci95": [
+     0.0,
+     0.16
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.08,
+    "ci95": [
+     0.0,
+     0.16
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "seq_ok": {
+    "diff": 0.02,
+    "ci95": [
+     0.0,
+     0.06
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": 0.06,
+    "ci95": [
+     0.0,
+     0.14
+    ],
+    "n": 10,
+    "significant": false
+   }
+  },
+  "category=vocal_clean": {
+   "correct": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.08,
+    "ci95": [
+     0.02,
+     0.16
+    ],
+    "n": 10,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  },
+  "category=vocals": {
+   "correct": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "reply_lang_ok": {
+    "diff": 0.26,
+    "ci95": [
+     0.06,
+     0.48
+    ],
+    "n": 10,
+    "significant": true
+   },
+   "seq_ok": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "no_forbidden": {
+    "diff": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "n": 10,
+    "significant": false
+   },
+   "unsupported_ok": {
+    "diff": null,
+    "ci95": null,
+    "n": 0,
+    "significant": false
+   }
+  }
+ }
+}

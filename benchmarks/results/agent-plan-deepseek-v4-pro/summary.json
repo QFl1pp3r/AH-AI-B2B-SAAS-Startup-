@@ -1,8 +1,8 @@
 {
   "meta": {
-    "git_commit": "7bc9546e408053bc71f1ac1cb60d34eeb9d85a87",
+    "git_commit": "eb426e98ec146d4a97b32a4a258db78120687a0d",
     "git_dirty": true,
-    "date": "2026-10-22T21:22:45+00:00",
+    "date": "2026-10-23T06:58:18+00:00",
     "device": "cpu arm64 arm",
     "tools": {},
     "models": {
@@ -120,10 +120,10 @@
         "n": 50
       },
       "reply_lang_ok": {
-        "mean": 0.912,
+        "mean": 0.918,
         "ci95": [
-          0.872,
-          0.946
+          0.88,
+          0.95
         ],
         "n": 500
       },
@@ -138,6 +138,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001799,
       "cost_usd_total": 0.8993,
+      "cost_usd_per_attempt_at_peak": 0.003597,
       "prompt_tokens_per_attempt": 1811.7,
       "completion_tokens_per_attempt": 304.5,
       "reasoning_tokens_per_attempt": 180.2
@@ -222,9 +223,9 @@
         "n": 0
       },
       "reply_lang_ok": {
-        "mean": 0.92,
+        "mean": 0.94,
         "ci95": [
-          0.8,
+          0.84,
           1.0
         ],
         "n": 50
@@ -240,6 +241,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001927,
       "cost_usd_total": 0.0963,
+      "cost_usd_per_attempt_at_peak": 0.003854,
       "prompt_tokens_per_attempt": 1789.0,
       "completion_tokens_per_attempt": 376.8,
       "reasoning_tokens_per_attempt": 242.9
@@ -348,6 +350,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001811,
       "cost_usd_total": 0.0906,
+      "cost_usd_per_attempt_at_peak": 0.003623,
       "prompt_tokens_per_attempt": 1807.9,
       "completion_tokens_per_attempt": 312.2,
       "reasoning_tokens_per_attempt": 198.8
@@ -441,9 +444,9 @@
         "n": 50
       },
       "reply_lang_ok": {
-        "mean": 0.64,
+        "mean": 0.66,
         "ci95": [
-          0.4,
+          0.44,
           0.86
         ],
         "n": 50
@@ -459,6 +462,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001479,
       "cost_usd_total": 0.0739,
+      "cost_usd_per_attempt_at_peak": 0.002957,
       "prompt_tokens_per_attempt": 1901.1,
       "completion_tokens_per_attempt": 113.1,
       "reasoning_tokens_per_attempt": 41.9
@@ -567,6 +571,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001519,
       "cost_usd_total": 0.0759,
+      "cost_usd_per_attempt_at_peak": 0.003038,
       "prompt_tokens_per_attempt": 1790.2,
       "completion_tokens_per_attempt": 170.3,
       "reasoning_tokens_per_attempt": 82.5
@@ -675,6 +680,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.002223,
       "cost_usd_total": 0.1112,
+      "cost_usd_per_attempt_at_peak": 0.004446,
       "prompt_tokens_per_attempt": 1799.0,
       "completion_tokens_per_attempt": 523.2,
       "reasoning_tokens_per_attempt": 339.2
@@ -783,6 +789,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001954,
       "cost_usd_total": 0.0977,
+      "cost_usd_per_attempt_at_peak": 0.003908,
       "prompt_tokens_per_attempt": 1796.1,
       "completion_tokens_per_attempt": 388.2,
       "reasoning_tokens_per_attempt": 255.1
@@ -873,9 +880,9 @@
         "n": 0
       },
       "reply_lang_ok": {
-        "mean": 0.9,
+        "mean": 0.92,
         "ci95": [
-          0.8,
+          0.84,
           0.98
         ],
         "n": 50
@@ -891,6 +898,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001553,
       "cost_usd_total": 0.0776,
+      "cost_usd_per_attempt_at_peak": 0.003105,
       "prompt_tokens_per_attempt": 1791.3,
       "completion_tokens_per_attempt": 187.1,
       "reasoning_tokens_per_attempt": 63.7
@@ -1002,6 +1010,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001807,
       "cost_usd_total": 0.0904,
+      "cost_usd_per_attempt_at_peak": 0.003614,
       "prompt_tokens_per_attempt": 1791.2,
       "completion_tokens_per_attempt": 315.6,
       "reasoning_tokens_per_attempt": 184.0
@@ -1110,6 +1119,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.00218,
       "cost_usd_total": 0.109,
+      "cost_usd_per_attempt_at_peak": 0.004361,
       "prompt_tokens_per_attempt": 1839.3,
       "completion_tokens_per_attempt": 488.1,
       "reasoning_tokens_per_attempt": 336.7
@@ -1218,6 +1228,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001533,
       "cost_usd_total": 0.0767,
+      "cost_usd_per_attempt_at_peak": 0.003066,
       "prompt_tokens_per_attempt": 1811.6,
       "completion_tokens_per_attempt": 170.4,
       "reasoning_tokens_per_attempt": 57.4
@@ -1314,10 +1325,10 @@
         "n": 25
       },
       "reply_lang_ok": {
-        "mean": 0.828,
+        "mean": 0.84,
         "ci95": [
-          0.76,
-          0.892
+          0.776,
+          0.9
         ],
         "n": 250
       },
@@ -1332,6 +1343,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001788,
       "cost_usd_total": 0.447,
+      "cost_usd_per_attempt_at_peak": 0.003576,
       "prompt_tokens_per_attempt": 1811.3,
       "completion_tokens_per_attempt": 299.3,
       "reasoning_tokens_per_attempt": 181.2
@@ -1446,6 +1458,7 @@
       "invalid_after_retry": 0.0,
       "cost_usd_per_attempt": 0.001809,
       "cost_usd_total": 0.4523,
+      "cost_usd_per_attempt_at_peak": 0.003618,
       "prompt_tokens_per_attempt": 1812.0,
       "completion_tokens_per_attempt": 309.7,
       "reasoning_tokens_per_attempt": 179.3

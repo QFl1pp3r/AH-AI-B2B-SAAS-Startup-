@@ -133,6 +133,13 @@ def test_unsupported_answer_and_ambiguous_rules():
     ("Il tempo è 124 BPM, in 4/4 (l'analisi precedente dà anche A minore).", "en", False),
     ("Ich trenne den Track in Gesang und Instrumental.", "en", False),
     ("Splitting the track", "ru", False),
+    ("Just a trim: leading and trailing silence goes, nothing in between.", "en", True),
+    ("Peak level is -0.3 dBFS, right up near full scale, but nothing clipped.", "en", True),
+    ("Cortaré el silencio del principio y del final.", "en", False),
+    ("One trim, cutting everything before 0:12.", "en", True),
+    ("Igen, 4/4-ben van. A korábbi elemzés szerint 124 BPM.", "en", False),
+    ("Drums naar MIDI kan ik nog niet: geen van de tools doet transcriptie.", "en", False),
+    ("Drums to MIDI non è ancora possibile: non ho un工具 di trascrizione.", "en", False),
 ])
 def test_reply_language(reply, lang, ok):
     assert score.reply_lang_ok(reply, lang) is ok
@@ -161,3 +168,15 @@ def test_summary_pass_k_and_from_runs(tmp_path):
     score.results.write_tracks(tmp_path / "runs.csv", rows + other)
     rebuilt = score.aggregate(score.results.read_tracks(tmp_path / "runs.csv", text=score.TEXT), {"x": 1}, tmp_path / "b")
     assert rebuilt["groups"] == summary["groups"]
+
+
+def test_compare_pairs_tasks(tmp_path):
+    compare = _load("compare")
+    gold = task(accept=[["separate"]])
+    for name, tools in (("before", ["analyze", "separate"]), ("after", ["separate", "separate"])):
+        rows = [score.check(run([step(tool)], attempt=k), gold) | {"task": f"t{n}"}
+                for n in range(6) for k, tool in enumerate(tools)]
+        score.results.write_tracks(tmp_path / name / "runs.csv", rows)
+    out = compare.compare(tmp_path / "before", tmp_path / "after")
+    assert out["tasks"] == 6
+    assert out["groups"]["all"]["correct"]["diff"] == 0.5 and out["groups"]["all"]["correct"]["significant"]
