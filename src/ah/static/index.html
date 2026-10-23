@@ -6,12 +6,27 @@
   <title>Audio Harness</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Neucha&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Neucha&family=Press+Start+2P&family=Pixelify+Sans:wght@400;700&family=Rubik+Glitch&display=swap">
   <link rel="stylesheet" href="/static/style.css">
+  <script>if (localStorage.getItem('theme') === 'emo') document.documentElement.classList.add('emo');</script>
 </head>
 <body>
+  <button id="theme" class="theme-toggle" type="button" aria-label="Эмо-тема" aria-pressed="false"><img src="/static/emo-bob.jpg" alt=""></button>
   <main class="frame">
     <header>
+      <div class="marquee emo-only" aria-hidden="true"><span>ВНИМАНИЕ!!! ТРЕК МОЖЕТ СОДЕРЖАТЬ ЧУВСТВА ~ rawr xD ~ НИКТО НЕ ПОНИМАЕТ МОЙ МИКС ~ КАЖДЫЙ ДУБЛЬ - КРИК В ПУСТОТУ</span></div>
+      <div class="banner emo-only" aria-hidden="true">
+        <span class="deco" style="left:2%;top:8%">&#9829; &#9829;</span>
+        <span class="deco" style="left:36%;top:10%">&#9733;</span>
+        <span class="deco big" style="left:48%;top:58%">&#9829;</span>
+        <span class="deco" style="left:58%;top:14%">&#10022;</span>
+        <span class="deco skull" style="left:64%;top:46%">&#9760;</span>
+        <span class="scrawl" style="left:40%;top:30%">girlz rule</span>
+        <span class="scrawl" style="left:55%;top:78%">xoxo</span>
+        <div class="logo">AUDIO HARNESS</div>
+        <span class="sticker">мой звук. моя боль. мои версии.</span>
+        <img class="bob" src="/static/emo-bob.jpg" alt="">
+      </div>
       <h1>AUDIO HARNESS</h1>
       <p class="tagline">МАСТЕРСКАЯ ДЛЯ ТВОЕГО ЗВУКА</p>
       <nav>
@@ -31,7 +46,28 @@
     </section>
 
     <section id="work" class="grid" hidden>
+      <aside class="side emo-only" aria-hidden="true">
+        <div class="card">
+          <div class="winbar"><span>BLINKIES</span><span>x</span></div>
+          <div class="blinkies">
+            <div class="blinkie b1">plagued by noise</div>
+            <div class="blinkie b2">i &#9829; 44.1 kHz</div>
+            <div class="blinkie b3">NO AUTOTUNE</div>
+            <div class="blinkie b4">rawr means i love u</div>
+            <div class="blinkie b5">reverb is my therapy</div>
+            <div class="blinkie b6">-14 LUFS or die</div>
+          </div>
+        </div>
+        <div class="card me">
+          <div class="winbar"><span>ЭТО Я</span><span>x</span></div>
+          <img src="/static/emo-bob.jpg" alt="">
+          <div class="who">IT'S A ME</div>
+          <p>слушаю твой трек. молча осуждаю клиппинг.</p>
+        </div>
+      </aside>
+
       <div class="card">
+        <div class="winbar emo-only" aria-hidden="true"><span>МАСТЕРСКАЯ</span><span>x</span></div>
         <div class="row between">
           <span id="title" class="title"></span>
           <span id="meta" class="hand"></span>
@@ -68,6 +104,7 @@
       </div>
 
       <aside class="card chat">
+        <div class="winbar emo-only" aria-hidden="true"><span>АГЕНТ :: ГОВОРИ СО МНОЙ</span><span>x</span></div>
         <div class="row between">
           <span class="title">АГЕНТ</span>
           <span id="agent-model" class="hand muted"></span>
@@ -81,7 +118,7 @@
       </aside>
     </section>
 
-    <footer class="hand">каждый шаг — новая версия, ничего не перезаписывается</footer>
+    <footer class="hand">каждый шаг — новая версия, ничего не перезаписывается<span class="emo-only">. как и воспоминания</span></footer>
   </main>
   <script src="/static/app.js"></script>
 </body>

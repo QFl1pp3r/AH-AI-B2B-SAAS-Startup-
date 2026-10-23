@@ -178,15 +178,17 @@ function drawWave(side) {
   const count = Math.floor(width / step);
   const progress = player.duration ? player.currentTime / player.duration : 0;
   const active = view.side === side;
+  const css = getComputedStyle(document.documentElement);
+  const [ink, mid, dim] = ['--wave', '--wave-mid', '--wave-dim'].map((name) => css.getPropertyValue(name).trim());
   for (let i = 0; i < count; i++) {
     const peak = data[Math.floor((i / count) * data.length)] || 0;
     const h = Math.max(3, Math.min(1, peak * 1.15) * (height - 6));
     const played = active && i / count < progress;
-    ctx.fillStyle = played || (active && !progress) ? '#111' : (active ? '#4a4a46' : '#b9b9b4');
+    ctx.fillStyle = played || (active && !progress) ? ink : (active ? mid : dim);
     roundBar(ctx, i * step, (height - h) / 2, 3, h);
   }
   if (active && progress) {
-    ctx.fillStyle = '#111';
+    ctx.fillStyle = ink;
     ctx.fillRect(progress * width - 1, 0, 2, height);
   }
 }
@@ -280,6 +282,14 @@ $('make-head').addEventListener('click', async () => {
   try { const r = await postJSON('/api/head', { artifact: view.selected }); await load(r.head); } catch (err) { fail(err); }
 });
 window.addEventListener('resize', drawBoth);
+
+$('theme').setAttribute('aria-pressed', document.documentElement.classList.contains('emo'));
+$('theme').addEventListener('click', () => {
+  const emo = document.documentElement.classList.toggle('emo');
+  localStorage.setItem('theme', emo ? 'emo' : 'light');
+  $('theme').setAttribute('aria-pressed', emo);
+  drawBoth();
+});
 
 // --- agent chat ------------------------------------------------------------
 
