@@ -225,3 +225,35 @@ def test_task_history_reaches_the_agent_as_chat_turns(tmp_path):
     assert agent._history(store.root(track).id) == [
         {"role": "user", "content": "Отдели вокал"},
         {"role": "assistant", "content": "Разделю трек.\n\nResult: Готово: vocals и instrumental."}]
+
+
+def test_execute_runs_a_plan_through_the_runner_and_checks_artifacts(tmp_path):
+    from test_core import tone
+
+    from ah.config import Settings
+    from common.runner import CachedRunner
+
+    ex = _load("execute")
+    clip = tone(tmp_path / "clip.wav", seconds=4.0, channels=2)
+    assert ex.scaled({"params": {"start_s": 100, "end_s": 200, "silence": True}}, 0.01) == {"start_s": 1.0, "end_s": 2.0, "silence": True}
+    with CachedRunner(tmp_path / "cache", Settings(home=tmp_path / "unused")) as runner:
+        plan = [{"tool": "trim", "input": "track", "params": {"start_s": 100, "end_s": 300}},
+                {"tool": "inspect", "input": "1.trimmed", "params": {}}]
+        done = ex.run_plan(runner, plan, clip, scale=0.01)
+        assert done["ok"] and [s["tool"] for s in done["steps"]] == ["trim", "inspect"]
+        assert done["steps"][0]["params"] == {"start_s": 1.0, "end_s": 3.0}
+        past_the_end = ex.run_plan(runner, [{"tool": "trim", "input": "track", "params": {"start_s": 500}}], clip, scale=0.01)
+        assert not past_the_end["ok"] and past_the_end["steps"][0]["error"]
+        out = runner.run("trim", clip, {"start_s": 1.0})
+        assert ex.check_outputs("trim", {"start_s": 1.0}, clip, out.files) is None
+        assert "asked" in ex.check_outputs("trim", {"start_s": 2.0}, clip, out.files)  # 3 s left, 2 s asked
+        assert ex.check_outputs("separate", {}, clip, {"vocals": out.files["trimmed"]}) == "no instrumental output"
+
+
+def test_execute_success_counts_only_plans_with_steps():
+    ex = _load("execute")
+    rows = [{"task": "a", "has_steps": True, "exec_ok": 1.0, "e2e_ok": 1.0},
+            {"task": "b", "has_steps": True, "exec_ok": 0.0, "e2e_ok": 0.0},
+            {"task": "c", "has_steps": False, "exec_ok": None, "e2e_ok": 1.0}]  # a right answer with no tools
+    out = ex.summarize(rows)
+    assert out["exec_success"]["mean"] == 0.5 and out["e2e_success"]["mean"] == round(2 / 3, 4)
